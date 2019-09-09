@@ -1,0 +1,17 @@
+
+.standard {
+	border: 1px solid black;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	width: 25px;
+}
+
+.blank {
+	background-color: black;
+	border: 1px solid black;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	width: 25px;
+}

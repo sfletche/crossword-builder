@@ -1,0 +1,11 @@
+
+.grid {
+	border-collapse: collapse;
+	margin-left: 50px;
+	margin-top: 50px;
+}
+
+.tableCell {
+	border-spacing: 0;
+	padding: 0;
+}
