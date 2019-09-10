@@ -4,11 +4,11 @@ Creates empty grid of any size with symmetric blank squares.
 
 ## Next Steps
 
-Integrate Lerna library to modularize grid creator from anything that comes next...
-Allow filling in letters / words
-Add numbers to squares
-Enable clue creation
-Saving crossword
+* Integrate Lerna library to modularize grid creator from anything that comes next...
+* Allow filling in letters / words
+* Add numbers to squares
+* Enable clue creation
+* Saving crossword
 
 
 ## Credits
