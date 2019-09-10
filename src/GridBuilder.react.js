@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import ReactToPrint from 'react-to-print';
 import Grid from './Grid.react.js';
+import './GridBuilder.css';
 
 export default function GridBuilder() {
 	const [gridSize, setGridSize] = useState(4);
 	const [tempSize, setTempSize] = useState(4);
 
 	const handleChange = (event) => {
-	  console.log('handleChange', event.target.value)
 		setTempSize(event.target.value);
   }
 
 	const handleSubmit = (event) => {
-	  console.log('handleSubmit')
 		event.preventDefault();
 		setGridSize(tempSize);
 	}
+
+	const componentRef = useRef();
 
   return (  
     <div>	
@@ -25,7 +27,18 @@ export default function GridBuilder() {
 	      </label>
 	      <input type="submit" value="Submit" />
 		  </form>
-	    {gridSize && <Grid size={gridSize} />}
+		  <div ref={componentRef} className="printable">
+		  	<h4 className="centerHeader">My Crossword Puzzle</h4>
+		  	<div className="centerTable">
+    			<Grid size={gridSize} />
+    		</div>
+    	</div>
+    	<div className="mt20">
+	      <ReactToPrint
+	        trigger={() => <a href="#">Print crossword</a>}
+	        content={() => componentRef.current}
+	      />
+	    </div>
 	  </div>
   );
 }
