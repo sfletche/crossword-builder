@@ -4,12 +4,11 @@ Creates empty grid of any size with symmetric blank squares.
 
 ## Next Steps
 
-Add react-to-print to allow easy print of empty crossword
 Integrate Lerna library to modularize grid creator from anything that comes next...
-What should come next...?
-* allow filling in letters / words
-* add numbers to squares
-* enable clue creation
+Allow filling in letters / words
+Add numbers to squares
+Enable clue creation
+Saving crossword
 
 
 ## Credits
