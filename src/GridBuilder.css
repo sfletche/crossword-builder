@@ -5,6 +5,12 @@
   margin-top: 40px;
 }
 
+.title {
+	border: 0;
+	font-size: 26px;
+	outline: none;
+}
+
 .centerHeader {
 	text-align: center;
 }

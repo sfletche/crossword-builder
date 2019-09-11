@@ -4,8 +4,8 @@ import Grid from './Grid.react.js';
 import './GridBuilder.css';
 
 export default function GridBuilder() {
-	const [gridSize, setGridSize] = useState(4);
-	const [tempSize, setTempSize] = useState(4);
+	const [gridSize, setGridSize] = useState(9);
+	const [tempSize, setTempSize] = useState(9);
 
 	const handleChange = (event) => {
 		setTempSize(event.target.value);
@@ -28,7 +28,7 @@ export default function GridBuilder() {
 	      <input type="submit" value="Submit" />
 		  </form>
 		  <div ref={componentRef} className="printable">
-		  	<h4 className="centerHeader">My Crossword Puzzle</h4>
+		  	<textarea className="centerHeader title">My Crossword Puzzle</textarea>
 		  	<div className="centerTable">
     			<Grid size={gridSize} />
     		</div>
