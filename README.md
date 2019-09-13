@@ -1,15 +1,13 @@
 # Crossword Puzzle Starter Kit
 
-Creates empty grid of any size with symmetric blank squares.  
+Creates empty grid of any size with symmetric blanks, and numbered squares.  
 
-## Possible Next Steps
+## Next Steps
 
-* Allow letters to be entered
-* Add numbers to squares
-* Integrate Lerna library to modularize grid creator from anything that comes next...
-* Allow filling in letters / words
+* Allow letters to be entered (button for blanks, button for letters)
 * Enable clue creation
 * Persisting / Saving crosswords
+* Integrate Lerna library to modularize grid creator from anything that comes next...
 
 
 ## Credits
