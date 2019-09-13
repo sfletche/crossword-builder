@@ -4,11 +4,12 @@ Creates empty grid of any size with symmetric blank squares.
 
 ## Possible Next Steps
 
+* Allow letters to be entered
+* Add numbers to squares
 * Integrate Lerna library to modularize grid creator from anything that comes next...
 * Allow filling in letters / words
-* Add numbers to squares
 * Enable clue creation
-* Saving crossword
+* Persisting / Saving crosswords
 
 
 ## Credits
