@@ -59,6 +59,7 @@ export default class Grid extends React.Component {
 		};
 
 		this.handleToggleBlank = this.handleToggleBlank.bind(this);
+		this.handleLetterChange = this.handleLetterChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -84,6 +85,10 @@ export default class Grid extends React.Component {
 
 	handleToggleBlank(row, col) {
 		const { gridSize, gridState } = this.state;
+		const { clickType } = this.props;
+		if (clickType === 'letters') {
+			return;
+		}
 		const gridCopy = [...gridState];
 		if(gridCopy[row][col].value === 'BLANK') {
 			gridCopy[row][col].value = '';
@@ -93,6 +98,17 @@ export default class Grid extends React.Component {
 			gridCopy[gridSize - row - 1][gridSize - col - 1].value = 'BLANK';
 		}
 		const numberedGrid = enumerate(gridCopy);
+		this.setState({ gridState: numberedGrid });
+	}
+
+	handleLetterChange(row, col, val) {
+		const { gridState } = this.state;
+		const { clickType } = this.props;
+		if (clickType === 'blanks') {
+			return;
+		}
+		const gridCopy = [...gridState];
+		gridCopy[row][col] = val;
 		this.setState({ gridState: gridCopy });
 	}
 
@@ -111,6 +127,7 @@ export default class Grid extends React.Component {
 			  						col={col} 
 			  						value={gridState[row][col].value} 
 			  						number={gridState[row][col].number}
+			  						onLetterChange={this.handleLetterChange}
 			  						onToggleBlank={this.handleToggleBlank} 
 		  						/>
 			  				</td>

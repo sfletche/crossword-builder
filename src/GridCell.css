@@ -10,6 +10,24 @@
 	margin-left: 2px;
 }
 
+.letterWithNumber {
+	font-size: 18px;
+	margin-left: 5px;
+	margin-top: -5px;
+}
+.letterWithNumber:focus {
+	outline: none;
+}
+
+.letter {
+	font-size: 18px;
+  margin-top: 4px;
+	text-align: center;
+}
+.letter:focus {
+	outline: none;
+}
+
 .blank {
 	background-color: black;
 	border: 1px solid black;
