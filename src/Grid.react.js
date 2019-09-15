@@ -51,6 +51,33 @@ function enumerate(grid) {
 	return grid;
 }
 
+function isValidCell(row, col, grid) {
+	return row < grid.length && col < grid[0].length;
+}
+
+function getNextCell(row, col, grid) {
+	if (!colToRightIsBlank(row, col, grid)) {
+		return { nextRow: row, nextCol: col+1 };
+	}
+	if (isValidCell(row, col+2, grid)) {
+		return getNextCell(row, col+1, grid);
+	}
+	if (isValidCell(row+1, 0, grid) && !rowBelowIsBlank(row, 0, grid)) {
+		return { nextRow: row+1, nextCol: 0 };
+	}
+	if (isValidCell(row+1, 0, grid)) {
+		return getNextCell(row+1, 0, grid);
+	}
+	return { nextRow: 0, nextCol: 0 };
+}
+
+function advanceFocus(row, col, grid) {
+	grid.forEach(gridRow => gridRow.forEach(cell => cell.focused = false));
+	const { nextRow, nextCol } = getNextCell(row, col, grid);
+	grid[nextRow][nextCol].focused = true;
+	return grid;
+}
+
 
 export default class Grid extends React.Component {
 	constructor(props) {
@@ -112,7 +139,8 @@ export default class Grid extends React.Component {
 		}
 		const gridCopy = [...gridState];
 		gridCopy[row][col].value = val[0] && val[0].toUpperCase();
-		this.setState({ gridState: gridCopy });
+		const gridWithFocus = val[0] ? advanceFocus(row, col, gridCopy) : gridCopy;
+		this.setState({ gridState: gridWithFocus });
 	}
 
 	render() {
@@ -130,6 +158,7 @@ export default class Grid extends React.Component {
 			  						col={col} 
 			  						value={gridState[row][col].value} 
 			  						number={gridState[row][col].number}
+			  						focused={gridState[row][col].focused}
 			  						onLetterChange={this.handleLetterChange}
 			  						onToggleBlank={this.handleToggleBlank} 
 		  						/>
