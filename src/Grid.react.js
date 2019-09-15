@@ -24,6 +24,9 @@ function colToRightIsBlank(row, col, grid) {
 }
 
 function shouldHaveNumber(row, col, grid) {
+	if (grid[row][col].value === 'BLANK') {
+		return false;
+	}
 	if (rowAboveIsBlank(row, col, grid) && !rowBelowIsBlank(row, col, grid)) {
 		return true;
 	}
