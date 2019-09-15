@@ -7,6 +7,7 @@ export default function GridBuilder() {
 	const [gridSize, setGridSize] = useState(9);
 	const [tempSize, setTempSize] = useState(9);
 	const [blanks, setBlanks] = useState(true);
+	const [across, setAcross] = useState(true);
 
 	const handleChange = (event) => {
 		setTempSize(event.target.value);
@@ -19,7 +20,7 @@ export default function GridBuilder() {
 
 	const componentRef = useRef();
 
-  return (  
+  return ( 
     <div>	
 	  	<form onSubmit={handleSubmit}>
 	      <label>
@@ -28,29 +29,51 @@ export default function GridBuilder() {
 	      </label>
 	      <input type="submit" value="Submit" />
 		  </form>
+		  <div>Input</div>
 		  <div>
 			  <input 
 			  	type="radio" 
 			  	id="blanks" 
-			  	name="drone" 
 			  	value="blanks" 
 			  	onChange={() => {}}
 			  	onClick={() => setBlanks(true)} 
 			  	checked={blanks} 
 		  	/>
-			  <label>Blanks</label>
+			  <label><u>B</u>lanks</label>
 			</div>
 			<div>
 			  <input 
 			  	type="radio" 
 			  	id="letters" 
-			  	name="drone" 
 			  	value="letters" 
 			  	onChange={() => {}}
 			  	onClick={() => setBlanks(false)} 
 			  	checked={!blanks} 
 			  />
-			  <label>Letters</label>
+			  <label><u>L</u>etters</label>
+			</div>				
+		  <div>Direction</div>
+		  <div>
+			  <input 
+			  	type="radio" 
+			  	id="across" 
+			  	value="across" 
+			  	onChange={() => {}}
+			  	onClick={() => setAcross(true)} 
+			  	checked={across} 
+		  	/>
+			  <label><u>A</u>cross</label>
+			</div>
+			<div>
+			  <input 
+			  	type="radio" 
+			  	id="down" 
+			  	value="down" 
+			  	onChange={() => {}}
+			  	onClick={() => setAcross(false)} 
+			  	checked={!across} 
+		  	/>
+			  <label><u>D</u>own</label>
 			</div>
 		  <div ref={componentRef} className="printable">
 		  	<textarea className="centerHeader title" defaultValue="My Crossword Puzzle" />
