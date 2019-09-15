@@ -5,7 +5,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 ## Next Steps
 
 * Buttons for toggling direction between left->right and top->down
-* Hot keys for buttons
+* Hot keys for buttons -- or maybe just double click to change direction...
 * Persisting / Saving crosswords
 * UI for loading persisted crosswords
 * Enable clue creation
