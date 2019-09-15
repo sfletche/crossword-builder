@@ -111,7 +111,7 @@ export default class Grid extends React.Component {
 			return;
 		}
 		const gridCopy = [...gridState];
-		gridCopy[row][col] = val;
+		gridCopy[row][col].value = val;
 		this.setState({ gridState: gridCopy });
 	}
 

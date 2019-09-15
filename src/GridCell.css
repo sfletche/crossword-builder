@@ -12,7 +12,7 @@
 
 .letterWithNumber {
 	font-size: 18px;
-	margin-left: 5px;
+	margin-left: 6px;
 	margin-top: -5px;
 }
 .letterWithNumber:focus {
@@ -21,7 +21,7 @@
 
 .letter {
 	font-size: 18px;
-  margin-top: 4px;
+  margin-top: 5px;
 	text-align: center;
 }
 .letter:focus {
