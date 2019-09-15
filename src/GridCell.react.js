@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
+import { withHotKeys } from "react-hotkeys";
 
 import './GridCell.css';
 
-export default function GridCell({ row, col, value, number, focused, onToggleBlank, onLetterChange }) {
+function GridCell({ row, col, value, number, focused, onToggleBlank, onLetterChange }) {
   useEffect(() => {
     if (focused) { 
     	componentRef.current.focus(); 
@@ -27,3 +28,5 @@ export default function GridCell({ row, col, value, number, focused, onToggleBla
 	  </div>	
 	);
 }
+
+export default withHotKeys(GridCell);
