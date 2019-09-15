@@ -4,7 +4,6 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 ## Next Steps
 
-* Ensure single letter 
 * Move focus to next square after entering letter
 * Buttons for shifting direction from left-right to top-down
 * Persisting / Saving crosswords
