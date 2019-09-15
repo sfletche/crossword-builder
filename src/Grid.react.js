@@ -1,5 +1,4 @@
 import React from 'react';
-import { withHotKeys } from "react-hotkeys";
 import GridCell from './GridCell.react';
 import './Grid.css';
 
@@ -80,7 +79,7 @@ function advanceFocus(row, col, grid) {
 }
 
 
-class Grid extends React.Component {
+export default class Grid extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -175,5 +174,3 @@ class Grid extends React.Component {
 		);
 	}
 }
-
-export default withHotKeys(Grid);
