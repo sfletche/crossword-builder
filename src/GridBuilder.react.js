@@ -34,10 +34,11 @@ export default function GridBuilder() {
 			  	id="blanks" 
 			  	name="drone" 
 			  	value="blanks" 
+			  	onChange={() => {}}
 			  	onClick={() => setBlanks(true)} 
 			  	checked={blanks} 
 		  	/>
-			  <label for="blanks">Blanks</label>
+			  <label>Blanks</label>
 			</div>
 			<div>
 			  <input 
@@ -45,13 +46,14 @@ export default function GridBuilder() {
 			  	id="letters" 
 			  	name="drone" 
 			  	value="letters" 
+			  	onChange={() => {}}
 			  	onClick={() => setBlanks(false)} 
 			  	checked={!blanks} 
 			  />
-			  <label for="letters">Letters</label>
+			  <label>Letters</label>
 			</div>
 		  <div ref={componentRef} className="printable">
-		  	<textarea className="centerHeader title">My Crossword Puzzle</textarea>
+		  	<textarea className="centerHeader title" defaultValue="My Crossword Puzzle" />
 		  	<div className="centerTable">
     			<Grid size={gridSize} clickType={blanks ? 'blanks' : 'letters'} />
     		</div>

@@ -111,6 +111,7 @@ export default class Grid extends React.Component {
 				gridState,
 			};
 		}
+		return null;
 	}
 
 	handleToggleBlank(row, col) {
@@ -137,7 +138,9 @@ export default class Grid extends React.Component {
 		if (clickType === 'blanks') {
 			return;
 		}
-		const gridCopy = [...gridState];
+		const gridCopy = gridState.map(function(rowState) {
+	    return rowState.slice();
+		});
 		gridCopy[row][col].value = val[0] && val[0].toUpperCase();
 		const gridWithFocus = val[0] ? advanceFocus(row, col, gridCopy) : gridCopy;
 		this.setState({ gridState: gridWithFocus });

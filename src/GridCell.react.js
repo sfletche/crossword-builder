@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import './GridCell.css';
 
 export default function GridCell({ row, col, value, number, focused, onToggleBlank, onLetterChange }) {
-	const [input, setInput] = useState(null);
-
   useEffect(() => {
     if (focused) { 
     	componentRef.current.focus(); 
@@ -18,12 +16,12 @@ export default function GridCell({ row, col, value, number, focused, onToggleBla
 	  	<div className="number">
 	  		{number} 
 	  		<div 
-	  			contenteditable="true" 
+	  			contentEditable
 	  			className={letter} 
-	  			onInput={e => onLetterChange(row, col, e.currentTarget.textContent)}
-	  			ref={componentRef}
+	  			onInput={event => onLetterChange(row, col, event.currentTarget.textContent)}
+	  			ref={componentRef}	  			
   			>
-	  			{value === 'BLANK' ? null : value}
+  				{value === 'BLANK' ? null : value}
   			</div>
 	  	</div>
 	  </div>	
