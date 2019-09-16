@@ -78,7 +78,11 @@ export default function GridBuilder() {
 		  <div ref={componentRef} className="printable">
 		  	<textarea className="centerHeader title" defaultValue="My Crossword Puzzle" />
 		  	<div className="centerTable">
-    			<Grid size={gridSize} clickType={blanks ? 'blanks' : 'letters'} />
+    			<Grid 
+    				size={gridSize} 
+    				inputType={blanks ? 'blanks' : 'letters'} 
+    				direction={across ? 'across' : 'down'}
+  				/>
     		</div>
     	</div>
     	<div className="mt20">

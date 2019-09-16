@@ -10,6 +10,10 @@
 	margin-left: 2px;
 }
 
+.highlighted {
+	background: #DCDCDC;
+}
+
 .letterWithNumber {
 	font-size: 18px;
 	margin-top: -5px;

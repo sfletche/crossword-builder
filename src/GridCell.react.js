@@ -2,26 +2,42 @@ import React, { useEffect, useRef } from 'react';
 
 import './GridCell.css';
 
-export default function GridCell({ row, col, value, number, focused, onToggleBlank, onLetterChange }) {
+export default function GridCell(props) {
+	const { 
+		row, 
+		col, 
+		value, 
+		number, 
+		focused, 
+		highlighted,
+		onToggleBlank, 
+		onLetterChange 
+	} = props;
   useEffect(() => {
     if (focused) { 
     	componentRef.current.focus(); 
     }
   });
   const componentRef = useRef();
-	const blankOrNot = value === 'BLANK' ? 'blank' : 'standard';
-	const letter = number ? 'letterWithNumber' : 'letter';
+	let outerDivClass = value === 'BLANK' ? 'blank' : 'standard';
+	if (highlighted) {
+		outerDivClass += ' highlighted';
+	}
+	const innerDivClass = number ? 'letterWithNumber' : 'letter';
+	const letterValue = value === 'BLANK' ? null : value;
 	return (
-	  <div className={blankOrNot} onClick={() => onToggleBlank(row, col)}>
+	  <div className={outerDivClass} onClick={() => onToggleBlank(row, col)}>
 	  	<div className="number">
 	  		{number} 
 	  		<div 
 	  			contentEditable
-	  			className={letter} 
+	  			className={innerDivClass} 
+	  			onClick={event => onLetterChange(row, col, letterValue)}
+	  			onDoubleClick={() => alert('howdy')}
 	  			onInput={event => onLetterChange(row, col, event.currentTarget.textContent)}
 	  			ref={componentRef}	  			
   			>
-  				{value === 'BLANK' ? null : value}
+  				{letterValue}
   			</div>
 	  	</div>
 	  </div>	

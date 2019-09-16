@@ -78,6 +78,47 @@ function advanceFocus(row, col, grid) {
 	return grid;
 }
 
+function findFocus(grid) {
+	for (let row=0; row< grid.length; row++) {
+		for (let col=0; col<grid[row].length; col++) {
+			if (grid[row][col].focused) {
+				return {row, col};
+			} 
+		}
+	}
+	return {row: 0, col: 0};
+}
+
+function clearFocus(grid) {
+	for (let row=0; row< grid.length; row++) {
+		for (let col=0; col<grid[row].length; col++) {
+			grid[row][col].focused = false;
+		}
+	}
+	return grid;
+}
+
+function clearHighlights(grid) {
+	for (let row=0; row< grid.length; row++) {
+		for (let col=0; col<grid[row].length; col++) {
+			grid[row][col].highlighted = false;
+		}
+	}
+	return grid;
+}
+
+function highlightWord(row, col, grid, direction) {
+	clearHighlights(grid);
+	if (direction === 'across') {
+		grid[row][col].highlighted = true;
+		let nextCol = col;		
+		while(!colToRightIsBlank(row, nextCol++, grid)) {
+			grid[row][nextCol].highlighted = true;
+		}
+		return grid;
+	}
+}
+
 
 export default class Grid extends React.Component {
 	constructor(props) {
@@ -116,8 +157,8 @@ export default class Grid extends React.Component {
 
 	handleToggleBlank(row, col) {
 		const { gridSize, gridState } = this.state;
-		const { clickType } = this.props;
-		if (clickType === 'letters') {
+		const { inputType } = this.props;
+		if (inputType === 'letters') {
 			return;
 		}
 		const gridCopy = [...gridState];
@@ -134,20 +175,37 @@ export default class Grid extends React.Component {
 
 	handleLetterChange(row, col, val) {
 		const { gridState } = this.state;
-		const { clickType } = this.props;
-		if (clickType === 'blanks') {
+		const { direction, inputType } = this.props;
+		if (inputType === 'blanks') {
 			return;
 		}
 		const gridCopy = gridState.map(function(rowState) {
 	    return rowState.slice();
 		});
-		gridCopy[row][col].value = val[0] && val[0].toUpperCase();
-		const gridWithFocus = val[0] ? advanceFocus(row, col, gridCopy) : gridCopy;
-		this.setState({ gridState: gridWithFocus });
+		clearFocus(gridCopy);
+		gridCopy[row][col].focus = true;
+		const newVal = val && val[0] && val[0].toUpperCase();
+		gridCopy[row][col].value = newVal;
+		if (newVal) {
+			const gridWithFocus = advanceFocus(row, col, gridCopy);
+			const focusCell = findFocus(gridWithFocus);
+			if (!gridCopy[focusCell.row][focusCell.col].highlighted) {
+				let gridWithHighlight;
+				if (focusCell.row === row || focusCell.col === col+1) {
+					gridWithHighlight = highlightWord(row, col, gridWithFocus, direction);
+				} else {
+					gridWithHighlight = highlightWord(focusCell.row, focusCell.col, gridWithFocus, direction);
+				}
+				this.setState({ gridState: gridWithHighlight });
+			}
+		} else {
+			this.setState({ gridState: gridCopy });
+		}
 	}
 
 	render() {
 		const { gridState } = this.state;
+		console.log('gridState', gridState);
 		return gridState && (
 		  <table className="grid">
 		  	<tbody>
@@ -162,6 +220,7 @@ export default class Grid extends React.Component {
 			  						value={gridState[row][col].value} 
 			  						number={gridState[row][col].number}
 			  						focused={gridState[row][col].focused}
+			  						highlighted={gridState[row][col].highlighted}
 			  						onLetterChange={this.handleLetterChange}
 			  						onToggleBlank={this.handleToggleBlank} 
 		  						/>
