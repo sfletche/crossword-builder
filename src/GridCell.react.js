@@ -10,8 +10,9 @@ export default function GridCell(props) {
 		number, 
 		focused, 
 		highlighted,
+		onLetterChange,
+		onLetterClick,
 		onToggleBlank, 
-		onLetterChange 
 	} = props;
   useEffect(() => {
     if (focused) { 
@@ -32,7 +33,7 @@ export default function GridCell(props) {
 	  		<div 
 	  			contentEditable
 	  			className={innerDivClass} 
-	  			onClick={event => onLetterChange(row, col, letterValue)}
+	  			onClick={event => onLetterClick(row, col)}
 	  			onDoubleClick={() => alert('howdy')}
 	  			onInput={event => onLetterChange(row, col, event.currentTarget.textContent)}
 	  			ref={componentRef}	  			

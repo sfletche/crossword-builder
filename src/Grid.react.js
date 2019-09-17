@@ -130,6 +130,7 @@ export default class Grid extends React.Component {
 		};
 
 		this.handleToggleBlank = this.handleToggleBlank.bind(this);
+		this.handleLetterClick = this.handleLetterClick.bind(this);
 		this.handleLetterChange = this.handleLetterChange.bind(this);
 	}
 
@@ -171,6 +172,21 @@ export default class Grid extends React.Component {
 		}
 		const numberedGrid = enumerate(gridCopy);
 		this.setState({ gridState: numberedGrid });
+	}
+
+	handleLetterClick(row, col) {
+		const { gridState } = this.state;
+		const { direction, inputType } = this.props;
+		if (inputType === 'blanks') {
+			return;
+		}
+		const gridCopy = gridState.map(function(rowState) {
+	    return rowState.slice();
+		});
+		clearFocus(gridCopy);
+		gridCopy[row][col].focus = true;
+		const gridWithHighlight = highlightWord(row, col, gridCopy, direction);
+		this.setState({ gridState: gridWithHighlight });
 	}
 
 	handleLetterChange(row, col, val) {
@@ -222,6 +238,7 @@ export default class Grid extends React.Component {
 			  						focused={gridState[row][col].focused}
 			  						highlighted={gridState[row][col].highlighted}
 			  						onLetterChange={this.handleLetterChange}
+			  						onLetterClick={this.handleLetterClick}
 			  						onToggleBlank={this.handleToggleBlank} 
 		  						/>
 			  				</td>
