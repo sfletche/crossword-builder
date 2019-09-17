@@ -5,12 +5,12 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 ## Bugs
 * Highlight word needs to also highlight down (and up)
 * Auto-Advance needs to handle down direction
-
+* Entering text into a cell that already has text, appends instead of replaces
 
 ## Next Steps
 
 * Bug fixes
-* Clean things up
+* Advancing or clicking into a cell with text should highlight the text (in preparation for replacing)
 * Double click to change direction...
 * Functional top->down entries
 * Persisting / Saving crosswords
