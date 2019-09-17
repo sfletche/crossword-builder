@@ -71,11 +71,19 @@ function getNextCell(row, col, grid) {
 	return { nextRow: 0, nextCol: 0 };
 }
 
+function clearFocus(grid) {
+	return grid.map(gridRow => gridRow.map(cell => ({ ...cell, focused: false })));	
+}
+
+function clearHighlights(grid) {
+	return grid.map(gridRow => gridRow.map(cell => ({ ...cell, highlighted: false})));	
+}
+
 function advanceFocus(row, col, grid) {
-	grid.forEach(gridRow => gridRow.forEach(cell => cell.focused = false));
+	const gridCopy = clearFocus(grid);
 	const { nextRow, nextCol } = getNextCell(row, col, grid);
-	grid[nextRow][nextCol].focused = true;
-	return grid;
+	gridCopy[nextRow][nextCol].focused = true;
+	return gridCopy;
 }
 
 function findFocus(grid) {
@@ -89,33 +97,19 @@ function findFocus(grid) {
 	return {row: 0, col: 0};
 }
 
-function clearFocus(grid) {
-	for (let row=0; row< grid.length; row++) {
-		for (let col=0; col<grid[row].length; col++) {
-			grid[row][col].focused = false;
-		}
-	}
-	return grid;
-}
-
-function clearHighlights(grid) {
-	for (let row=0; row< grid.length; row++) {
-		for (let col=0; col<grid[row].length; col++) {
-			grid[row][col].highlighted = false;
-		}
-	}
-	return grid;
-}
-
 function highlightWord(row, col, grid, direction) {
-	clearHighlights(grid);
+	const gridCopy = clearHighlights(grid);
 	if (direction === 'across') {
-		grid[row][col].highlighted = true;
+		gridCopy[row][col].highlighted = true;
 		let nextCol = col;		
-		while(!colToRightIsBlank(row, nextCol++, grid)) {
-			grid[row][nextCol].highlighted = true;
+		while(!colToLeftIsBlank(row, nextCol--, grid)) {
+			gridCopy[row][nextCol].highlighted = true;
 		}
-		return grid;
+		nextCol = col;	
+		while(!colToRightIsBlank(row, nextCol++, grid)) {
+			gridCopy[row][nextCol].highlighted = true;
+		}
+		return gridCopy;
 	}
 }
 
@@ -179,12 +173,9 @@ export default class Grid extends React.Component {
 		const { direction, inputType } = this.props;
 		if (inputType === 'blanks') {
 			return;
-		}
-		const gridCopy = gridState.map(function(rowState) {
-	    return rowState.slice();
-		});
-		clearFocus(gridCopy);
-		gridCopy[row][col].focus = true;
+		}		
+		const gridCopy = clearFocus(gridState);
+		gridCopy[row][col].focused = true;
 		const gridWithHighlight = highlightWord(row, col, gridCopy, direction);
 		this.setState({ gridState: gridWithHighlight });
 	}
@@ -195,11 +186,8 @@ export default class Grid extends React.Component {
 		if (inputType === 'blanks') {
 			return;
 		}
-		const gridCopy = gridState.map(function(rowState) {
-	    return rowState.slice();
-		});
-		clearFocus(gridCopy);
-		gridCopy[row][col].focus = true;
+		const gridCopy = clearFocus(gridState);
+		gridCopy[row][col].focused = true;
 		const newVal = val && val[0] && val[0].toUpperCase();
 		gridCopy[row][col].value = newVal;
 		if (newVal) {
