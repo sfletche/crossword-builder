@@ -2,11 +2,17 @@
 
 Creates empty grid of any size with symmetric blanks, and numbered squares.  
 
+## Bugs
+* Auto-advance not working at the moment
+* Highlight word needs to also highlight to the left
+* Highlight word needs to also highlight down (and up)
+* Auto-Advance needs to handle down direction
+
+
 ## Next Steps
 
-* Highlighting current word (fix bugs, etc)
+* Bug fixes
 * Clean things up
-* Buttons for toggling direction between left->right and top->down
 * Double click to change direction...
 * Functional top->down entries
 * Persisting / Saving crosswords
