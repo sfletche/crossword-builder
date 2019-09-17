@@ -3,7 +3,6 @@
 Creates empty grid of any size with symmetric blanks, and numbered squares.  
 
 ## Bugs
-* Auto-advance not working at the moment
 * Highlight word needs to also highlight down (and up)
 * Auto-Advance needs to handle down direction
 

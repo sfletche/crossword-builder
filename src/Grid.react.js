@@ -81,7 +81,7 @@ function clearHighlights(grid) {
 
 function advanceFocus(row, col, grid) {
 	const gridCopy = clearFocus(grid);
-	const { nextRow, nextCol } = getNextCell(row, col, grid);
+	const { nextRow, nextCol } = getNextCell(row, col, gridCopy);
 	gridCopy[nextRow][nextCol].focused = true;
 	return gridCopy;
 }
@@ -191,9 +191,11 @@ export default class Grid extends React.Component {
 		const newVal = val && val[0] && val[0].toUpperCase();
 		gridCopy[row][col].value = newVal;
 		if (newVal) {
+			console.log('advancing focus from', gridCopy);
 			const gridWithFocus = advanceFocus(row, col, gridCopy);
+			console.log('to', gridWithFocus);
 			const focusCell = findFocus(gridWithFocus);
-			if (!gridCopy[focusCell.row][focusCell.col].highlighted) {
+			if (!gridWithFocus[focusCell.row][focusCell.col].highlighted) {
 				let gridWithHighlight;
 				if (focusCell.row === row || focusCell.col === col+1) {
 					gridWithHighlight = highlightWord(row, col, gridWithFocus, direction);
@@ -201,6 +203,8 @@ export default class Grid extends React.Component {
 					gridWithHighlight = highlightWord(focusCell.row, focusCell.col, gridWithFocus, direction);
 				}
 				this.setState({ gridState: gridWithHighlight });
+			} else {
+				this.setState({ gridState: gridWithFocus });
 			}
 		} else {
 			this.setState({ gridState: gridCopy });
