@@ -37,18 +37,14 @@ function shouldHaveNumber(row, col, grid) {
 }
 
 function enumerate(grid) {
-	// const gridCopy = grid
 	let counter = 1;
-	for (let i=0; i< grid.length; i++) {
-		for (let j=0; j<grid[i].length; j++) {
-			if (shouldHaveNumber(i, j, grid)) {
-				grid[i][j].number = counter++;
-			} else {
-				grid[i][j].number = null;
-			}
+	return grid.map((gridRow, row) => gridRow.map((cell, col) => {
+		if (shouldHaveNumber(row, col, grid)) {
+			return { ...cell, number: counter++ };
+		} else {
+			return { ...cell, number: null };
 		}
-	}
-	return grid;
+	}));	
 }
 
 function isValidCell(row, col, grid) {
@@ -191,17 +187,10 @@ export default class Grid extends React.Component {
 		const newVal = val && val[0] && val[0].toUpperCase();
 		gridCopy[row][col].value = newVal;
 		if (newVal) {
-			console.log('advancing focus from', gridCopy);
 			const gridWithFocus = advanceFocus(row, col, gridCopy);
-			console.log('to', gridWithFocus);
-			const focusCell = findFocus(gridWithFocus);
-			if (!gridWithFocus[focusCell.row][focusCell.col].highlighted) {
-				let gridWithHighlight;
-				if (focusCell.row === row || focusCell.col === col+1) {
-					gridWithHighlight = highlightWord(row, col, gridWithFocus, direction);
-				} else {
-					gridWithHighlight = highlightWord(focusCell.row, focusCell.col, gridWithFocus, direction);
-				}
+			const focusedCell = findFocus(gridWithFocus);
+			if (!gridWithFocus[focusedCell.row][focusedCell.col].highlighted) {
+				const gridWithHighlight = highlightWord(focusedCell.row, focusedCell.col, gridWithFocus, direction);
 				this.setState({ gridState: gridWithHighlight });
 			} else {
 				this.setState({ gridState: gridWithFocus });
@@ -213,7 +202,6 @@ export default class Grid extends React.Component {
 
 	render() {
 		const { gridState } = this.state;
-		console.log('gridState', gridState);
 		return gridState && (
 		  <table className="grid">
 		  	<tbody>

@@ -36,7 +36,8 @@ export default function GridCell(props) {
 	  			onClick={event => onLetterClick(row, col)}
 	  			onDoubleClick={() => alert('howdy')}
 	  			onInput={event => onLetterChange(row, col, event.currentTarget.textContent)}
-	  			ref={componentRef}	  			
+	  			ref={componentRef}	 
+	  			suppressContentEditableWarning 			
   			>
   				{letterValue}
   			</div>
