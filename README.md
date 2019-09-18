@@ -3,14 +3,9 @@
 Creates empty grid of any size with symmetric blanks, and numbered squares.  
 
 ## Bugs
-* Changing direction should change highlight
+
 
 ## Next Steps
-
-* Bug fixes
-* Advancing or clicking into a cell with text should highlight the text (in preparation for replacing)
-* Double click to change direction...
-* Functional top->down entries
 * Persisting / Saving crosswords
 * UI for loading persisted crosswords
 * Enable clue creation
