@@ -1,22 +1,61 @@
 import React, { useRef, useState } from 'react';
 import ReactToPrint from 'react-to-print';
-import Grid from './Grid.react.js';
+import {
+	enumerate,
+} from './utils/utils';
+import Grid from './Grid.react';
+import InputButtons from './InputButtons.react';
+import DirectionButtons from './DirectionButtons.react';
 import './GridBuilder.css';
 
+const INIT_SIZE = 9;
+
+function getGrid(size) {
+	return Array.from({length: size}, e => Array.from({length: size}, e => ({ value: '' })));
+}
+
+function initializeGrid() {
+	return enumerate(getGrid(INIT_SIZE));
+}
+
 export default function GridBuilder() {
-	const [gridSize, setGridSize] = useState(9);
-	const [tempSize, setTempSize] = useState(9);
+	const [gridSize, setGridSize] = useState(INIT_SIZE);
+	const [gridState, setGridState] = useState(initializeGrid());
+	const [tempSize, setTempSize] = useState(INIT_SIZE);
 	const [blanks, setBlanks] = useState(true);
-	const [across, setAcross] = useState(true);
+	const [across, setAcross] = useState(true);	
 
 	const handleChange = (event) => {
 		setTempSize(event.target.value);
-  }
+  };
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		setGridSize(tempSize);
-	}
+		const grid = getGrid(tempSize);
+		const enumeratedGrid = enumerate(grid);
+		setGridState(enumeratedGrid);
+	};
+
+	const handleGridUpdate = (grid) => {
+		setGridState(enumerate(grid));
+	};
+
+	const handleSetBlanks = () => {
+		setBlanks(true);
+	};
+
+	const handleSetLetters = () => {
+		setBlanks(false);
+	};
+
+	const handleSetAcross = () => {
+		setAcross(true);
+	};
+
+	const handleSetDown = () => {
+		setAcross(false);
+	};
 
 	const componentRef = useRef();
 
@@ -29,57 +68,23 @@ export default function GridBuilder() {
 	      </label>
 	      <input type="submit" value="Submit" />
 		  </form>
-		  <div>Input</div>
-		  <div>
-			  <input 
-			  	type="radio" 
-			  	id="blanks" 
-			  	value="blanks" 
-			  	onChange={() => {}}
-			  	onClick={() => setBlanks(true)} 
-			  	checked={blanks} 
-		  	/>
-			  <label><u>B</u>lanks</label>
-			</div>
-			<div>
-			  <input 
-			  	type="radio" 
-			  	id="letters" 
-			  	value="letters" 
-			  	onChange={() => {}}
-			  	onClick={() => setBlanks(false)} 
-			  	checked={!blanks} 
-			  />
-			  <label><u>L</u>etters</label>
-			</div>				
-		  <div>Direction</div>
-		  <div>
-			  <input 
-			  	type="radio" 
-			  	id="across" 
-			  	value="across" 
-			  	onChange={() => {}}
-			  	onClick={() => setAcross(true)} 
-			  	checked={across} 
-		  	/>
-			  <label><u>A</u>cross</label>
-			</div>
-			<div>
-			  <input 
-			  	type="radio" 
-			  	id="down" 
-			  	value="down" 
-			  	onChange={() => {}}
-			  	onClick={() => setAcross(false)} 
-			  	checked={!across} 
-		  	/>
-			  <label><u>D</u>own</label>
-			</div>
+		  <InputButtons
+		  	inputType={blanks ? 'blanks' : 'letters'}
+		  	onSetBlanks={handleSetBlanks}
+		  	onSetLetters={handleSetLetters}
+		  />
+		  <DirectionButtons
+		  	direction={across ? 'across' : 'down'}
+		  	onSetAcross={handleSetAcross}
+		  	onSetDown={handleSetDown}
+		  />		  
 		  <div ref={componentRef} className="printable">
 		  	<textarea className="centerHeader title" defaultValue="My Crossword Puzzle" />
 		  	<div className="centerTable">
     			<Grid 
-    				size={gridSize} 
+    				gridSize={gridSize} 
+    				gridState={gridState}
+    				updateGrid={handleGridUpdate}
     				inputType={blanks ? 'blanks' : 'letters'} 
     				direction={across ? 'across' : 'down'}
   				/>
