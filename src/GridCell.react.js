@@ -35,6 +35,7 @@ export default function GridCell(props) {
 	  			className={innerDivClass} 
 	  			onClick={event => onLetterClick(row, col)}
 	  			onDoubleClick={() => alert('howdy')}
+	  			onFocus={e => window.getSelection().selectAllChildren(componentRef.current)}
 	  			onInput={event => onLetterChange(row, col, event.currentTarget.textContent)}
 	  			ref={componentRef}	 
 	  			suppressContentEditableWarning 			
