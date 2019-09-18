@@ -1,7 +1,11 @@
 import React, { useRef, useState } from 'react';
 import ReactToPrint from 'react-to-print';
 import {
+	clearHighlights,
 	enumerate,
+	findFocus,
+	highlightWordAcross,
+	highlightWordDown,
 } from './utils/utils';
 import Grid from './Grid.react';
 import InputButtons from './InputButtons.react';
@@ -43,6 +47,8 @@ export default function GridBuilder() {
 
 	const handleSetBlanks = () => {
 		setBlanks(true);
+		const gridWithoutHighlights = clearHighlights(gridState);
+		setGridState(gridWithoutHighlights);
 	};
 
 	const handleSetLetters = () => {
@@ -51,10 +57,16 @@ export default function GridBuilder() {
 
 	const handleSetAcross = () => {
 		setAcross(true);
+		const focusedCell = findFocus(gridState);
+		const highlightedGrid = highlightWordAcross(focusedCell.row, focusedCell.col, gridState);
+		setGridState(highlightedGrid);
 	};
 
 	const handleSetDown = () => {
 		setAcross(false);
+		const focusedCell = findFocus(gridState);
+		const highlightedGrid = highlightWordDown(focusedCell.row, focusedCell.col, gridState);
+		setGridState(highlightedGrid);
 	};
 
 	const componentRef = useRef();

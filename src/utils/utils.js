@@ -107,7 +107,7 @@ export function findFocus(grid) {
 	return {row: 0, col: 0};
 }
 
-function highlightWordAcross(row, col, grid) {
+export function highlightWordAcross(row, col, grid) {
 	const gridCopy = clearHighlights(grid);
 	gridCopy[row][col].highlighted = true;
 	let nextCol = col;		
@@ -121,7 +121,7 @@ function highlightWordAcross(row, col, grid) {
 	return gridCopy;
 }
 
-function highlightWordDown(row, col, grid) {
+export function highlightWordDown(row, col, grid) {
 	const gridCopy = clearHighlights(grid);
 	gridCopy[row][col].highlighted = true;
 	let nextRow = row;		
