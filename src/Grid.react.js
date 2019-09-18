@@ -55,7 +55,6 @@ export default class Grid extends React.Component {
 		gridCopy[row][col].focused = true;
 		const newVal = val && val[0] && val[0].toUpperCase();
 		gridCopy[row][col].value = newVal;
-		console.log('handleLetterChange', newVal); 
 		if (newVal) {
 			const gridWithFocus = advanceFocus(row, col, gridCopy, direction);
 			const focusedCell = findFocus(gridWithFocus);

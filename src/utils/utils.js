@@ -75,11 +75,9 @@ function getNextDownCell(row, col, grid) {
 }
 
 export function getNextCell(row, col, grid, direction) {
-	console.log('getNextCell', row, col, grid, direction);
 	if (direction === 'across') {
 		return getNextAcrossCell(row, col, grid);
 	}
-	console.log('next down cell', getNextDownCell(row, col, grid));
 	return getNextDownCell(row, col, grid);
 }
 
