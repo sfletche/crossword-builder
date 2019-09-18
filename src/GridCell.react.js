@@ -13,6 +13,7 @@ export default function GridCell(props) {
 		onLetterChange,
 		onLetterClick,
 		onToggleBlank, 
+		toggleDirection,
 	} = props;
   useEffect(() => {
     if (focused) { 
@@ -34,7 +35,7 @@ export default function GridCell(props) {
 	  			contentEditable
 	  			className={innerDivClass} 
 	  			onClick={event => onLetterClick(row, col)}
-	  			onDoubleClick={() => alert('howdy')}
+	  			onDoubleClick={toggleDirection}
 	  			onFocus={e => window.getSelection().selectAllChildren(componentRef.current)}
 	  			onInput={event => onLetterChange(row, col, event.currentTarget.textContent)}
 	  			ref={componentRef}	 

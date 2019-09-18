@@ -70,7 +70,7 @@ export default class Grid extends React.Component {
 	}
 
 	render() {
-		const { gridState } = this.props;
+		const { gridState, toggleDirection } = this.props;
 		return gridState && (
 		  <table className="grid">
 		  	<tbody>
@@ -89,6 +89,7 @@ export default class Grid extends React.Component {
 			  						onLetterChange={this.handleLetterChange}
 			  						onLetterClick={this.handleLetterClick}
 			  						onToggleBlank={this.handleToggleBlank} 
+			  						toggleDirection={toggleDirection}
 		  						/>
 			  				</td>
 			  			)}

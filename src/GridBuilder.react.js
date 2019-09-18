@@ -69,6 +69,10 @@ export default function GridBuilder() {
 		setGridState(highlightedGrid);
 	};
 
+	const handleDirectionToggle = () => {
+	  across ? handleSetDown() : handleSetAcross();
+	};
+
 	const componentRef = useRef();
 
   return ( 
@@ -94,18 +98,19 @@ export default function GridBuilder() {
 		  	<textarea className="centerHeader title" defaultValue="My Crossword Puzzle" />
 		  	<div className="centerTable">
     			<Grid 
+    				direction={across ? 'across' : 'down'}
     				gridSize={gridSize} 
     				gridState={gridState}
-    				updateGrid={handleGridUpdate}
     				inputType={blanks ? 'blanks' : 'letters'} 
-    				direction={across ? 'across' : 'down'}
+    				toggleDirection={handleDirectionToggle}
+    				updateGrid={handleGridUpdate}
   				/>
     		</div>
     	</div>
     	<div className="mt20">
 	      <ReactToPrint
-	        trigger={() => <a href="#">Print crossword</a>}
 	        content={() => componentRef.current}
+	        trigger={() => <a href="#">Print crossword</a>}
 	      />
 	    </div>
 	  </div>
