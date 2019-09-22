@@ -7,9 +7,12 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 ## Next Steps
 * Persisting / Saving crosswords
+  * button for persisting
+  * list of saved puzzles / click to open
 * UI for loading persisted crosswords
 * Enable clue creation
 * Sass 
+* Option for completing the puzzle
 
 
 ## Credits

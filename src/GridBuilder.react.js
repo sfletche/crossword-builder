@@ -6,10 +6,12 @@ import {
 	findFocus,
 	highlightWordAcross,
 	highlightWordDown,
+	slugify,
 } from './utils/utils';
 import Grid from './Grid.react';
 import InputButtons from './InputButtons.react';
 import DirectionButtons from './DirectionButtons.react';
+import PersistedCrosswordList from './PersistedCrosswordList.react';
 import './GridBuilder.css';
 
 const INIT_SIZE = 9;
@@ -28,6 +30,7 @@ export default function GridBuilder() {
 	const [tempSize, setTempSize] = useState(INIT_SIZE);
 	const [blanks, setBlanks] = useState(true);
 	const [across, setAcross] = useState(true);	
+	const [title, updateTitle] = useState("My Crossword Puzzle");	
 
 	const handleChange = (event) => {
 		setTempSize(event.target.value);
@@ -73,10 +76,25 @@ export default function GridBuilder() {
 	  across ? handleSetDown() : handleSetAcross();
 	};
 
+	const handleOpenCrossword = (newTitle, newState) => {
+		updateTitle(newTitle);
+		setGridState(newState);
+	};
+
+	const saveCrossword = () => {
+		const slug = slugify(title);
+		console.log('setting localStorage with', slug);
+		const currentKeys = JSON.parse(localStorage.getItem('crosswordKeys'));
+		if (!currentKeys.includes(slug)) {
+			localStorage.setItem('crosswordKeys', JSON.stringify([...currentKeys, slug]));
+		}
+		localStorage.setItem(slug, JSON.stringify({ title, gridState }));
+	};
+
 	const componentRef = useRef();
 
   return ( 
-    <div>	
+    <div className="ml20">	
 	  	<form onSubmit={handleSubmit}>
 	      <label>
 	        Grid Size (how many rows):
@@ -85,17 +103,23 @@ export default function GridBuilder() {
 	      <input type="submit" value="Submit" />
 		  </form>
 		  <InputButtons
+		  	className="mt20"
 		  	inputType={blanks ? 'blanks' : 'letters'}
 		  	onSetBlanks={handleSetBlanks}
 		  	onSetLetters={handleSetLetters}
 		  />
 		  <DirectionButtons
+		  	className="mt20"
 		  	direction={across ? 'across' : 'down'}
 		  	onSetAcross={handleSetAcross}
 		  	onSetDown={handleSetDown}
 		  />		  
 		  <div ref={componentRef} className="printable">
-		  	<textarea className="centerHeader title" defaultValue="My Crossword Puzzle" />
+		  	<textarea 
+		  		className="centerHeader title" 
+		  		onChange={(e) => updateTitle(e.target.value)}
+		  		value={title}
+		  	/>
 		  	<div className="centerTable">
     			<Grid 
     				direction={across ? 'across' : 'down'}
@@ -110,8 +134,16 @@ export default function GridBuilder() {
     	<div className="mt20">
 	      <ReactToPrint
 	        content={() => componentRef.current}
-	        trigger={() => <a href="#">Print crossword</a>}
+	        trigger={() => <a href="#">Print Crossword</a>}
 	      />
+	    </div>
+	    <div className="mt20">
+	    	<a href="#" onClick={saveCrossword}>Save Crossword</a>
+	    </div>
+	    <div className="mt20">
+	    	<PersistedCrosswordList 
+	    		onSelect={handleOpenCrossword}
+	    	/>
 	    </div>
 	  </div>
   );
