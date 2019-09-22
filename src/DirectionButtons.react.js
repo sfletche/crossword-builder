@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function InputButtons({ direction, onSetAcross, onSetDown }) {
+export default function InputButtons({ className, direction, onSetAcross, onSetDown }) {
 	return (
-		<div>
+		<div className={className}>
 		  <div>Direction</div>
 		  <div>
 			  <input 
@@ -13,7 +13,7 @@ export default function InputButtons({ direction, onSetAcross, onSetDown }) {
 			  	onClick={onSetAcross} 
 			  	checked={direction === 'across'} 
 		  	/>
-			  <label><u>A</u>cross</label>
+			  <label>Across</label>
 			</div>
 			<div>
 			  <input 
@@ -24,7 +24,7 @@ export default function InputButtons({ direction, onSetAcross, onSetDown }) {
 			  	onClick={onSetDown} 
 			  	checked={direction === 'down'} 
 		  	/>
-			  <label><u>D</u>own</label>
+			  <label>Down</label>
 			</div>
 		</div>		
 	);

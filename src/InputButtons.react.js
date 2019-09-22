@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function InputButtons({ inputType, onSetBlanks, onSetLetters }) {
+export default function InputButtons({ className, inputType, onSetBlanks, onSetLetters }) {
 	return (
-		<div>
+		<div className={className}>
 		  <div>Input</div>
 		  <div>
 			  <input 
@@ -13,7 +13,7 @@ export default function InputButtons({ inputType, onSetBlanks, onSetLetters }) {
 			  	onClick={onSetBlanks} 
 			  	checked={inputType === 'blanks'} 
 		  	/>
-			  <label><u>B</u>lanks</label>
+			  <label>Blanks</label>
 			</div>
 			<div>
 			  <input 
@@ -24,7 +24,7 @@ export default function InputButtons({ inputType, onSetBlanks, onSetLetters }) {
 			  	onClick={onSetLetters} 
 			  	checked={inputType === 'letters'} 
 			  />
-			  <label><u>L</u>etters</label>
+			  <label>Letters</label>
 			</div>	
 		</div>		
 	);
