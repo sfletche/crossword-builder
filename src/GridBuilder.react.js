@@ -83,7 +83,6 @@ export default function GridBuilder() {
 
 	const saveCrossword = () => {
 		const slug = slugify(title);
-		console.log('setting localStorage with', slug);
 		const currentKeys = JSON.parse(localStorage.getItem('crosswordKeys'));
 		if (!currentKeys.includes(slug)) {
 			localStorage.setItem('crosswordKeys', JSON.stringify([...currentKeys, slug]));

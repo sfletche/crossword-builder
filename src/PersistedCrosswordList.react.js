@@ -2,12 +2,11 @@ import React from 'react';
 
 export default function PersistedCrosswordList({ onSelect }) {	
 	const getCrosswords = () => {
-		localStorage.clear();
 		let savedKeys = localStorage.getItem('crosswordKeys');
 		if (!savedKeys) {
 			savedKeys = [];
 			localStorage.setItem('crosswordKeys', JSON.stringify([]));
-			return;
+			return 'No Persisted Crosswords...';
 		} else {
 			savedKeys = JSON.parse(savedKeys);
 		}

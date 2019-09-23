@@ -3,16 +3,20 @@
 Creates empty grid of any size with symmetric blanks, and numbered squares.  
 
 ## Bugs
-
+* Writing over existing character results in lower case letter
 
 ## Next Steps
 * Persisting / Saving crosswords
-  * button for persisting
-  * list of saved puzzles / click to open
-* UI for loading persisted crosswords
+  * New View / Route with list of saved puzzles (click to open in grid-builder)
+	* UI for loading persisted crosswords
 * Enable clue creation
-* Sass 
+  * Show numbered clues (Across / Down) 
+  * Allow clues to be edited and persisted with the crossword
+* Word List 
+* Option to fill in a word (a word that doesn't also create non-words)
+* Provide possible clues for each entered answer
 * Option for completing the puzzle
+* Sass 
 
 
 ## Credits
