@@ -117,7 +117,7 @@ export default function GridBuilder() {
 		  	onSetDown={handleSetDown}
 		  />
 		  <div ref={componentRef} className="printable">
-        <div className="clues">
+        <div>
           <AcrossClues gridState={gridState} />
         </div>
         <div>

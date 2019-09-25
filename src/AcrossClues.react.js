@@ -24,8 +24,8 @@ function getAcrossClues(grid) {
 export default function AcrossClues({ gridState }) {
   const clues = getAcrossClues(gridState);
 	return (
-		<div>
-      <h4>Across</h4>
+		<div className="mt50">
+      <h4 className="mb5">Across</h4>
       {clues.map(clue => (
         <div key={clue}>
           <div className="rightJustify">

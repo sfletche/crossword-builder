@@ -3,7 +3,6 @@ import {
   rowAboveIsBlank,
   rowBelowIsBlank,
 } from './utils/utils';
-import './DownClues.css';
 
 function getDownCluesFromRow(grid, gridRow, row) {
   return gridRow.reduce((acc, cell, col) => {
@@ -24,8 +23,8 @@ function getDownClues(grid) {
 export default function DownClues({ gridState }) {
   const clues = getDownClues(gridState);
 	return (
-		<div>
-      <h4>Down</h4>
+		<div className="mt50">
+      <h4 className="mb5">Down</h4>
       {clues.map(clue => (
         <div key={clue}>
           <div className="rightJustify">
