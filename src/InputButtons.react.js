@@ -30,4 +30,3 @@ export default function InputButtons({ className, inputType, onSetBlanks, onSetL
 		</div>
 	);
 }
-

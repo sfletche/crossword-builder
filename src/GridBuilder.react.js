@@ -8,12 +8,11 @@ import {
 	highlightWordDown,
 	slugify,
 } from './utils/utils';
-import AcrossClues from './AcrossClues.react';
-import DownClues from './DownClues.react';
-import Grid from './Grid.react';
+import Clues from './Clues.react';
 import InputButtons from './InputButtons.react';
 import DirectionButtons from './DirectionButtons.react';
 import PersistedCrosswordList from './PersistedCrosswordList.react';
+import Puzzle from './Puzzle.react';
 import './GridBuilder.css';
 
 const INIT_SIZE = 9;
@@ -117,43 +116,27 @@ export default function GridBuilder() {
 		  	onSetDown={handleSetDown}
 		  />
 		  <div ref={componentRef} className="printable">
-        <div>
-          <AcrossClues gridState={gridState} />
-        </div>
-        <div>
-          <DownClues gridState={gridState} />
-        </div>
-        <div className="puzzle">
-  		  	<textarea
-  		  		className="centerHeader title"
-  		  		onChange={(e) => updateTitle(e.target.value)}
-  		  		value={title}
-  		  	/>
-  		  	<div className="centerTable">
-      			<Grid
-      				direction={across ? 'across' : 'down'}
-      				gridSize={gridSize}
-      				gridState={gridState}
-      				inputType={blanks ? 'blanks' : 'letters'}
-      				toggleDirection={handleDirectionToggle}
-      				updateGrid={handleGridUpdate}
-    				/>
-      		</div>
-        </div>
+        <Clues gridState={gridState} />
+        <Puzzle
+          direction={across ? 'across' : 'down'}
+          gridSize={gridSize}
+          gridState={gridState}
+          inputType={blanks ? 'blanks' : 'letters'}
+          onDirectionToggle={handleDirectionToggle}
+          onGridUpdate={handleGridUpdate}
+          title={title}
+          updateTitle={updateTitle}
+        />
     	</div>
     	<div className="mt20">
 	      <ReactToPrint
 	        content={() => componentRef.current}
-	        trigger={() => <a href="#">Print Crossword</a>}
+	        trigger={() => <button>Print Crossword</button>}
 	      />
+	    	<button className="ml10" onClick={saveCrossword}>Save Crossword</button>
 	    </div>
 	    <div className="mt20">
-	    	<a href="#" onClick={saveCrossword}>Save Crossword</a>
-	    </div>
-	    <div className="mt20">
-	    	<PersistedCrosswordList
-	    		onSelect={handleOpenCrossword}
-	    	/>
+	    	<PersistedCrosswordList onSelect={handleOpenCrossword} />
 	    </div>
 	  </div>
   );
