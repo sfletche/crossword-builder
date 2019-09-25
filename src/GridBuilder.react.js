@@ -6,7 +6,9 @@ import {
 	findFocus,
 	highlightWordAcross,
 	highlightWordDown,
+  initializeGrid,
 	slugify,
+  INIT_SIZE,
 } from './utils/utils';
 import Clues from './Clues.react';
 import InputButtons from './InputButtons.react';
@@ -15,15 +17,6 @@ import PersistedCrosswordList from './PersistedCrosswordList.react';
 import Puzzle from './Puzzle.react';
 import './GridBuilder.css';
 
-const INIT_SIZE = 9;
-
-function getGrid(size) {
-	return Array.from({length: size}, e => Array.from({length: size}, e => ({ value: '' })));
-}
-
-function initializeGrid() {
-	return enumerate(getGrid(INIT_SIZE));
-}
 
 export default function GridBuilder() {
 	const [gridSize, setGridSize] = useState(INIT_SIZE);
@@ -40,9 +33,8 @@ export default function GridBuilder() {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		setGridSize(tempSize);
-		const grid = getGrid(tempSize);
-		const enumeratedGrid = enumerate(grid);
-		setGridState(enumeratedGrid);
+		const grid = initializeGrid(tempSize);
+		setGridState(grid);
 	};
 
 	const handleGridUpdate = (grid) => {

@@ -1,3 +1,14 @@
+
+export const INIT_SIZE = 9;
+
+function getGrid(size) {
+  return Array.from({length: size}, e => Array.from({length: size}, e => ({ value: '' })));
+}
+
+export function initializeGrid(size) {
+  return enumerate(getGrid(size || INIT_SIZE));
+}
+
 export function rowAboveIsBlank(row, col, grid) {
 	return row === 0 || grid[row-1][col].value === 'BLANK';
 }
@@ -35,7 +46,7 @@ export function enumerate(grid) {
 		} else {
 			return { ...cell, number: null };
 		}
-	}));	
+	}));
 }
 
 export function isValidCell(row, col, grid) {
@@ -82,11 +93,11 @@ export function getNextCell(row, col, grid, direction) {
 }
 
 export function clearFocus(grid) {
-	return grid.map(gridRow => gridRow.map(cell => ({ ...cell, focused: false })));	
+	return grid.map(gridRow => gridRow.map(cell => ({ ...cell, focused: false })));
 }
 
 export function clearHighlights(grid) {
-	return grid.map(gridRow => gridRow.map(cell => ({ ...cell, highlighted: false})));	
+	return grid.map(gridRow => gridRow.map(cell => ({ ...cell, highlighted: false})));
 }
 
 export function advanceFocus(row, col, grid, direction) {
@@ -101,7 +112,7 @@ export function findFocus(grid) {
 		for (let col=0; col<grid[row].length; col++) {
 			if (grid[row][col].focused) {
 				return {row, col};
-			} 
+			}
 		}
 	}
 	return {row: 0, col: 0};
@@ -110,11 +121,11 @@ export function findFocus(grid) {
 export function highlightWordAcross(row, col, grid) {
 	const gridCopy = clearHighlights(grid);
 	gridCopy[row][col].highlighted = true;
-	let nextCol = col;		
+	let nextCol = col;
 	while(!colToLeftIsBlank(row, nextCol--, grid)) {
 		gridCopy[row][nextCol].highlighted = true;
 	}
-	nextCol = col;	
+	nextCol = col;
 	while(!colToRightIsBlank(row, nextCol++, grid)) {
 		gridCopy[row][nextCol].highlighted = true;
 	}
@@ -124,11 +135,11 @@ export function highlightWordAcross(row, col, grid) {
 export function highlightWordDown(row, col, grid) {
 	const gridCopy = clearHighlights(grid);
 	gridCopy[row][col].highlighted = true;
-	let nextRow = row;		
+	let nextRow = row;
 	while(!rowAboveIsBlank(nextRow--, col, grid)) {
 		gridCopy[nextRow][col].highlighted = true;
 	}
-	nextRow = row;	
+	nextRow = row;
 	while(!rowBelowIsBlank(nextRow++, col, grid)) {
 		gridCopy[nextRow][col].highlighted = true;
 	}
@@ -147,9 +158,9 @@ export function slugify(str) {
   // Make the string lowercase
   .toLowerCase()
   // Remove invalid chars
-  .replace(/[^a-z0-9 -]/g, '') 
+  .replace(/[^a-z0-9 -]/g, '')
   // Collapse whitespace and replace by -
-  .replace(/\s+/g, '-') 
+  .replace(/\s+/g, '-')
   // Collapse dashes
-  .replace(/-+/g, '-'); 
+  .replace(/-+/g, '-');
 }
