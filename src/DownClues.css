@@ -1,0 +1,15 @@
+
+.rightJustify {
+  display: inline-block;
+  list-style-position: inside;
+  max-width: 15px;
+  text-align: right;
+}
+
+.clue {
+  border: none;
+  margin-left: 10px;
+  margin-top: 5px;
+  resize: none;
+  vertical-align: middle;
+}

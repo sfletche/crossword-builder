@@ -3,6 +3,7 @@ import {
   rowAboveIsBlank,
   rowBelowIsBlank,
 } from './utils/utils';
+import './DownClues.css';
 
 function getDownCluesFromRow(grid, gridRow, row) {
   return gridRow.reduce((acc, cell, col) => {
@@ -17,15 +18,22 @@ function getDownCluesFromRow(grid, gridRow, row) {
 }
 
 function getDownClues(grid) {
-  return grid.map((gridRow, row) => getDownCluesFromRow(grid, gridRow, row)).flat().join(', ');
+  return grid.map((gridRow, row) => getDownCluesFromRow(grid, gridRow, row)).flat();
 }
 
-export default function AcrossClues({ gridState }) {
+export default function DownClues({ gridState }) {
+  const clues = getDownClues(gridState);
 	return (
 		<div>
       <h4>Down</h4>
-      {getDownClues(gridState)}
+      {clues.map(clue => (
+        <div key={clue}>
+          <div className="rightJustify">
+            {clue}
+          </div>
+          <textarea className="clue"/>
+        </div>
+      ))}
     </div>
 	);
 }
-
