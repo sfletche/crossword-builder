@@ -2,16 +2,14 @@ import React, { useRef, useState } from 'react';
 import ReactToPrint from 'react-to-print';
 import {
 	clearHighlights,
-  colToLeftIsBlank,
-  colToRightIsBlank,
 	enumerate,
 	findFocus,
 	highlightWordAcross,
 	highlightWordDown,
-  rowAboveIsBlank,
-  rowBelowIsBlank,
 	slugify,
 } from './utils/utils';
+import AcrossClues from './AcrossClues.react';
+import DownClues from './DownClues.react';
 import Grid from './Grid.react';
 import InputButtons from './InputButtons.react';
 import DirectionButtons from './DirectionButtons.react';
@@ -26,38 +24,6 @@ function getGrid(size) {
 
 function initializeGrid() {
 	return enumerate(getGrid(INIT_SIZE));
-}
-
-function getAcrossCluesFromRow(grid, gridRow, row) {
-  return gridRow.reduce((acc, cell, col) => {
-    if (grid[row][col].value === 'BLANK') {
-      return acc;
-    }
-    if (colToLeftIsBlank(row, col, grid) && !colToRightIsBlank(row, col, grid)) {
-      return [...acc, grid[row][col].number];
-    }
-    return acc;
-  }, []);
-}
-
-function getAcrossClues(grid) {
-  return grid.map((gridRow, row) => getAcrossCluesFromRow(grid, gridRow, row)).flat().join(', ');
-}
-
-function getDownCluesFromRow(grid, gridRow, row) {
-  return gridRow.reduce((acc, cell, col) => {
-    if (grid[row][col].value === 'BLANK') {
-      return acc;
-    }
-    if (rowAboveIsBlank(row, col, grid) && !rowBelowIsBlank(row, col, grid)) {
-      return [...acc, grid[row][col].number];
-    }
-    return acc;
-  }, []);
-}
-
-function getDownClues(grid) {
-  return grid.map((gridRow, row) => getDownCluesFromRow(grid, gridRow, row)).flat().join(', ');
 }
 
 export default function GridBuilder() {
@@ -152,14 +118,10 @@ export default function GridBuilder() {
 		  />
 		  <div ref={componentRef} className="printable">
         <div className="clues">
-          <div>
-            <h4>Across</h4>
-            {getAcrossClues(gridState)}
-          </div>
-          <div>
-            <h4>Down</h4>
-            {getDownClues(gridState)}
-          </div>
+          <AcrossClues gridState={gridState} />
+        </div>
+        <div>
+          <DownClues gridState={gridState} />
         </div>
         <div className="puzzle">
   		  	<textarea
