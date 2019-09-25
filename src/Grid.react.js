@@ -39,7 +39,7 @@ export default class Grid extends React.Component {
 		const { direction, inputType, gridState, updateGrid } = this.props;
 		if (inputType === 'blanks') {
 			return;
-		}		
+		}
 		const gridCopy = clearFocus(gridState);
 		gridCopy[row][col].focused = true;
 		const gridWithHighlight = highlightWord(row, col, gridCopy, direction);
@@ -60,7 +60,7 @@ export default class Grid extends React.Component {
 			const focusedCell = findFocus(gridWithFocus);
 			if (!gridWithFocus[focusedCell.row][focusedCell.col].highlighted) {
 				const gridWithHighlight = highlightWord(focusedCell.row, focusedCell.col, gridWithFocus, direction);
-				updateGrid(gridWithHighlight);
+        updateGrid(gridWithHighlight);
 			} else {
 				updateGrid(gridWithFocus);
 			}
@@ -74,21 +74,21 @@ export default class Grid extends React.Component {
 		return gridState && (
 		  <table className="grid">
 		  	<tbody>
-			  	{gridState.map((gridRow, row) => 
+			  	{gridState.map((gridRow, row) =>
 			  		<tr key={row} className="tableRow">
-			  			{gridRow.map((gridCell, col) => 
+			  			{gridRow.map((gridCell, col) =>
 			  				<td key={col} className="tableCell">
-			  					<GridCell 
+			  					<GridCell
 			  						key={`${row},${col}`}
-			  						row={row} 
-			  						col={col} 
-			  						value={gridState[row][col].value} 
+			  						row={row}
+			  						col={col}
+			  						value={gridState[row][col].value}
 			  						number={gridState[row][col].number}
 			  						focused={gridState[row][col].focused}
 			  						highlighted={gridState[row][col].highlighted}
 			  						onLetterChange={this.handleLetterChange}
 			  						onLetterClick={this.handleLetterClick}
-			  						onToggleBlank={this.handleToggleBlank} 
+			  						onToggleBlank={this.handleToggleBlank}
 			  						toggleDirection={toggleDirection}
 		  						/>
 			  				</td>

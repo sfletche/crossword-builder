@@ -29,8 +29,8 @@ export default function GridBuilder() {
 	const [gridState, setGridState] = useState(initializeGrid());
 	const [tempSize, setTempSize] = useState(INIT_SIZE);
 	const [blanks, setBlanks] = useState(true);
-	const [across, setAcross] = useState(true);	
-	const [title, updateTitle] = useState("My Crossword Puzzle");	
+	const [across, setAcross] = useState(true);
+	const [title, updateTitle] = useState("My Crossword Puzzle");
 
 	const handleChange = (event) => {
 		setTempSize(event.target.value);
@@ -92,8 +92,8 @@ export default function GridBuilder() {
 
 	const componentRef = useRef();
 
-  return ( 
-    <div className="ml20">	
+  return (
+    <div className="ml20">
 	  	<form onSubmit={handleSubmit}>
 	      <label>
 	        Grid Size (how many rows):
@@ -112,19 +112,19 @@ export default function GridBuilder() {
 		  	direction={across ? 'across' : 'down'}
 		  	onSetAcross={handleSetAcross}
 		  	onSetDown={handleSetDown}
-		  />		  
+		  />
 		  <div ref={componentRef} className="printable">
-		  	<textarea 
-		  		className="centerHeader title" 
+		  	<textarea
+		  		className="centerHeader title"
 		  		onChange={(e) => updateTitle(e.target.value)}
 		  		value={title}
 		  	/>
 		  	<div className="centerTable">
-    			<Grid 
+    			<Grid
     				direction={across ? 'across' : 'down'}
-    				gridSize={gridSize} 
+    				gridSize={gridSize}
     				gridState={gridState}
-    				inputType={blanks ? 'blanks' : 'letters'} 
+    				inputType={blanks ? 'blanks' : 'letters'}
     				toggleDirection={handleDirectionToggle}
     				updateGrid={handleGridUpdate}
   				/>
@@ -140,7 +140,7 @@ export default function GridBuilder() {
 	    	<a href="#" onClick={saveCrossword}>Save Crossword</a>
 	    </div>
 	    <div className="mt20">
-	    	<PersistedCrosswordList 
+	    	<PersistedCrosswordList
 	    		onSelect={handleOpenCrossword}
 	    	/>
 	    </div>
