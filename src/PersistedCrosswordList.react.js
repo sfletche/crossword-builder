@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function PersistedCrosswordList({ onSelect }) {	
+export default function PersistedCrosswordList({ onSelect }) {
 	const getCrosswords = () => {
 		let savedKeys = localStorage.getItem('crosswordKeys');
 		if (!savedKeys) {
@@ -18,11 +18,11 @@ export default function PersistedCrosswordList({ onSelect }) {
   	if (!Object.keys(crosswords).length) {
   		return 'No Persisted Crosswords...';
   	}
-		
+
 		return (
 			<ul>
 				{Object.keys(crosswords).map(title => (
-					<li onClick={() => onSelect(title, crosswords[title])}>{title}</li>
+					<li key={title} onClick={() => onSelect(title, crosswords[title])}>{title}</li>
 				))}
 			</ul>
 		);
@@ -32,8 +32,7 @@ export default function PersistedCrosswordList({ onSelect }) {
 		<div>
 		  <h4>Previously Saved Crosswords</h4>
 	  	{getCrosswords()}
-		</div>		
+		</div>
 	);
 }
 
-		

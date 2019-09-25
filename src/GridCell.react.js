@@ -3,21 +3,21 @@ import React, { useEffect, useRef } from 'react';
 import './GridCell.css';
 
 export default function GridCell(props) {
-	const { 
-		row, 
-		col, 
-		value, 
-		number, 
-		focused, 
+	const {
+		row,
+		col,
+		value,
+		number,
+		focused,
 		highlighted,
 		onLetterChange,
 		onLetterClick,
-		onToggleBlank, 
+		onToggleBlank,
 		toggleDirection,
 	} = props;
   useEffect(() => {
-    if (focused) { 
-    	componentRef.current.focus(); 
+    if (focused) {
+    	componentRef.current.focus();
     }
   });
   const componentRef = useRef();
@@ -30,20 +30,20 @@ export default function GridCell(props) {
 	return (
 	  <div className={outerDivClass} onClick={() => onToggleBlank(row, col)}>
 	  	<div className="number">
-	  		{number} 
-	  		<div 
+	  		{number}
+	  		<div
 	  			contentEditable
-	  			className={innerDivClass} 
+	  			className={innerDivClass}
 	  			onClick={event => onLetterClick(row, col)}
 	  			onDoubleClick={toggleDirection}
 	  			onFocus={e => window.getSelection().selectAllChildren(componentRef.current)}
 	  			onInput={event => onLetterChange(row, col, event.currentTarget.textContent)}
-	  			ref={componentRef}	 
-	  			suppressContentEditableWarning 			
+	  			ref={componentRef}
+	  			suppressContentEditableWarning
   			>
   				{letterValue}
   			</div>
 	  	</div>
-	  </div>	
+	  </div>
 	);
 }
