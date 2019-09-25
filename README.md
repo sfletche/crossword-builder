@@ -1,22 +1,26 @@
 # Crossword Puzzle Starter Kit
 
-Creates empty grid of any size with symmetric blanks, and numbered squares.  
+Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 ## Bugs
 * Writing over existing character results in lower case letter
+* Advancing via Tab press does not skip over blanks
+* Advancing via Tab press only moves across (not down)
+
 
 ## Next Steps
+* Maneuvering through grid with arrow keys
 * Persisting / Saving crosswords
   * New View / Route with list of saved puzzles (click to open in grid-builder)
 	* UI for loading persisted crosswords
 * Enable clue creation
-  * Show numbered clues (Across / Down) 
+  * Show numbered clues (Across / Down)
   * Allow clues to be edited and persisted with the crossword
-* Word List 
+* Word List
 * Option to fill in a word (a word that doesn't also create non-words)
 * Provide possible clues for each entered answer
 * Option for completing the puzzle
-* Sass 
+* Sass
 
 
 ## Credits
