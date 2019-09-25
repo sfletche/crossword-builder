@@ -6,6 +6,7 @@ import {
 	findFocus,
 	highlightWordAcross,
 	highlightWordDown,
+  initializeClues,
   initializeGrid,
 	slugify,
   INIT_SIZE,
@@ -21,6 +22,7 @@ import './GridBuilder.css';
 export default function GridBuilder() {
 	const [gridSize, setGridSize] = useState(INIT_SIZE);
 	const [gridState, setGridState] = useState(initializeGrid());
+  const [clueState, setClueState] = useState(initializeClues(gridState))
 	const [tempSize, setTempSize] = useState(INIT_SIZE);
 	const [blanks, setBlanks] = useState(true);
 	const [across, setAcross] = useState(true);
@@ -36,6 +38,10 @@ export default function GridBuilder() {
 		const grid = initializeGrid(tempSize);
 		setGridState(grid);
 	};
+
+  const handleClueUpdate = (clues) => {
+    setClueState(clues);
+  }
 
 	const handleGridUpdate = (grid) => {
 		setGridState(enumerate(grid));
@@ -108,7 +114,10 @@ export default function GridBuilder() {
 		  	onSetDown={handleSetDown}
 		  />
 		  <div ref={componentRef} className="printable">
-        <Clues gridState={gridState} />
+        <Clues
+          clueState={clueState}
+          onClueUpdate={handleClueUpdate}
+        />
         <Puzzle
           direction={across ? 'across' : 'down'}
           gridSize={gridSize}

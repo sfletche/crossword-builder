@@ -9,6 +9,45 @@ export function initializeGrid(size) {
   return enumerate(getGrid(size || INIT_SIZE));
 }
 
+function getAcrossCluesFromRow(grid, gridRow, row) {
+  return gridRow.reduce((acc, cell, col) => {
+    if (grid[row][col].value === 'BLANK') {
+      return acc;
+    }
+    if (colToLeftIsBlank(row, col, grid) && !colToRightIsBlank(row, col, grid)) {
+      return [...acc, grid[row][col].number];
+    }
+    return acc;
+  }, []);
+}
+
+function getAcrossClues(grid) {
+  return grid.map((gridRow, row) => getAcrossCluesFromRow(grid, gridRow, row)).flat();
+}
+
+function getDownCluesFromRow(grid, gridRow, row) {
+  return gridRow.reduce((acc, cell, col) => {
+    if (grid[row][col].value === 'BLANK') {
+      return acc;
+    }
+    if (rowAboveIsBlank(row, col, grid) && !rowBelowIsBlank(row, col, grid)) {
+      return [...acc, grid[row][col].number];
+    }
+    return acc;
+  }, []);
+}
+
+function getDownClues(grid) {
+  return grid.map((gridRow, row) => getDownCluesFromRow(grid, gridRow, row)).flat();
+}
+
+export function initializeClues(grid) {
+  return {
+    across: getAcrossClues(grid),
+    down: getDownClues(grid),
+  };
+}
+
 export function rowAboveIsBlank(row, col, grid) {
 	return row === 0 || grid[row-1][col].value === 'BLANK';
 }
