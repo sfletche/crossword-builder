@@ -12,7 +12,7 @@ export default function PersistedCrosswordList({ onSelect }) {
 		}
 		const crosswords = savedKeys.reduce((acc, key) => {
   		const data = JSON.parse(localStorage.getItem(key));
-  		return { ...acc, [data.title]: data.gridState };
+  		return { ...acc, [data.title]: { gridState: data.gridState, clueState: data.clueState } };
   	}, {});
 
   	if (!Object.keys(crosswords).length) {
@@ -22,7 +22,15 @@ export default function PersistedCrosswordList({ onSelect }) {
 		return (
 			<ul>
 				{Object.keys(crosswords).map(title => (
-					<li key={title} onClick={() => onSelect(title, crosswords[title])}>{title}</li>
+					<li
+            key={title}
+            onClick={() => {
+              const { gridState, clueState } = crosswords[title];
+              onSelect(title, gridState, clueState);
+            }}
+          >
+            {title}
+          </li>
 				))}
 			</ul>
 		);

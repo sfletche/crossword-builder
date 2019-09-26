@@ -5,12 +5,16 @@ export default function AcrossClues({ clueState, onClueUpdate }) {
 	return (
 		<div className="mt50">
       <h4 className="mb5">Across</h4>
-      {clueState.across.map(clue => (
-        <div key={clue}>
+      {Object.keys(clueState.across).map(key => (
+        <div key={key}>
           <div className="rightJustify">
-            {clue}
+            {key}
           </div>
-          <textarea className="clue"/>
+          <textarea
+            className="clue"
+            onChange={(e) => onClueUpdate(key, 'across', e.target.value)}
+            value={clueState.across[key]}
+          />
         </div>
       ))}
     </div>

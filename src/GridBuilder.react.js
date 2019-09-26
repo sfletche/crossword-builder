@@ -39,8 +39,26 @@ export default function GridBuilder() {
 		setGridState(grid);
 	};
 
-  const handleClueUpdate = (clues) => {
-    setClueState(clues);
+  const handleClueUpdate = (number, direction, clue) => {
+    if (direction === 'across') {
+      const newClues = {
+        ...clueState,
+        across: {
+          ...clueState.across,
+          [number]: clue,
+        },
+      };
+      setClueState(newClues);
+    } else {
+      const newClues = {
+        ...clueState,
+        down: {
+          ...clueState.down,
+          [number]: clue,
+        },
+      };
+      setClueState(newClues);
+    }
   }
 
 	const handleGridUpdate = (grid) => {
@@ -75,9 +93,10 @@ export default function GridBuilder() {
 	  across ? handleSetDown() : handleSetAcross();
 	};
 
-	const handleOpenCrossword = (newTitle, newState) => {
-		updateTitle(newTitle);
-		setGridState(newState);
+	const handleOpenCrossword = (title, gridState, clueState) => {
+		updateTitle(title);
+		setGridState(gridState);
+    setClueState(clueState);
 	};
 
 	const saveCrossword = () => {
@@ -86,11 +105,10 @@ export default function GridBuilder() {
 		if (!currentKeys.includes(slug)) {
 			localStorage.setItem('crosswordKeys', JSON.stringify([...currentKeys, slug]));
 		}
-		localStorage.setItem(slug, JSON.stringify({ title, gridState }));
+		localStorage.setItem(slug, JSON.stringify({ title, gridState, clueState }));
 	};
 
 	const componentRef = useRef();
-  console.log('gridState', gridState);
 
   return (
     <div className="ml20">

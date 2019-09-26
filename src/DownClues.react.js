@@ -4,12 +4,16 @@ export default function DownClues({ clueState, onClueUpdate }) {
 	return (
 		<div className="mt50">
       <h4 className="mb5">Down</h4>
-      {clueState.down.map(clue => (
-        <div key={clue}>
+      {Object.keys(clueState.down).map(key => (
+        <div key={key}>
           <div className="rightJustify">
-            {clue}
+            {key}
           </div>
-          <textarea className="clue"/>
+          <textarea
+            className="clue"
+            onChange={(e) => onClueUpdate(key, 'down', e.target.value)}
+            value={clueState.down[key]}
+          />
         </div>
       ))}
     </div>

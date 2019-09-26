@@ -15,14 +15,22 @@ function getAcrossCluesFromRow(grid, gridRow, row) {
       return acc;
     }
     if (colToLeftIsBlank(row, col, grid) && !colToRightIsBlank(row, col, grid)) {
-      return [...acc, grid[row][col].number];
+      return {
+        ...acc,
+        [grid[row][col].number]: '',
+      };
     }
     return acc;
-  }, []);
+  }, {});
 }
 
 function getAcrossClues(grid) {
-  return grid.map((gridRow, row) => getAcrossCluesFromRow(grid, gridRow, row)).flat();
+  return grid.reduce((acc, gridRow, row) => {
+    return {
+      ...acc,
+      ...getAcrossCluesFromRow(grid, gridRow, row),
+    };
+  }, {});
 }
 
 function getDownCluesFromRow(grid, gridRow, row) {
@@ -31,14 +39,23 @@ function getDownCluesFromRow(grid, gridRow, row) {
       return acc;
     }
     if (rowAboveIsBlank(row, col, grid) && !rowBelowIsBlank(row, col, grid)) {
-      return [...acc, grid[row][col].number];
+      return {
+        ...acc,
+        [grid[row][col].number]: '',
+      };
     }
     return acc;
-  }, []);
+  }, {});
 }
 
 function getDownClues(grid) {
-  return grid.map((gridRow, row) => getDownCluesFromRow(grid, gridRow, row)).flat();
+  // return grid.map((gridRow, row) => getDownCluesFromRow(grid, gridRow, row)).flat();
+  return grid.reduce((acc, gridRow, row) => {
+    return {
+      ...acc,
+      ...getDownCluesFromRow(grid, gridRow, row),
+    };
+  }, {});
 }
 
 export function initializeClues(grid) {
