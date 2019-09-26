@@ -10,7 +10,6 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 ## Next Steps
 * Clue height determined by input
-* Persist Clues
 * Maneuvering through grid with arrow keys
 * Persisting / Saving crosswords
   * New View / Route with list of saved puzzles (click to open in grid-builder)
