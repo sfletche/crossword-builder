@@ -12,6 +12,7 @@ export default function GridCell(props) {
 		highlighted,
 		onLetterChange,
 		onLetterClick,
+    onNumberClick,
 		onToggleBlank,
 		toggleDirection,
 	} = props;
@@ -30,7 +31,7 @@ export default function GridCell(props) {
 	return (
 	  <div className={outerDivClass} onClick={() => onToggleBlank(row, col)}>
 	  	<div className="number">
-	  		{number}
+	  		<span className="numberHover" onClick={(e) => onNumberClick(e, row, col)}>{number}</span>
 	  		<div
 	  			contentEditable
 	  			className={innerDivClass}

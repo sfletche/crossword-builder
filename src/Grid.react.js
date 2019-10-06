@@ -14,8 +14,9 @@ export default class Grid extends React.Component {
 		super(props);
 
 		this.handleToggleBlank = this.handleToggleBlank.bind(this);
-		this.handleLetterClick = this.handleLetterClick.bind(this);
 		this.handleLetterChange = this.handleLetterChange.bind(this);
+		this.handleLetterClick = this.handleLetterClick.bind(this);
+		this.handleNumberClick = this.handleNumberClick.bind(this);
 	}
 
 	handleToggleBlank(row, col) {
@@ -44,6 +45,15 @@ export default class Grid extends React.Component {
 		gridCopy[row][col].focused = true;
 		const gridWithHighlight = highlightWord(row, col, gridCopy, direction);
 		updateGrid(gridWithHighlight);
+	}
+
+	handleNumberClick(e, row, col) {
+		e.stopPropagation();
+		console.log('number click', row, col);
+		// construct query from word / direction as X?X?X?
+		// fetch possible answers
+		// order alphabetically and de-dupe
+		// show dropdown
 	}
 
 	handleLetterChange(row, col, val) {
@@ -88,6 +98,7 @@ export default class Grid extends React.Component {
 			  						highlighted={gridState[row][col].highlighted}
 			  						onLetterChange={this.handleLetterChange}
 			  						onLetterClick={this.handleLetterClick}
+			  						onNumberClick={this.handleNumberClick}
 			  						onToggleBlank={this.handleToggleBlank}
 			  						toggleDirection={toggleDirection}
 		  						/>

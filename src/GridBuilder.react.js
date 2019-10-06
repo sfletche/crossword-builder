@@ -93,10 +93,10 @@ export default function GridBuilder() {
 	  across ? handleSetDown() : handleSetAcross();
 	};
 
-	const handleOpenCrossword = (title, gridState, clueState) => {
-		updateTitle(title);
-		setGridState(gridState);
-    setClueState(clueState);
+	const handleOpenCrossword = (savedTitle, savedGridState, savedClueState) => {
+		updateTitle(savedTitle);
+		setGridState(savedGridState);
+    setClueState(savedClueState || initializeClues(savedGridState));
 	};
 
 	const saveCrossword = () => {

@@ -10,6 +10,10 @@
 	margin-left: 2px;
 }
 
+.numberHover:hover {
+	cursor: pointer;
+}
+
 .highlighted {
 	background: #DCDCDC;
 }

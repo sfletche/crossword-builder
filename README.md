@@ -9,6 +9,8 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 
 ## Next Steps
+* Provide possible answers for given word space
+* Provide possible clues for each entered answer
 * Clue height determined by input
 * Maneuvering through grid with arrow keys
 * Persisting / Saving crosswords
@@ -19,9 +21,9 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
   * Allow clues to be edited and persisted with the crossword
 * Word List
 * Option to fill in a word (a word that doesn't also create non-words)
-* Provide possible clues for each entered answer
 * Option for completing the puzzle
 * Sass
+* Clean up
 
 
 ## Credits
