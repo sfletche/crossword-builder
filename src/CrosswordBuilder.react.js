@@ -16,10 +16,10 @@ import InputButtons from './InputButtons.react';
 import DirectionButtons from './DirectionButtons.react';
 import PersistedCrosswordList from './PersistedCrosswordList.react';
 import Puzzle from './Puzzle.react';
-import './GridBuilder.css';
+import './CrosswordBuilder.css';
 
 
-export default function GridBuilder() {
+export default function CrosswordBuilder() {
 	const [gridSize, setGridSize] = useState(INIT_SIZE);
 	const [gridState, setGridState] = useState(initializeGrid());
   const [clueState, setClueState] = useState(initializeClues(gridState))

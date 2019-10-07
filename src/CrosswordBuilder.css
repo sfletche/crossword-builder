@@ -9,25 +9,6 @@
   flex-direction: row;
 }
 
-.puzzle {
-  flex-direction: column;
-}
-
-.title {
-	border: 0;
-	font-size: 26px;
-	outline: none;
-}
-
-.centerHeader {
-	text-align: center;
-}
-
-.centerTable {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .mt20 {
 	margin-top: 20px;
 }

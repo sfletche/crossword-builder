@@ -26,6 +26,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * Option for completing the puzzle
 * Sass
 * Clean up
+* Install Greenkeeper
 
 
 ## Credits

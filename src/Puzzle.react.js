@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Grid from './Grid.react';
-import './Clues.css';
+import './Puzzle.css';
 
 export default function Puzzle({
   direction,
