@@ -11,6 +11,8 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 ## Next Steps
 * Provide possible answers for given word space
 * Provide possible clues for each entered answer
+* Default to Letters if any letters have already ben entered
+* Default to 1 across when opening saved puzzle
 * Clue height determined by input
 * Maneuvering through grid with arrow keys
 * Persisting / Saving crosswords

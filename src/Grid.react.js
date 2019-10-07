@@ -5,6 +5,7 @@ import {
 	findFocus,
 	highlightWord,
 } from './utils/utils';
+import { fetchAnswers } from './utils';
 import GridCell from './GridCell.react';
 import './Grid.css';
 
@@ -47,9 +48,12 @@ export default class Grid extends React.Component {
 		updateGrid(gridWithHighlight);
 	}
 
-	handleNumberClick(e, row, col) {
+	async handleNumberClick(e, row, col) {
+		const { direction, gridState } = this.props;
 		e.stopPropagation();
 		console.log('number click', row, col);
+		const answers = await fetchAnswers(row, col, direction, gridState);
+		console.log('answers', answers)
 		// construct query from word / direction as X?X?X?
 		// fetch possible answers
 		// order alphabetically and de-dupe
