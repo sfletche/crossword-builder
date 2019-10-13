@@ -5,6 +5,7 @@ import {
 	clearFocus,
 	colToRightIsBlank,
 	advanceFocus,
+	findCellFromNumber,
 	findFocus,
 	highlightWord,
 	rowBelowIsBlank,
@@ -13,16 +14,6 @@ import { fetchAnswers } from './utils';
 import GridCell from './GridCell.react';
 import './Grid.css';
 
-function findCellFromNumber(grid, number) {
-	for (let row=0; row< grid.length; row++) {
-		for (let col=0; col<grid[row].length; col++) {
-			if (grid[row][col].number === number) {
-				return {row, col};
-			}
-		}
-	}
-	return {row: 0, col: 0};
-}
 
 function setAnswerAcross(row, col, grid, answer) {
 	const gridCopy = [...grid];
@@ -109,14 +100,13 @@ export default class Grid extends React.Component {
 		console.log('number click', row, col);
 		const answers = await fetchAnswers(row, col, direction, gridState);
 		console.log('answers', answers);
+		// order alphabetically and de-dupe
 		this.setState({ 
 			answers, 
 			answerDirection: direction,
 			answerNumber: gridState[row][col].number,
 			showDropdown: true,
 		});
-		// order alphabetically and de-dupe
-		// show dropdown
 	}
 
 	setGridAnswer(answer) {

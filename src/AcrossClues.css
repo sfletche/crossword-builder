@@ -16,8 +16,22 @@
   vertical-align: middle;
 }
 
+.clue-dropdown {
+  margin-left: 0;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
 .mb5 {
   margin-bottom: 5px;
+}
+
+.minw350 {
+  min-width: 350px;
 }
 
 .mt50 {

@@ -185,6 +185,17 @@ export function findFocus(grid) {
 	return {row: 0, col: 0};
 }
 
+export function findCellFromNumber(grid, number) {
+  for (let row=0; row< grid.length; row++) {
+    for (let col=0; col<grid[row].length; col++) {
+      if (grid[row][col].number === number) {
+        return {row, col};
+      }
+    }
+  }
+  return {row: 0, col: 0};
+}
+
 export function highlightWordAcross(row, col, grid) {
 	const gridCopy = clearHighlights(grid);
 	gridCopy[row][col].highlighted = true;

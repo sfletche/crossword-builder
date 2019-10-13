@@ -143,6 +143,7 @@ export default function CrosswordBuilder() {
       <div ref={componentRef} className="printable">
         <Clues
           clueState={clueState}
+          gridState={gridState}
           onClueUpdate={handleClueUpdate}
         />
         <Puzzle
