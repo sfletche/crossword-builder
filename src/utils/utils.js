@@ -9,51 +9,55 @@ export function initializeGrid(size) {
   return enumerate(getGrid(size || INIT_SIZE));
 }
 
-function getAcrossCluesFromRow(grid, gridRow, row) {
+function getAcrossCluesFromRow(grid, gridRow, row, clues) {
   return gridRow.reduce((acc, cell, col) => {
     if (grid[row][col].value === 'BLANK') {
       return acc;
     }
     if (colToLeftIsBlank(row, col, grid) && !colToRightIsBlank(row, col, grid)) {
+      const number = grid[row][col].number;
+      const clue = (clues && clues.across[number]) || '';
       return {
         ...acc,
-        [grid[row][col].number]: '',
+        [number]: clue,
       };
     }
     return acc;
   }, {});
 }
 
-function getAcrossClues(grid) {
+function getAcrossClues(grid, clues) {
   return grid.reduce((acc, gridRow, row) => {
     return {
       ...acc,
-      ...getAcrossCluesFromRow(grid, gridRow, row),
+      ...getAcrossCluesFromRow(grid, gridRow, row, clues),
     };
   }, {});
 }
 
-function getDownCluesFromRow(grid, gridRow, row) {
+function getDownCluesFromRow(grid, gridRow, row, clues) {
   return gridRow.reduce((acc, cell, col) => {
     if (grid[row][col].value === 'BLANK') {
       return acc;
     }
     if (rowAboveIsBlank(row, col, grid) && !rowBelowIsBlank(row, col, grid)) {
+      const number = grid[row][col].number;
+      const clue = (clues && clues.down[number]) || '';
       return {
         ...acc,
-        [grid[row][col].number]: '',
+        [number]: clue,
       };
     }
     return acc;
   }, {});
 }
 
-function getDownClues(grid) {
+function getDownClues(grid, clues) {
   // return grid.map((gridRow, row) => getDownCluesFromRow(grid, gridRow, row)).flat();
   return grid.reduce((acc, gridRow, row) => {
     return {
       ...acc,
-      ...getDownCluesFromRow(grid, gridRow, row),
+      ...getDownCluesFromRow(grid, gridRow, row, clues),
     };
   }, {});
 }
@@ -62,6 +66,13 @@ export function initializeClues(grid) {
   return {
     across: getAcrossClues(grid),
     down: getDownClues(grid),
+  };
+}
+
+export function updateClueState(grid, clues) {
+  return {
+    across: getAcrossClues(grid, clues),
+    down: getDownClues(grid, clues),
   };
 }
 

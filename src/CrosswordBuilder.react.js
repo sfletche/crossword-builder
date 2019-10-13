@@ -9,6 +9,7 @@ import {
   initializeClues,
   initializeGrid,
   slugify,
+  updateClueState,
   INIT_SIZE,
 } from './utils/utils';
 import Clues from './Clues.react';
@@ -64,8 +65,13 @@ export default function CrosswordBuilder() {
   }
 
   const handleGridUpdate = (grid) => {
-    console.log('grid', grid)
-    setGridState(enumerate(grid));
+    if (blanks) {
+      const enumeratedGrid = enumerate(grid);
+      setGridState(enumeratedGrid);
+      setClueState(updateClueState(enumeratedGrid, clueState));
+    } else {
+      setGridState(grid);
+    }
   };
 
   const handleSetBlanks = () => {
