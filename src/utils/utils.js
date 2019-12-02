@@ -175,8 +175,8 @@ export function advanceFocus(row, col, grid, direction) {
 }
 
 export function findFocus(grid) {
-	for (let row=0; row< grid.length; row++) {
-		for (let col=0; col<grid[row].length; col++) {
+	for (let row=0; row < grid.length; row++) {
+		for (let col=0; col < grid[row].length; col++) {
 			if (grid[row][col].focused) {
 				return {row, col};
 			}
@@ -186,9 +186,9 @@ export function findFocus(grid) {
 }
 
 export function findCellFromNumber(grid, number) {
-  for (let row=0; row< grid.length; row++) {
-    for (let col=0; col<grid[row].length; col++) {
-      if (grid[row][col].number === number) {
+  for (let row=0; row < grid.length; row++) {
+    for (let col=0; col < grid[row].length; col++) {
+      if (grid[row][col].number == number) {
         return {row, col};
       }
     }
