@@ -71,7 +71,7 @@ export default class AcrossClues extends React.Component {
     const { clueState, onClueUpdate } = this.props;
     const { clues, showDropdown } = this.state;
   	return (
-  		<div className="mt50 flex minw350 space-between">
+  		<div className="flex minw350 space-between">
         <div>
           {showDropdown && 
             <Dropdown 

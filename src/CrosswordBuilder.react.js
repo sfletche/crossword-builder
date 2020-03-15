@@ -25,7 +25,7 @@ export default function CrosswordBuilder() {
   const [gridState, setGridState] = useState(initializeGrid());
   const [clueState, setClueState] = useState(initializeClues(gridState))
   const [tempSize, setTempSize] = useState(INIT_SIZE);
-  const [blanks, setBlanks] = useState(true);
+  const [blanks, setBlanks] = useState(false);
   const [across, setAcross] = useState(true);
   const [title, updateTitle] = useState("My Crossword Puzzle");
 
@@ -141,11 +141,6 @@ export default function CrosswordBuilder() {
         onSetDown={handleSetDown}
       />
       <div ref={componentRef} className="printable">
-        <Clues
-          clueState={clueState}
-          gridState={gridState}
-          onClueUpdate={handleClueUpdate}
-        />
         <Puzzle
           direction={across ? 'across' : 'down'}
           gridSize={gridSize}
@@ -155,6 +150,11 @@ export default function CrosswordBuilder() {
           onGridUpdate={handleGridUpdate}
           title={title}
           updateTitle={updateTitle}
+        />
+        <Clues
+          clueState={clueState}
+          gridState={gridState}
+          onClueUpdate={handleClueUpdate}
         />
       </div>
       <div className="mt20">
