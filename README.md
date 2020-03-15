@@ -31,6 +31,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * Install Greenkeeper or alternative
 * switch to yarn
 * add firebase 
+* add linting
 * checkout github.pages.io -- https://pages.github.com/ -- (not sure about privacy with this option though)
 
 
