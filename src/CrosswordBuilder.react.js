@@ -88,6 +88,10 @@ export default function CrosswordBuilder() {
     setAcross(true);
     const focusedCell = findFocus(gridState);
     const highlightedGrid = highlightWordAcross(focusedCell.row, focusedCell.col, gridState);
+    console.log('clueState', clueState);
+    //TODO setClueState to highlight clue as well
+    // current clueState is { across: { 1: "clue1", 5: "clue5" }}
+    // may change to { across: { 1: { clue: "clue1", highlighted: false } } }
     setGridState(highlightedGrid);
   };
 
@@ -95,6 +99,7 @@ export default function CrosswordBuilder() {
     setAcross(false);
     const focusedCell = findFocus(gridState);
     const highlightedGrid = highlightWordDown(focusedCell.row, focusedCell.col, gridState);
+    //TODO setClueState to highlight clue as well
     setGridState(highlightedGrid);
   };
 
