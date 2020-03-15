@@ -6,6 +6,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * Writing over existing character results in lower case letter
 * Advancing via Tab press does not skip over blanks
 * Advancing via Tab press only moves across (not down)
+* Printable view no longer useful
 
 
 ## Next Steps
@@ -24,8 +25,9 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * Word List
 * Option to fill in a word (a word that doesn't also create non-words)
 * Option for completing the puzzle
-* Sass
-* Clean up
+* actual css modules
+* integrate typescript
+* enable arrow keys (see https://jaredreisinger.github.io/react-crossword/)
 * Install Greenkeeper or alternative
 * switch to yarn
 * add firebase 
