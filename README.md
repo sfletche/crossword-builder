@@ -26,7 +26,11 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * Option for completing the puzzle
 * Sass
 * Clean up
-* Install Greenkeeper
+* Install Greenkeeper or alternative
+* switch to yarn
+* add firebase 
+* checkout github.pages.io -- https://pages.github.com/ -- (not sure about privacy with this option though)
+
 
 
 ## Credits
