@@ -10,24 +10,22 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 
 ## Next Steps
-* Provide possible answers for given word space
-* Provide possible clues for each entered answer
-* Default to Letters if any letters have already ben entered
-* Default to 1 across when opening saved puzzle
-* Clue height determined by input
-* Maneuvering through grid with arrow keys
-* Persisting / Saving crosswords
-  * New View / Route with list of saved puzzles (click to open in grid-builder)
-	* UI for loading persisted crosswords
+* Maneuvering through grid with arrow keys (see https://jaredreisinger.github.io/react-crossword/)
 * Enable clue creation
   * Show numbered clues (Across / Down)
   * Allow clues to be edited and persisted with the crossword
+* Provide possible answers for given word space
+* Provide possible clues for each entered answer
+* Default to 1 across when opening saved puzzle
+* Clue height determined by input
+* Persisting / Saving crosswords
+  * New View / Route with list of saved puzzles (click to open in grid-builder)
+	* UI for loading persisted crosswords
 * Word List
 * Option to fill in a word (a word that doesn't also create non-words)
 * Option for completing the puzzle
 * actual css modules
 * integrate typescript
-* enable arrow keys (see https://jaredreisinger.github.io/react-crossword/)
 * Install Greenkeeper or alternative
 * switch to yarn
 * add firebase 
