@@ -196,30 +196,46 @@ export function findCellFromNumber(grid, number) {
   return {row: 0, col: 0};
 }
 
+function findStartOfAcrossWord(row, col, grid) {
+  let startCol = col;
+  while(!colToLeftIsBlank(row, startCol, grid)) {
+    startCol--;
+  }
+  return { row, col: startCol };
+}
+
+function findStartOfDownWord(row, col, grid) {
+  let startRow = row;
+  while(!rowAboveIsBlank(startRow, col, grid)) {
+    startRow--;
+  }
+  return { row: startRow, col };
+}
+
+function findStartOfWord(row, col, direction, grid) {
+  if (direction === 'across') {
+    return findStartOfAcrossWord(row, col, grid);
+  }
+  return findStartOfDownWord(row, col, grid);
+}
+
 export function highlightWordAcross(row, col, grid) {
 	const gridCopy = clearHighlights(grid);
-	gridCopy[row][col].highlighted = true;
-	let nextCol = col;
-	while(!colToLeftIsBlank(row, nextCol--, grid)) {
-		gridCopy[row][nextCol].highlighted = true;
-	}
-	nextCol = col;
-	while(!colToRightIsBlank(row, nextCol++, grid)) {
-		gridCopy[row][nextCol].highlighted = true;
+	let { col: startCol } = findStartOfWord(row, col, 'across', grid);
+  console.log('startCol', startCol)
+	gridCopy[row][startCol].highlighted = true;
+	while(!colToRightIsBlank(row, startCol++, grid)) {
+    gridCopy[row][startCol].highlighted = true;
 	}
 	return gridCopy;
 }
 
 export function highlightWordDown(row, col, grid) {
 	const gridCopy = clearHighlights(grid);
-	gridCopy[row][col].highlighted = true;
-	let nextRow = row;
-	while(!rowAboveIsBlank(nextRow--, col, grid)) {
-		gridCopy[nextRow][col].highlighted = true;
-	}
-	nextRow = row;
-	while(!rowBelowIsBlank(nextRow++, col, grid)) {
-		gridCopy[nextRow][col].highlighted = true;
+	let { row: startRow } = findStartOfWord(row, col, 'down', grid);
+  gridCopy[startRow][col].highlighted = true;
+	while(!rowBelowIsBlank(startRow++, col, grid)) {
+		gridCopy[startRow][col].highlighted = true;
 	}
 	return gridCopy;
 }
