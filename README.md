@@ -10,10 +10,8 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 
 ## Next Steps
+* Highlight clue to match highlighted word
 * Maneuvering through grid with arrow keys (see https://jaredreisinger.github.io/react-crossword/)
-* Enable clue creation
-  * Show numbered clues (Across / Down)
-  * Allow clues to be edited and persisted with the crossword
 * Provide possible answers for given word space
 * Provide possible clues for each entered answer
 * Default to 1 across when opening saved puzzle
