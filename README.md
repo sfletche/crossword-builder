@@ -14,6 +14,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * Maneuvering through grid with arrow keys (see https://jaredreisinger.github.io/react-crossword/)
 * Provide possible answers for given word space
 * Provide possible clues for each entered answer
+* Option to disable blank square symmetry
 * Default to 1 across when opening saved puzzle
 * Clue height determined by input
 * Persisting / Saving crosswords
