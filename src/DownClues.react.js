@@ -19,7 +19,6 @@ export default class DownClues extends React.Component {
   async handleNumberClick(e, number, direction) {
     const { gridState } = this.props;
     e.stopPropagation();
-    console.log('number click', number, direction);
     const clues = await fetchClues(number, direction, gridState);
     console.log('clues', clues);
     // order alphabetically and de-dupe
