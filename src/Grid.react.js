@@ -84,12 +84,13 @@ export default class Grid extends React.Component {
 	}
 
 	handleLetterClick(row, col) {
-		const { direction, inputType, gridState, updateGrid } = this.props;
+		const { direction, inputType, gridState, toggleDirection, updateGrid } = this.props;
 		if (inputType === 'blanks') {
 			return;
 		}
 		const gridCopy = clearFocus(gridState);
 		gridCopy[row][col].focused = true;
+		toggleDirection();
 		const gridWithHighlight = highlightWord(row, col, gridCopy, direction);
 		updateGrid(gridWithHighlight);
 	}
@@ -173,7 +174,6 @@ export default class Grid extends React.Component {
 				  						onLetterClick={this.handleLetterClick}
 				  						onNumberClick={this.handleNumberClick}
 				  						onToggleBlank={this.handleToggleBlank}
-				  						toggleDirection={toggleDirection}
 			  						/>
 				  				</td>
 				  			)}
