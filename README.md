@@ -6,6 +6,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * Writing over existing character results in lower case letter
 * Advancing via Tab press does not skip over blanks
 * Advancing via Tab press only moves across (not down)
+* Writing into clue inputs jumps back to grid inputs
 * Printable view no longer useful
 
 
