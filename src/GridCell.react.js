@@ -10,7 +10,7 @@ export default function GridCell(props) {
 		number,
 		focused,
 		highlighted,
-		onLetterChange,
+    onKeyAction,
 		onLetterClick,
     onNumberClick,
 		onToggleBlank,
@@ -36,7 +36,7 @@ export default function GridCell(props) {
 	  			className={innerDivClass}
 	  			onClick={event => onLetterClick(row, col)}
 	  			onFocus={e => window.getSelection().selectAllChildren(componentRef.current)}
-	  			onInput={event => onLetterChange(row, col, event.currentTarget.textContent)}
+          onKeyDown={event => onKeyAction(row, col, event)}
 	  			ref={componentRef}
 	  			suppressContentEditableWarning
   			>

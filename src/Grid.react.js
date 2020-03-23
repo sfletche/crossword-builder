@@ -59,6 +59,7 @@ export default class Grid extends React.Component {
 		}
 
 		this.handleAnswerSelect = this.handleAnswerSelect.bind(this);
+		this.handleKeyAction = this.handleKeyAction.bind(this);
 		this.handleLetterChange = this.handleLetterChange.bind(this);
 		this.handleLetterClick = this.handleLetterClick.bind(this);
 		this.handleNumberClick = this.handleNumberClick.bind(this);
@@ -128,16 +129,40 @@ export default class Grid extends React.Component {
 		});
 	}
 
+	handleKeyAction(row, col, event) {
+		event.preventDefault();
+		switch (event.keyCode) {
+	    case 37:
+			  alert('Left key pressed');
+	      return;
+	    case 38:
+	      alert('Up key pressed');
+	      return;
+	    case 39:
+	      alert('Right key pressed');
+        return;	     
+      case 40:
+	      alert('Down key pressed');
+	      return;
+	    default:
+	    	console.log('event', event.currentTarget);
+	     	if (event.keyCode >= 65 && event.keyCode <= 90) {
+	     	  this.handleLetterChange(row, col, String.fromCharCode(event.keyCode).toUpperCase());
+	     	}
+		}
+	}
+
 	handleLetterChange(row, col, val) {
+		console.log('handleLetterChange', row, col, val);
 		const { direction, inputType, gridState, updateGrid } = this.props;
 		if (inputType === 'blanks') {
 			return;
 		}
 		const gridCopy = clearFocus(gridState);
 		gridCopy[row][col].focused = true;
-		const newVal = val && val[0] && val[0].toUpperCase();
-		gridCopy[row][col].value = newVal;
-		if (newVal) {
+		// const newVal = val && val[0] && val[0].toUpperCase();
+		gridCopy[row][col].value = val;
+		if (val) {
 			const gridWithFocus = advanceFocus(row, col, gridCopy, direction);
 			const focusedCell = findFocus(gridWithFocus);
 			if (!gridWithFocus[focusedCell.row][focusedCell.col].highlighted) {
@@ -170,7 +195,7 @@ export default class Grid extends React.Component {
 				  						number={gridState[row][col].number}
 				  						focused={gridState[row][col].focused}
 				  						highlighted={gridState[row][col].highlighted}
-				  						onLetterChange={this.handleLetterChange}
+				  						onKeyAction={this.handleKeyAction}
 				  						onLetterClick={this.handleLetterClick}
 				  						onNumberClick={this.handleNumberClick}
 				  						onToggleBlank={this.handleToggleBlank}
