@@ -30,11 +30,11 @@ export default class DownClues extends React.Component {
   }
 
   setClue(clue) {
-    const { updateClues } = this.props;
+    const { onClueUpdate } = this.props;
     const { clueNumber } = this.state;
     // const cluesCopy = { ...clueState };
     // const cluesWithSelection = getCluesWithSelection(cluesCopy, clue, clueNumber, 'across');
-    updateClues(clueNumber, 'down', clue);
+    onClueUpdate(clueNumber, 'down', clue);
   }
 
   handleClueSelect(clue) {

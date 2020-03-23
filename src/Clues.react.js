@@ -7,8 +7,8 @@ import './Clues.css';
 export default function Clues({ clueState, gridState, onClueUpdate }) {
 	return (
     <div className="contents">
-      <AcrossClues clueState={clueState} gridState={gridState} updateClues={onClueUpdate} />
-      <DownClues clueState={clueState} gridState={gridState} updateClues={onClueUpdate} />
+      <AcrossClues clueState={clueState} gridState={gridState} onClueUpdate={onClueUpdate} />
+      <DownClues clueState={clueState} gridState={gridState} onClueUpdate={onClueUpdate} />
     </div>
 	);
 }
