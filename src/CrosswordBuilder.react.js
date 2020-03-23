@@ -14,7 +14,6 @@ import {
 } from './utils/utils';
 import Clues from './Clues.react';
 import InputButtons from './InputButtons.react';
-import DirectionButtons from './DirectionButtons.react';
 import PersistedCrosswordList from './PersistedCrosswordList.react';
 import Puzzle from './Puzzle.react';
 import './CrosswordBuilder.css';
@@ -138,12 +137,6 @@ export default function CrosswordBuilder() {
         inputType={blanks ? 'blanks' : 'letters'}
         onSetBlanks={handleSetBlanks}
         onSetLetters={handleSetLetters}
-      />
-      <DirectionButtons
-        className="mt20"
-        direction={across ? 'across' : 'down'}
-        onSetAcross={handleSetAcross}
-        onSetDown={handleSetDown}
       />
       <div ref={componentRef} className="printable">
         <Puzzle
