@@ -40,7 +40,7 @@ export default class DownClues extends React.Component {
   handleClueSelect(clue) {
     console.log('handleclueSelect')
     console.log('clue', clue)
-    const cluesCopy = this.setClue(clue.value);
+    this.setClue(clue.value);
     this.setState({
       clues: [],
       showDropdown: false,

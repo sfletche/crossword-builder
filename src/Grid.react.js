@@ -85,13 +85,13 @@ export default class Grid extends React.Component {
 	}
 
 	handleLetterClick(row, col) {
-		const { direction, inputType, gridState, toggleDirection, updateGrid } = this.props;
+		const { direction, inputType, gridState, onDirectionToggle, updateGrid } = this.props;
 		if (inputType === 'blanks') {
 			return;
 		}
 		const gridCopy = clearFocus(gridState);
 		gridCopy[row][col].focused = true;
-		toggleDirection();
+		onDirectionToggle();
 		const gridWithHighlight = highlightWord(row, col, gridCopy, direction);
 		updateGrid(gridWithHighlight);
 	}
@@ -115,14 +115,14 @@ export default class Grid extends React.Component {
 		const { gridState, updateGrid } = this.props;
 		const { answerNumber, answerDirection } = this.state;
 		const gridCopy = [...gridState];
-		const gridWithAnswer = getGridWithAnswer(gridState, answer, answerNumber, answerDirection);
+		const gridWithAnswer = getGridWithAnswer(gridCopy, answer, answerNumber, answerDirection);
 		updateGrid(gridWithAnswer);
 	}
 
 	handleAnswerSelect(answer) {
 		console.log('handleAnswerSelect')
 		console.log('answer', answer)
-		const gridCopy = this.setGridAnswer(answer.value);
+		this.setGridAnswer(answer.value);
 		this.setState({
 			answers: [],
 			showDropdown: false,
@@ -177,7 +177,7 @@ export default class Grid extends React.Component {
 	}
 
 	render() {
-		const { gridState, toggleDirection } = this.props;
+		const { gridState } = this.props;
 		const { answers, showDropdown } = this.state;
 		return gridState && (
 			<div className="flex">

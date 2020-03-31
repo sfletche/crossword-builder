@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import ReactToPrint from 'react-to-print';
 import {
   clearHighlights,
@@ -19,29 +19,56 @@ import Puzzle from './Puzzle.react';
 import './CrosswordBuilder.css';
 
 
-export default function CrosswordBuilder() {
-  const [gridSize, setGridSize] = useState(INIT_SIZE);
-  const [gridState, setGridState] = useState(initializeGrid());
-  const [clueState, setClueState] = useState(initializeClues(gridState))
-  const [tempSize, setTempSize] = useState(INIT_SIZE);
-  const [blanks, setBlanks] = useState(false);
-  const [across, setAcross] = useState(true);
-  const [title, updateTitle] = useState("My Crossword Puzzle");
+export default class CrosswordBuilder extends React.Component{
+  constructor(props) {
+    super(props);
 
-  const handleChange = (event) => {
-    setTempSize(event.target.value);
+    this.componentRef = React.createRef();
+
+    const gridState = initializeGrid();
+
+    this.state = {
+      gridSize: INIT_SIZE,
+      gridState: gridState,
+      clueState: initializeClues(gridState),
+      tempSize: INIT_SIZE,
+      blanks: false,
+      across: true,
+      title: "My Crossword Puzzle",
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClueUpdate = this.handleClueUpdate.bind(this);
+    this.handleGridUpdate = this.handleGridUpdate.bind(this);
+    this.handleSetBlanks = this.handleSetBlanks.bind(this);
+    this.handleSetLetters = this.handleSetLetters.bind(this);
+    this.handleSetAcross = this.handleSetAcross.bind(this);
+    this.handleSetDown = this.handleSetDown.bind(this);
+    this.handleDirectionToggle = this.handleDirectionToggle.bind(this);
+    this.handleOpenCrossword = this.handleOpenCrossword.bind(this);
+    this.saveCrossword = this.saveCrossword.bind(this);
+  }
+  
+  handleChange(event) {
+    this.setState({ tempSize: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  handleSubmit(event) {
     event.preventDefault();
-    setGridSize(tempSize);
-    const grid = initializeGrid(tempSize);
-    setGridState(grid);
+    const grid = initializeGrid(this.state.tempSize);
     const clues = initializeClues(grid);
-    setClueState(clues);
+    this.setState({ 
+      clueState: clues, 
+      gridState: grid,
+      gridSize: this.state.tempSize,
+    });
   };
 
-  const handleClueUpdate = (number, direction, clue) => {
+  handleClueUpdate(number, direction, clue) {
+    const {
+      clueState,
+    } = this.state;
     if (direction === 'across') {
       const newClues = {
         ...clueState,
@@ -50,7 +77,7 @@ export default function CrosswordBuilder() {
           [number]: clue,
         },
       };
-      setClueState(newClues);
+      this.setState({ clueState: newClues });
     } else {
       const newClues = {
         ...clueState,
@@ -59,60 +86,81 @@ export default function CrosswordBuilder() {
           [number]: clue,
         },
       };
-      setClueState(newClues);
+      this.setState({ clueState: newClues });
     }
   }
 
-  const handleGridUpdate = (grid) => {
+  handleGridUpdate(grid) {
+    const {
+      blanks,
+      clueState,
+    } = this.state;
     if (blanks) {
       const enumeratedGrid = enumerate(grid);
-      setGridState(enumeratedGrid);
-      setClueState(updateClueState(enumeratedGrid, clueState));
+      this.setState({ gridState: enumeratedGrid });
+      this.setState({ clueState: updateClueState(enumeratedGrid, clueState) });
     } else {
-      setGridState(grid);
+      this.setState({ gridState: grid });
     }
   };
 
-  const handleSetBlanks = () => {
-    setBlanks(true);
+  handleSetBlanks() {
+    const {
+      gridState,
+    } = this.state;
+    this.setState({ blanks: true });
     const gridWithoutHighlights = clearHighlights(gridState);
-    setGridState(gridWithoutHighlights);
+    this.setState({ gridState: gridWithoutHighlights });
   };
 
-  const handleSetLetters = () => {
-    setBlanks(false);
+  handleSetLetters() {
+    this.setState({ blanks: false });
   };
 
-  const handleSetAcross = () => {
-    setAcross(true);
+  handleSetAcross() {
+    const {
+      clueState,
+      gridState,
+    } = this.state;
+    this.setState({ across: true });
     const focusedCell = findFocus(gridState);
     const highlightedGrid = highlightWordAcross(focusedCell.row, focusedCell.col, gridState);
     console.log('clueState', clueState);
-    //TODO setClueState to highlight clue as well
+    //TODO this.setState({ clueState: to highlight clue as we });
     // current clueState is { across: { 1: "clue1", 5: "clue5" }}
     // may change to { across: { 1: { clue: "clue1", highlighted: false } } }
-    setGridState(highlightedGrid);
+    this.setState({ gridState: highlightedGrid });
   };
 
-  const handleSetDown = () => {
-    setAcross(false);
+  handleSetDown() {
+    const {
+      gridState,
+    } = this.state;
+    this.setState({ across: false });
     const focusedCell = findFocus(gridState);
     const highlightedGrid = highlightWordDown(focusedCell.row, focusedCell.col, gridState);
-    //TODO setClueState to highlight clue as well
-    setGridState(highlightedGrid);
+    //TODO this.setState({ clueState: to highlight clue as we });
+    this.setState({ gridState: highlightedGrid });
   };
 
-  const handleDirectionToggle = () => {
-    across ? handleSetDown() : handleSetAcross();
+  handleDirectionToggle() {
+    const { across } = this.state;
+    console.log('handleDirectionToggle across=', across)
+    across ? this.handleSetDown() : this.handleSetAcross();
   };
 
-  const handleOpenCrossword = (savedTitle, savedGridState, savedClueState) => {
-    updateTitle(savedTitle);
-    setGridState(savedGridState);
-    setClueState(savedClueState || initializeClues(savedGridState));
+  handleOpenCrossword(savedTitle, savedGridState, savedClueState) {
+    this.setState({ title: savedTitle });
+    this.setState({ gridState: savedGridState });
+    this.setState({ clueState: savedClueState || initializeClues(savedGridState) });
   };
 
-  const saveCrossword = () => {
+  saveCrossword() {
+    const {
+      clueState,
+      gridState,
+      title,
+    } = this.state;
     const slug = slugify(title);
     const currentKeys = JSON.parse(localStorage.getItem('crosswordKeys'));
     if (!currentKeys.includes(slug)) {
@@ -121,50 +169,59 @@ export default function CrosswordBuilder() {
     localStorage.setItem(slug, JSON.stringify({ title, gridState, clueState }));
   };
 
-  const componentRef = useRef();
-
-  return (
-    <div className="ml20">
-      <form onSubmit={handleSubmit}>
-        <label>
-          Grid Size (how many rows):
-          <input type="text" value={tempSize} onChange={handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-      <InputButtons
-        className="mt20"
-        inputType={blanks ? 'blanks' : 'letters'}
-        onSetBlanks={handleSetBlanks}
-        onSetLetters={handleSetLetters}
-      />
-      <div ref={componentRef} className="printable">
-        <Puzzle
-          direction={across ? 'across' : 'down'}
-          gridSize={gridSize}
-          gridState={gridState}
+  render() {
+    const {
+      across,
+      blanks,
+      clueState,
+      gridSize,
+      gridState,
+      tempSize,
+      title,
+    } = this.state;
+    return (
+      <div className="ml20">
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Grid Size (how many rows):
+            <input type="text" value={tempSize} onChange={this.handleChange} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <InputButtons
+          className="mt20"
           inputType={blanks ? 'blanks' : 'letters'}
-          onDirectionToggle={handleDirectionToggle}
-          onGridUpdate={handleGridUpdate}
-          title={title}
-          updateTitle={updateTitle}
+          onSetBlanks={this.handleSetBlanks}
+          onSetLetters={this.handleSetLetters}
         />
-        <Clues
-          clueState={clueState}
-          gridState={gridState}
-          onClueUpdate={handleClueUpdate}
-        />
+        <div ref={this.componentRef} className="printable">
+          <Puzzle
+            direction={across ? 'across' : 'down'}
+            gridSize={gridSize}
+            gridState={gridState}
+            inputType={blanks ? 'blanks' : 'letters'}
+            onDirectionToggle={this.handleDirectionToggle}
+            onGridUpdate={this.handleGridUpdate}
+            title={title}
+            updateTitle={title => this.setState({ title })}
+          />
+          <Clues
+            clueState={clueState}
+            gridState={gridState}
+            onClueUpdate={this.handleClueUpdate}
+          />
+        </div>
+        <div className="mt20">
+          <ReactToPrint
+            content={() => this.componentRef.current}
+            trigger={() => <button>Print Crossword</button>}
+          />
+          <button className="ml10" onClick={this.saveCrossword}>Save Crossword</button>
+        </div>
+        <div className="mt20">
+          <PersistedCrosswordList onSelect={this.handleOpenCrossword} />
+        </div>
       </div>
-      <div className="mt20">
-        <ReactToPrint
-          content={() => componentRef.current}
-          trigger={() => <button>Print Crossword</button>}
-        />
-        <button className="ml10" onClick={saveCrossword}>Save Crossword</button>
-      </div>
-      <div className="mt20">
-        <PersistedCrosswordList onSelect={handleOpenCrossword} />
-      </div>
-    </div>
-  );
+    );
+  }
 }

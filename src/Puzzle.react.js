@@ -13,6 +13,7 @@ export default function Puzzle({
   title,
   updateTitle,
 }) {
+  console.log('direction', direction)
 	return (
     <div className="puzzle">
       <textarea
@@ -26,7 +27,7 @@ export default function Puzzle({
           gridSize={gridSize}
           gridState={gridState}
           inputType={inputType}
-          toggleDirection={onDirectionToggle}
+          onDirectionToggle={onDirectionToggle}
           updateGrid={onGridUpdate}
         />
       </div>
