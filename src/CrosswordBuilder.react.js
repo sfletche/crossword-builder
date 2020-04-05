@@ -126,7 +126,6 @@ export default class CrosswordBuilder extends React.Component{
     this.setState({ across: true });
     const focusedCell = findFocus(grid);
     const highlightedGrid = highlightWordAcross(focusedCell.row, focusedCell.col, grid);
-    console.log('clueState', clueState);
     //TODO this.setState({ clueState: to highlight clue as we });
     // current clueState is { across: { 1: "clue1", 5: "clue5" }}
     // may change to { across: { 1: { clue: "clue1", highlighted: false } } }

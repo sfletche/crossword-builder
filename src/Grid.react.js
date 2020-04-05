@@ -100,9 +100,7 @@ export default class Grid extends React.Component {
 	async handleNumberClick(e, row, col) {
 		const { direction, gridState } = this.props;
 		e.stopPropagation();
-		console.log('number click', row, col);
 		const answers = await fetchAnswers(row, col, direction, gridState);
-		console.log('answers', answers);
 		// order alphabetically and de-dupe
 		this.setState({ 
 			answers, 
@@ -121,8 +119,6 @@ export default class Grid extends React.Component {
 	}
 
 	handleAnswerSelect(answer) {
-		console.log('handleAnswerSelect')
-		console.log('answer', answer)
 		this.setGridAnswer(answer.value);
 		this.setState({
 			answers: [],
@@ -150,7 +146,6 @@ export default class Grid extends React.Component {
 	}
 
 	handleLetterChange(row, col, val) {
-		console.log('handleLetterChange', row, col, val);
 		const { direction, inputType, gridState, onGridUpdate } = this.props;
 		if (inputType === 'blanks') {
 			return;

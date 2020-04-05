@@ -6,7 +6,6 @@ function getGrid(size) {
 }
 
 export function initializeGrid(size) {
-  console.log('initializeGrid')
   let grid = getGrid(size || INIT_SIZE);
   grid = enumerate(grid);
   grid = highlightWordAcross(0, 0, grid);
@@ -281,13 +280,11 @@ export function highlightWordAcross(row, col, grid) {
 }
 
 export function highlightWordDown(currRow, currCol, grid) {
-  console.log('highlightWordDown', currRow, currCol, grid)
 	const gridCopy = clearHighlights(grid);
 	let { row } = findStartOfWord(currRow, currCol, 'down', gridCopy);
   gridCopy[row][currCol].highlighted = true;
 	while(!rowBelowIsBlank(row++, currCol, gridCopy)) {
 		gridCopy[row][currCol].highlighted = true;
-    console.log('highlight', row, currCol)
 	}
 	return gridCopy;
 }

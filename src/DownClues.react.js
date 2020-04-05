@@ -20,7 +20,6 @@ export default class DownClues extends React.Component {
     const { gridState } = this.props;
     e.stopPropagation();
     const clues = await fetchClues(number, direction, gridState);
-    console.log('clues', clues);
     // order alphabetically and de-dupe
     this.setState({ 
       clues, 
@@ -38,8 +37,6 @@ export default class DownClues extends React.Component {
   }
 
   handleClueSelect(clue) {
-    console.log('handleclueSelect')
-    console.log('clue', clue)
     this.setClue(clue.value);
     this.setState({
       clues: [],

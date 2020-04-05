@@ -27,12 +27,10 @@ function getQuery(row, col, direction, grid) {
 
 export async function fetchAnswers(row, col, direction, gridState) {
   const query = getQuery(row, col, direction, gridState);
-  console.log('query', query);
   const url = 'https://search-crossword-yq7gx54qazz4o5mrpmbrqhuoc4.us-east-2.es.amazonaws.com/_search';
   const queryParam = '?q=answer:' + query + `&size=50`;
   const resp = await fetch(url + queryParam);
   const jsonData = await resp.json();
-  console.log("jsonData: ", jsonData);
   if (jsonData.error && jsonData.status >= 400) {
     return [];
   }

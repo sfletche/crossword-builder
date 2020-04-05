@@ -13,7 +13,6 @@ function Puzzle({
   title,
   updateTitle,
 }) {
-  console.log('direction', direction)
 	return (
     <div className="puzzle">
       <textarea
