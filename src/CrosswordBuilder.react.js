@@ -97,8 +97,10 @@ export default class CrosswordBuilder extends React.Component{
     } = this.state;
     if (blanks) {
       const enumeratedGrid = enumerate(grid);
-      this.setState({ gridState: enumeratedGrid });
-      this.setState({ clueState: updateClueState(enumeratedGrid, clueState) });
+      this.setState({ 
+        gridState: enumeratedGrid,
+        clueState: updateClueState(enumeratedGrid, clueState),
+      });
     } else {
       this.setState({ gridState: grid });
     }
@@ -117,14 +119,13 @@ export default class CrosswordBuilder extends React.Component{
     this.setState({ blanks: false });
   };
 
-  handleSetAcross() {
+  handleSetAcross(grid) {
     const {
       clueState,
-      gridState,
     } = this.state;
     this.setState({ across: true });
-    const focusedCell = findFocus(gridState);
-    const highlightedGrid = highlightWordAcross(focusedCell.row, focusedCell.col, gridState);
+    const focusedCell = findFocus(grid);
+    const highlightedGrid = highlightWordAcross(focusedCell.row, focusedCell.col, grid);
     console.log('clueState', clueState);
     //TODO this.setState({ clueState: to highlight clue as we });
     // current clueState is { across: { 1: "clue1", 5: "clue5" }}
@@ -132,20 +133,17 @@ export default class CrosswordBuilder extends React.Component{
     this.setState({ gridState: highlightedGrid });
   };
 
-  handleSetDown() {
-    const {
-      gridState,
-    } = this.state;
+  handleSetDown(grid) {
     this.setState({ across: false });
-    const focusedCell = findFocus(gridState);
-    const highlightedGrid = highlightWordDown(focusedCell.row, focusedCell.col, gridState);
+    const focusedCell = findFocus(grid);
+    const highlightedGrid = highlightWordDown(focusedCell.row, focusedCell.col, grid);
     //TODO this.setState({ clueState: to highlight clue as well });
     this.setState({ gridState: highlightedGrid });
   };
 
-  handleDirectionToggle() {
+  handleDirectionToggle(grid) {
     const { across } = this.state;
-    across ? this.handleSetDown() : this.handleSetAcross();
+    across ? this.handleSetDown(grid) : this.handleSetAcross(grid);
   };
 
   handleOpenCrossword(savedTitle, savedGridState, savedClueState) {
