@@ -125,6 +125,34 @@ export function isValidCell(row, col, grid) {
 	return row < grid.length && col < grid[0].length;
 }
 
+function getLeftAdjacentCell(row, col, grid) {
+  if (colToLeftIsBlank(row, col, grid)) {
+    return { nextRow: row, nextCol: col };
+  }
+  return { nextRow: row, nextCol: col-1 };
+}
+
+function getRightAdjacentCell(row, col, grid) {
+  if (colToRightIsBlank(row, col, grid)) {
+    return { nextRow: row, nextCol: col };
+  }
+  return { nextRow: row, nextCol: col+1 };
+}
+
+function getUpAdjacentCell(row, col, grid) {
+  if (rowAboveIsBlank(row, col, grid)) {
+    return { nextRow: row, nextCol: col };
+  }
+  return { nextRow: row-1, nextCol: col };
+}
+
+function getDownAdjacentCell(row, col, grid) {
+  if (rowBelowIsBlank(row, col, grid)) {
+    return { nextRow: row, nextCol: col };
+  }
+  return { nextRow: row+1, nextCol: col };
+}
+
 function getNextAcrossCell(row, col, grid) {
 	if (!colToRightIsBlank(row, col, grid)) {
 		return { nextRow: row, nextCol: col+1 };
@@ -177,6 +205,24 @@ export function advanceFocus(row, col, grid, direction) {
 	const { nextRow, nextCol } = getNextCell(row, col, gridCopy, direction);
 	gridCopy[nextRow][nextCol].focused = true;
 	return gridCopy;
+}
+
+export function stepFocus(row, col, grid, arrowDirection) {
+  const gridCopy = clearFocus(grid);
+  if (arrowDirection === 'left') {
+    const { nextRow, nextCol } = getLeftAdjacentCell(row, col, grid);
+    gridCopy[nextRow][nextCol].focused = true;
+  } else if (arrowDirection === 'right') {
+    const { nextRow, nextCol } = getRightAdjacentCell(row, col, grid);
+    gridCopy[nextRow][nextCol].focused = true;
+  } else if (arrowDirection === 'up') {
+    const { nextRow, nextCol } = getUpAdjacentCell(row, col, grid);
+    gridCopy[nextRow][nextCol].focused = true;
+  } else if (arrowDirection === 'down') {
+    const { nextRow, nextCol } = getDownAdjacentCell(row, col, grid);
+    gridCopy[nextRow][nextCol].focused = true;
+  }
+  return gridCopy;
 }
 
 export function findFocus(grid) {

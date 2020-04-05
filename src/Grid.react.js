@@ -9,6 +9,7 @@ import {
 	findFocus,
 	highlightWord,
 	rowBelowIsBlank,
+	stepFocus,
 } from './utils/utils';
 import { fetchAnswers } from './utils';
 import GridCell from './GridCell.react';
@@ -131,24 +132,20 @@ export default class Grid extends React.Component {
 
 	handleKeyAction(row, col, event) {
 		event.preventDefault();
-		switch (event.keyCode) {
-	    case 37:
-			  alert('Left key pressed');
-	      return;
-	    case 38:
-	      alert('Up key pressed');
-	      return;
-	    case 39:
-	      alert('Right key pressed');
-        return;	     
-      case 40:
-	      alert('Down key pressed');
-	      return;
-	    default:
-	    	console.log('event', event.currentTarget);
-	     	if (event.keyCode >= 65 && event.keyCode <= 90) {
-	     	  this.handleLetterChange(row, col, String.fromCharCode(event.keyCode).toUpperCase());
-	     	}
+		const { gridState, onGridUpdate } = this.props;
+		const { keyCode } = event;
+		if (keyCode === 37) {
+  		onGridUpdate(stepFocus(row, col, gridState, 'left'));
+	  } else if (keyCode === 38) {
+		  onGridUpdate(stepFocus(row, col, gridState, 'up'));
+	  } else if (keyCode === 39) {
+		  onGridUpdate(stepFocus(row, col, gridState, 'right'));
+	  } else if (keyCode === 40) {
+		  onGridUpdate(stepFocus(row, col, gridState, 'down'));
+	  } else {
+     	if (event.keyCode >= 65 && event.keyCode <= 90) {
+     	  this.handleLetterChange(row, col, String.fromCharCode(event.keyCode).toUpperCase());
+     	}
 		}
 	}
 
