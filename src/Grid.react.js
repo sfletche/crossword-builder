@@ -92,8 +92,6 @@ export default class Grid extends React.Component {
 		const gridCopy = clearFocus(gridState);
 		gridCopy[row][col].focused = true;
 		onDirectionToggle();
-		const gridWithHighlight = highlightWord(row, col, gridCopy, direction);
-		updateGrid(gridWithHighlight);
 	}
 
 	async handleNumberClick(e, row, col) {
