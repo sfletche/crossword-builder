@@ -10,6 +10,7 @@ export function initializeGrid(size) {
   let grid = getGrid(size || INIT_SIZE);
   grid = enumerate(grid);
   grid = highlightWordAcross(0, 0, grid);
+  grid[0][0].focused = true;
   return grid;
 }
 
