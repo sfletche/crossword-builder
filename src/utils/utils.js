@@ -225,20 +225,22 @@ function findStartOfWord(row, col, direction, grid) {
 
 export function highlightWordAcross(row, col, grid) {
 	const gridCopy = clearHighlights(grid);
-	let { col: startCol } = findStartOfWord(row, col, 'across', grid);
+	let { col: startCol } = findStartOfWord(row, col, 'across', gridCopy);
 	gridCopy[row][startCol].highlighted = true;
-	while(!colToRightIsBlank(row, startCol++, grid)) {
+	while(!colToRightIsBlank(row, startCol++, gridCopy)) {
     gridCopy[row][startCol].highlighted = true;
 	}
 	return gridCopy;
 }
 
-export function highlightWordDown(row, col, grid) {
+export function highlightWordDown(currRow, currCol, grid) {
+  console.log('highlightWordDown', currRow, currCol, grid)
 	const gridCopy = clearHighlights(grid);
-	let { row: startRow } = findStartOfWord(row, col, 'down', grid);
-  gridCopy[startRow][col].highlighted = true;
-	while(!rowBelowIsBlank(startRow++, col, grid)) {
-		gridCopy[startRow][col].highlighted = true;
+	let { row } = findStartOfWord(currRow, currCol, 'down', gridCopy);
+  gridCopy[row][currCol].highlighted = true;
+	while(!rowBelowIsBlank(row++, currCol, gridCopy)) {
+		gridCopy[row][currCol].highlighted = true;
+    console.log('highlight', row, currCol)
 	}
 	return gridCopy;
 }

@@ -37,7 +37,7 @@ export default class CrosswordBuilder extends React.Component{
       title: "My Crossword Puzzle",
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSizeChange = this.handleSizeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClueUpdate = this.handleClueUpdate.bind(this);
     this.handleGridUpdate = this.handleGridUpdate.bind(this);
@@ -50,7 +50,7 @@ export default class CrosswordBuilder extends React.Component{
     this.saveCrossword = this.saveCrossword.bind(this);
   }
   
-  handleChange(event) {
+  handleSizeChange(event) {
     this.setState({ tempSize: event.target.value });
   };
 
@@ -139,13 +139,12 @@ export default class CrosswordBuilder extends React.Component{
     this.setState({ across: false });
     const focusedCell = findFocus(gridState);
     const highlightedGrid = highlightWordDown(focusedCell.row, focusedCell.col, gridState);
-    //TODO this.setState({ clueState: to highlight clue as we });
+    //TODO this.setState({ clueState: to highlight clue as well });
     this.setState({ gridState: highlightedGrid });
   };
 
   handleDirectionToggle() {
     const { across } = this.state;
-    console.log('handleDirectionToggle across=', across)
     across ? this.handleSetDown() : this.handleSetAcross();
   };
 
@@ -184,9 +183,9 @@ export default class CrosswordBuilder extends React.Component{
         <form onSubmit={this.handleSubmit}>
           <label>
             Grid Size (how many rows):
-            <input type="text" value={tempSize} onChange={this.handleChange} />
+            <input type="text" value={tempSize} onChange={this.handleSizeChange} />
           </label>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Set Size" />
         </form>
         <InputButtons
           className="mt20"

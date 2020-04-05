@@ -3,7 +3,7 @@ import React from 'react';
 import Grid from './Grid.react';
 import './Puzzle.css';
 
-export default function Puzzle({
+function Puzzle({
   direction,
   gridSize,
   gridState,
@@ -28,9 +28,11 @@ export default function Puzzle({
           gridState={gridState}
           inputType={inputType}
           onDirectionToggle={onDirectionToggle}
-          updateGrid={onGridUpdate}
+          onGridUpdate={onGridUpdate}
         />
       </div>
     </div>
 	);
 }
+
+export default Puzzle;

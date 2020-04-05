@@ -68,7 +68,7 @@ export default class Grid extends React.Component {
 	}
 
 	handleToggleBlank(row, col) {
-		const { gridSize, gridState, inputType, updateGrid } = this.props;
+		const { gridSize, gridState, inputType, onGridUpdate } = this.props;
 		if (inputType === 'letters') {
 			return;
 		}
@@ -81,11 +81,11 @@ export default class Grid extends React.Component {
 			gridCopy[gridSize - row - 1][gridSize - col - 1].value = 'BLANK';
 		}
 		// const numberedGrid = enumerate(gridCopy);
-		updateGrid(gridCopy);
+		onGridUpdate(gridCopy);
 	}
 
 	handleLetterClick(row, col) {
-		const { direction, inputType, gridState, onDirectionToggle, updateGrid } = this.props;
+		const { direction, inputType, gridState, onDirectionToggle, onGridUpdate } = this.props;
 		if (inputType === 'blanks') {
 			return;
 		}
@@ -112,11 +112,11 @@ export default class Grid extends React.Component {
 	}
 
 	setGridAnswer(answer) {
-		const { gridState, updateGrid } = this.props;
+		const { gridState, onGridUpdate } = this.props;
 		const { answerNumber, answerDirection } = this.state;
 		const gridCopy = [...gridState];
 		const gridWithAnswer = getGridWithAnswer(gridCopy, answer, answerNumber, answerDirection);
-		updateGrid(gridWithAnswer);
+		onGridUpdate(gridWithAnswer);
 	}
 
 	handleAnswerSelect(answer) {
@@ -154,7 +154,7 @@ export default class Grid extends React.Component {
 
 	handleLetterChange(row, col, val) {
 		console.log('handleLetterChange', row, col, val);
-		const { direction, inputType, gridState, updateGrid } = this.props;
+		const { direction, inputType, gridState, onGridUpdate } = this.props;
 		if (inputType === 'blanks') {
 			return;
 		}
@@ -167,12 +167,12 @@ export default class Grid extends React.Component {
 			const focusedCell = findFocus(gridWithFocus);
 			if (!gridWithFocus[focusedCell.row][focusedCell.col].highlighted) {
 				const gridWithHighlight = highlightWord(focusedCell.row, focusedCell.col, gridWithFocus, direction);
-        updateGrid(gridWithHighlight);
+        onGridUpdate(gridWithHighlight);
 			} else {
-				updateGrid(gridWithFocus);
+				onGridUpdate(gridWithFocus);
 			}
 		} else {
-			updateGrid(gridCopy);
+			onGridUpdate(gridCopy);
 		}
 	}
 
