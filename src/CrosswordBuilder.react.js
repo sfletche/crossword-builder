@@ -198,6 +198,8 @@ export default class CrosswordBuilder extends React.Component{
             inputType={blanks ? 'blanks' : 'letters'}
             onDirectionToggle={this.handleDirectionToggle}
             onGridUpdate={this.handleGridUpdate}
+            onSetAcross={this.handleSetAcross}
+            onSetDown={this.handleSetDown}
             title={title}
             updateTitle={title => this.setState({ title })}
           />

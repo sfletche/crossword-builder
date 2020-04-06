@@ -8,6 +8,8 @@ import {
 	findCellFromNumber,
 	findFocus,
 	highlightWord,
+	highlightWordAcross,
+	highlightWordDown,
 	rowBelowIsBlank,
 	stepFocus,
 } from './utils/utils';
@@ -81,7 +83,6 @@ export default class Grid extends React.Component {
 			gridCopy[row][col].value = 'BLANK';
 			gridCopy[gridSize - row - 1][gridSize - col - 1].value = 'BLANK';
 		}
-		// const numberedGrid = enumerate(gridCopy);
 		onGridUpdate(gridCopy);
 	}
 
@@ -94,14 +95,13 @@ export default class Grid extends React.Component {
 		gridCopy[row][col].focused = true;
 		onGridUpdate(gridCopy);
 		onDirectionToggle(gridCopy);
-		// const gridWithHighlight = highlightWord(row, col, gridCopy, direction);
 	}
 
 	async handleNumberClick(e, row, col) {
 		const { direction, gridState } = this.props;
 		e.stopPropagation();
 		const answers = await fetchAnswers(row, col, direction, gridState);
-		// order alphabetically and de-dupe
+		// TODO: order alphabetically and de-dupe
 		this.setState({ 
 			answers, 
 			answerDirection: direction,
@@ -128,16 +128,16 @@ export default class Grid extends React.Component {
 
 	handleKeyAction(row, col, event) {
 		event.preventDefault();
-		const { gridState, onGridUpdate } = this.props;
+		const { gridState, onGridUpdate, onSetAcross, onSetDown } = this.props;
 		const { keyCode } = event;
 		if (keyCode === 37) {
-  		onGridUpdate(stepFocus(row, col, gridState, 'left'));
+  		onSetAcross(stepFocus(row, col, gridState, 'left'))
 	  } else if (keyCode === 38) {
-		  onGridUpdate(stepFocus(row, col, gridState, 'up'));
+  		onSetDown(stepFocus(row, col, gridState, 'up'));
 	  } else if (keyCode === 39) {
-		  onGridUpdate(stepFocus(row, col, gridState, 'right'));
+  		onSetAcross(stepFocus(row, col, gridState, 'right'))
 	  } else if (keyCode === 40) {
-		  onGridUpdate(stepFocus(row, col, gridState, 'down'));
+  		onSetDown(stepFocus(row, col, gridState, 'down'));
 	  } else {
      	if (event.keyCode >= 65 && event.keyCode <= 90) {
      	  this.handleLetterChange(row, col, String.fromCharCode(event.keyCode).toUpperCase());
@@ -152,7 +152,6 @@ export default class Grid extends React.Component {
 		}
 		const gridCopy = clearFocus(gridState);
 		gridCopy[row][col].focused = true;
-		// const newVal = val && val[0] && val[0].toUpperCase();
 		gridCopy[row][col].value = val;
 		if (val) {
 			const gridWithFocus = advanceFocus(row, col, gridCopy, direction);

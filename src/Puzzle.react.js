@@ -10,6 +10,8 @@ function Puzzle({
   inputType,
   onDirectionToggle,
   onGridUpdate,
+  onSetAcross,
+  onSetDown,
   title,
   updateTitle,
 }) {
@@ -28,6 +30,8 @@ function Puzzle({
           inputType={inputType}
           onDirectionToggle={onDirectionToggle}
           onGridUpdate={onGridUpdate}
+          onSetAcross={onSetAcross}
+          onSetDown={onSetDown}
         />
       </div>
     </div>
