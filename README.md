@@ -3,16 +3,13 @@
 Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 ## Bugs
-* Writing over existing character results in lower case letter
-* Advancing via Tab press does not skip over blanks
-* Advancing via Tab press only moves across (not down)
 * Writing into clue inputs jumps back to grid inputs
 * Printable view no longer useful
 
 
 ## Next Steps
 * Highlight clue to match highlighted word
-* Maneuvering through grid with arrow keys (see https://jaredreisinger.github.io/react-crossword/)
+* UI improvements (https://jaredreisinger.github.io/react-crossword/)
 * Provide possible answers for given word space
 * Provide possible clues for each entered answer
 * Option to disable blank square symmetry
