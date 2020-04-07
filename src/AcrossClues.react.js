@@ -49,11 +49,11 @@ export default class AcrossClues extends React.Component {
   }
 
   setClue(clue) {
-    const { updateClues } = this.props;
+    const { onClueUpdate } = this.props;
     const { clueNumber } = this.state;
     // const cluesCopy = { ...clueState };
     // const cluesWithSelection = getCluesWithSelection(cluesCopy, clue, clueNumber, 'across');
-    updateClues(clueNumber, 'across', clue);
+    onClueUpdate(clueNumber, 'across', clue);
   }
 
   handleClueSelect(clue) {

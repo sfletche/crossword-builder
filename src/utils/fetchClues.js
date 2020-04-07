@@ -42,6 +42,7 @@ export async function fetchClues(number, direction, gridState) {
   if (jsonData.error && jsonData.status >= 400) {
     return [];
   }
-  const clues = jsonData.hits.hits[0]._source.clues;
-  return clues;
+  const { hits } = jsonData.hits;
+  const clues = hits.length && hits[0]._source.clues;
+  return clues || [];
 }
