@@ -8,8 +8,6 @@ import {
 	findCellFromNumber,
 	findFocus,
 	highlightWord,
-	highlightWordAcross,
-	highlightWordDown,
 	rowBelowIsBlank,
 	stepFocus,
 } from './utils/utils';
@@ -87,7 +85,7 @@ export default class Grid extends React.Component {
 	}
 
 	handleLetterClick(row, col) {
-		const { direction, inputType, gridState, onDirectionToggle, onGridUpdate } = this.props;
+		const { inputType, gridState, onDirectionToggle, onGridUpdate } = this.props;
 		if (inputType === 'blanks') {
 			return;
 		}
@@ -128,7 +126,7 @@ export default class Grid extends React.Component {
 
 	handleKeyAction(row, col, event) {
 		event.preventDefault();
-		const { gridState, onGridUpdate, onSetAcross, onSetDown } = this.props;
+		const { gridState, onSetAcross, onSetDown } = this.props;
 		const { keyCode } = event;
 		if (keyCode === 37) {
   		onSetAcross(stepFocus(row, col, gridState, 'left'))
@@ -168,7 +166,7 @@ export default class Grid extends React.Component {
 	}
 
 	render() {
-		const { gridState } = this.props;
+		const { gridState, puzzleHasFocus } = this.props;
 		const { answers, showDropdown } = this.state;
 		return gridState && (
 			<div className="flex">
@@ -190,6 +188,7 @@ export default class Grid extends React.Component {
 				  						onLetterClick={this.handleLetterClick}
 				  						onNumberClick={this.handleNumberClick}
 				  						onToggleBlank={this.handleToggleBlank}
+				  						puzzleHasFocus={puzzleHasFocus}
 			  						/>
 				  				</td>
 				  			)}

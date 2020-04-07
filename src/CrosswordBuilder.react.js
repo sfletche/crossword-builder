@@ -28,25 +28,27 @@ export default class CrosswordBuilder extends React.Component{
     const gridState = initializeGrid();
 
     this.state = {
+      across: true,
+      blanks: false,
+      clueState: initializeClues(gridState),
       gridSize: INIT_SIZE,
       gridState: gridState,
-      clueState: initializeClues(gridState),
+      puzzleHasFocus: true,
       tempSize: INIT_SIZE,
-      blanks: false,
-      across: true,
       title: "My Crossword Puzzle",
     };
 
+    this.handleClueUpdate = this.handleClueUpdate.bind(this);
+    this.handleDirectionToggle = this.handleDirectionToggle.bind(this);
+    this.handleGridUpdate = this.handleGridUpdate.bind(this);
+    this.handleOpenCrossword = this.handleOpenCrossword.bind(this);
+    this.handleSetAcross = this.handleSetAcross.bind(this);
+    this.handleSetBlanks = this.handleSetBlanks.bind(this);
+    this.handleSetDown = this.handleSetDown.bind(this);
+    this.handleSetLetters = this.handleSetLetters.bind(this);
     this.handleSizeChange = this.handleSizeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClueUpdate = this.handleClueUpdate.bind(this);
-    this.handleGridUpdate = this.handleGridUpdate.bind(this);
-    this.handleSetBlanks = this.handleSetBlanks.bind(this);
-    this.handleSetLetters = this.handleSetLetters.bind(this);
-    this.handleSetAcross = this.handleSetAcross.bind(this);
-    this.handleSetDown = this.handleSetDown.bind(this);
-    this.handleDirectionToggle = this.handleDirectionToggle.bind(this);
-    this.handleOpenCrossword = this.handleOpenCrossword.bind(this);
+    this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
     this.saveCrossword = this.saveCrossword.bind(this);
   }
   
@@ -69,6 +71,7 @@ export default class CrosswordBuilder extends React.Component{
     const {
       clueState,
     } = this.state;
+    this.setState({ puzzleHasFocus: false });
     if (direction === 'across') {
       const newClues = {
         ...clueState,
@@ -95,6 +98,7 @@ export default class CrosswordBuilder extends React.Component{
       blanks,
       clueState,
     } = this.state;
+    this.setState({ puzzleHasFocus: true });
     if (blanks) {
       const enumeratedGrid = enumerate(grid);
       this.setState({ 
@@ -105,6 +109,13 @@ export default class CrosswordBuilder extends React.Component{
       this.setState({ gridState: grid });
     }
   };
+
+  handleTitleUpdate(title) {
+    this.setState({ 
+      puzzleHasFocus: false,
+      title, 
+    });
+  }
 
   handleSetBlanks() {
     const {
@@ -120,9 +131,6 @@ export default class CrosswordBuilder extends React.Component{
   };
 
   handleSetAcross(grid) {
-    const {
-      clueState,
-    } = this.state;
     this.setState({ across: true });
     const focusedCell = findFocus(grid);
     const highlightedGrid = highlightWordAcross(focusedCell.row, focusedCell.col, grid);
@@ -172,6 +180,7 @@ export default class CrosswordBuilder extends React.Component{
       clueState,
       gridSize,
       gridState,
+      puzzleHasFocus,
       tempSize,
       title,
     } = this.state;
@@ -200,8 +209,9 @@ export default class CrosswordBuilder extends React.Component{
             onGridUpdate={this.handleGridUpdate}
             onSetAcross={this.handleSetAcross}
             onSetDown={this.handleSetDown}
+            puzzleHasFocus={puzzleHasFocus}
             title={title}
-            updateTitle={title => this.setState({ title })}
+            updateTitle={this.handleTitleUpdate}
           />
           <Clues
             clueState={clueState}

@@ -32,6 +32,7 @@ export default class AcrossClues extends React.Component {
 
     this.handleClueSelect = this.handleClueSelect.bind(this);
     this.handleNumberClick = this.handleNumberClick.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
     this.setClue = this.setClue.bind(this);
   }
 
@@ -63,8 +64,13 @@ export default class AcrossClues extends React.Component {
     });
   }
 
+  handleTextChange(key, value) {
+    const { onClueUpdate } = this.props;
+    onClueUpdate(key, 'across', value);
+  }
+
   render() {
-    const { clueState, onClueUpdate } = this.props;
+    const { clueState } = this.props;
     const { clues, showDropdown } = this.state;
   	return (
   		<div className="flex minw350 space-between">
@@ -92,7 +98,7 @@ export default class AcrossClues extends React.Component {
               <textarea
                 className="clue"
                 key={key + 'across'}
-                onChange={(e) => onClueUpdate(key, 'across', e.target.value)}
+                onChange={(e) => this.handleTextChange(key, e.target.value)}
                 value={clueState.across[key]}
               />
             </div>

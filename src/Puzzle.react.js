@@ -12,6 +12,7 @@ function Puzzle({
   onGridUpdate,
   onSetAcross,
   onSetDown,
+  puzzleHasFocus,
   title,
   updateTitle,
 }) {
@@ -32,6 +33,7 @@ function Puzzle({
           onGridUpdate={onGridUpdate}
           onSetAcross={onSetAcross}
           onSetDown={onSetDown}
+          puzzleHasFocus={puzzleHasFocus}
         />
       </div>
     </div>

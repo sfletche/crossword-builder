@@ -14,12 +14,15 @@ export default function GridCell(props) {
 		onLetterClick,
     onNumberClick,
 		onToggleBlank,
+    puzzleHasFocus,
 	} = props;
+
   useEffect(() => {
-    if (focused) {
+    if (puzzleHasFocus && focused) {
     	componentRef.current.focus();
     }
   });
+  
   const componentRef = useRef();
 	let outerDivClass = value === 'BLANK' ? 'blank' : 'standard';
 	if (highlighted) {
