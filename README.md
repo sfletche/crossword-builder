@@ -11,22 +11,20 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * UI improvements (https://jaredreisinger.github.io/react-crossword/)
 * Provide possible answers for given word space
 * Provide possible clues for each entered answer
-* Option to disable blank square symmetry
-* Default to 1 across when opening saved puzzle
 * Clue height determined by input
 * Persisting / Saving crosswords
   * New View / Route with list of saved puzzles (click to open in grid-builder)
 	* UI for loading persisted crosswords
-* Word List
+* Actual css modules
+* Integrate typescript
+* Switch to yarn
+* Add firebase 
+* Add linting
+* Install Greenkeeper or alternative
+* Research github.pages.io -- https://pages.github.com/ -- (not sure about privacy with this option though)
+* Option to disable blank square symmetry
 * Option to fill in a word (a word that doesn't also create non-words)
 * Option for completing the puzzle
-* actual css modules
-* integrate typescript
-* Install Greenkeeper or alternative
-* switch to yarn
-* add firebase 
-* add linting
-* checkout github.pages.io -- https://pages.github.com/ -- (not sure about privacy with this option though)
 
 
 
