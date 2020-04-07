@@ -3,7 +3,7 @@
 Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 ## Bugs
-* Writing into clue inputs jumps back to grid inputs
+* Unable to erase grid inputs
 * Printable view no longer useful
 
 
