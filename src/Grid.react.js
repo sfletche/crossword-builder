@@ -139,6 +139,8 @@ export default class Grid extends React.Component {
 	  } else {
      	if (event.keyCode >= 65 && event.keyCode <= 90) {
      	  this.handleLetterChange(row, col, String.fromCharCode(event.keyCode).toUpperCase());
+     	} else if ([46, 8, 32].includes(event.keyCode)) {
+     		this.handleLetterChange(row, col, '');
      	}
 		}
 	}
