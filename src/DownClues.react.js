@@ -1,5 +1,6 @@
 import React from 'react';
 import Dropdown from 'react-dropdown';
+import Clue from './Clue.react';
 import { fetchClues } from './utils';
 
 
@@ -60,23 +61,16 @@ export default class DownClues extends React.Component {
             />
           }
         </div>
-        <div>
+        <div className="fullWidth">
           <h4 className="mb5">Down</h4>
           {Object.keys(clueState.down).map(key => (
-            <div key={key + 'down'}>
-              <div 
-                className="rightJustify"
-                onClick={(e) => this.handleNumberClick(e, key, 'down')}
-              >
-                {key}
-              </div>
-              <textarea
-                className="clue"
-                key={key + 'down'}
-                onChange={(e) => onClueUpdate(key, 'down', e.target.value)}
-                value={clueState.down[key]}
-              />
-            </div>
+            <Clue
+              number={key}
+              direction="down"
+              onNumberClick={this.handleNumberClick}
+              onClueUpdate={onClueUpdate}
+              value={clueState.down[key]}
+            />
           ))}        
         </div>
       </div>

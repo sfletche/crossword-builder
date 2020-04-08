@@ -1,5 +1,6 @@
 import React from 'react';
 import Dropdown from 'react-dropdown';
+import Clue from './Clue.react';
 import { fetchClues } from './utils';
 import './AcrossClues.css';
 
@@ -32,7 +33,6 @@ export default class AcrossClues extends React.Component {
 
     this.handleClueSelect = this.handleClueSelect.bind(this);
     this.handleNumberClick = this.handleNumberClick.bind(this);
-    this.handleTextChange = this.handleTextChange.bind(this);
     this.setClue = this.setClue.bind(this);
   }
 
@@ -64,13 +64,8 @@ export default class AcrossClues extends React.Component {
     });
   }
 
-  handleTextChange(key, value) {
-    const { onClueUpdate } = this.props;
-    onClueUpdate(key, 'across', value);
-  }
-
   render() {
-    const { clueState } = this.props;
+    const { clueState, onClueUpdate } = this.props;
     const { clues, showDropdown } = this.state;
   	return (
   		<div className="flex minw350 space-between">
@@ -85,23 +80,16 @@ export default class AcrossClues extends React.Component {
             />
           }
         </div>
-        <div>
+        <div className="fullWidth">
           <h4 className="mb5">Across</h4>
           {Object.keys(clueState.across).map(key => (
-            <div key={key + 'across'}>
-              <div 
-                className="rightJustify"
-                onClick={(e) => this.handleNumberClick(e, key, 'across')}
-              >
-                {key}
-              </div>
-              <textarea
-                className="clue"
-                key={key + 'across'}
-                onChange={(e) => this.handleTextChange(key, e.target.value)}
-                value={clueState.across[key]}
-              />
-            </div>
+            <Clue
+              number={key}
+              direction="across"
+              onNumberClick={this.handleNumberClick}
+              onClueUpdate={onClueUpdate}
+              value={clueState.down[key]}
+            />
           ))}        
         </div>
       </div>
