@@ -9,6 +9,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 ## Next Steps
 * Highlight clue to match highlighted word
 * Layout improvements (e.g. where to put dropdowns)
+  * Make grid larger, and put clues in single column to free up horizontal space for dropdowns
 * UI improvements (https://jaredreisinger.github.io/react-crossword/)
 * Clue height determined by input
 * Switch to yarn
