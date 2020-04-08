@@ -85,14 +85,31 @@ export default class Grid extends React.Component {
 	}
 
 	handleLetterClick(row, col) {
-		const { inputType, gridState, onDirectionToggle, onGridUpdate } = this.props;
+		const { 
+			direction, 
+			gridState, 
+			inputType, 
+			onDirectionToggle, 
+			onGridUpdate, 
+			onSetAcross,
+			onSetDown,
+		} = this.props;
 		if (inputType === 'blanks') {
+			return;
+		}
+		const focusedCell = findFocus(gridState);
+		if (focusedCell.row === row && focusedCell.col === col) {
+			onDirectionToggle(gridState);
 			return;
 		}
 		const gridCopy = clearFocus(gridState);
 		gridCopy[row][col].focused = true;
 		onGridUpdate(gridCopy);
-		onDirectionToggle(gridCopy);
+		if (direction === 'across') {
+			onSetAcross(gridCopy);
+		} else {
+			onSetDown(gridCopy);
+		}
 	}
 
 	async handleNumberClick(e, row, col) {
