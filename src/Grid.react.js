@@ -1,71 +1,24 @@
 import React from 'react';
-import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import {
 	clearFocus,
-	colToRightIsBlank,
 	advanceFocus,
-	findCellFromNumber,
 	findFocus,
 	highlightWord,
-	rowBelowIsBlank,
 	stepFocus,
 } from './utils/utils';
-import { fetchAnswers } from './utils';
 import GridCell from './GridCell.react';
 import './Grid.css';
 
-
-function setAnswerAcross(row, col, grid, answer) {
-	const gridCopy = [...grid];
-	let i = 0;
-	gridCopy[row][col].value = answer[i++];
-	let nextCol = col;
-	while(!colToRightIsBlank(row, nextCol++, grid) && i < answer.length) {
-		gridCopy[row][nextCol].value = answer[i++];
-	}
-	return gridCopy;
-}
-
-function setAnswerDown(row, col, grid, answer) {
-	const gridCopy = [...grid];
-	let i = 0;
-	gridCopy[row][col].value = answer[i++];
-	let nextRow = row;
-	while(!rowBelowIsBlank(nextRow++, col, grid)) {
-		gridCopy[nextRow][col].value = answer[i++];
-	}
-	return gridCopy;
-}
-
-function getGridWithAnswer(gridState, answer, answerNumber, answerDirection) {
-	const { row, col } = findCellFromNumber(gridState, answerNumber);
-	let gridWithAnswer;
-	if (answerDirection === 'across') {
-		gridWithAnswer = setAnswerAcross(row, col, gridState, answer);
-	} else {
-		gridWithAnswer = setAnswerDown(row, col, gridState, answer);
-	}
-	return gridWithAnswer;
-}
 
 export default class Grid extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			answers: [],
-			answerDirection: props.direction,
-			answerNumber: null,
-		}
-
-		this.handleAnswerSelect = this.handleAnswerSelect.bind(this);
 		this.handleKeyAction = this.handleKeyAction.bind(this);
 		this.handleLetterChange = this.handleLetterChange.bind(this);
 		this.handleLetterClick = this.handleLetterClick.bind(this);
-		this.handleNumberClick = this.handleNumberClick.bind(this);
 		this.handleToggleBlank = this.handleToggleBlank.bind(this);
-		this.setGridAnswer = this.setGridAnswer.bind(this);
 	}
 
 	handleToggleBlank(row, col) {
@@ -110,35 +63,7 @@ export default class Grid extends React.Component {
 		} else {
 			onSetDown(gridCopy);
 		}
-	}
-
-	async handleNumberClick(e, row, col) {
-		const { direction, gridState } = this.props;
-		e.stopPropagation();
-		const answers = await fetchAnswers(row, col, direction, gridState);
-		// TODO: order alphabetically and de-dupe
-		this.setState({ 
-			answers, 
-			answerDirection: direction,
-			answerNumber: gridState[row][col].number,
-			showDropdown: true,
-		});
-	}
-
-	setGridAnswer(answer) {
-		const { gridState, onGridUpdate } = this.props;
-		const { answerNumber, answerDirection } = this.state;
-		const gridCopy = [...gridState];
-		const gridWithAnswer = getGridWithAnswer(gridCopy, answer, answerNumber, answerDirection);
-		onGridUpdate(gridWithAnswer);
-	}
-
-	handleAnswerSelect(answer) {
-		this.setGridAnswer(answer.value);
-		this.setState({
-			answers: [],
-			showDropdown: false,
-		});
+		this.setState({ showDropdown: false });
 	}
 
 	handleKeyAction(row, col, event) {
@@ -160,6 +85,7 @@ export default class Grid extends React.Component {
      		this.handleLetterChange(row, col, '');
      	}
 		}
+		this.setState({ showDropdown: false });
 	}
 
 	handleLetterChange(row, col, val) {
@@ -185,8 +111,7 @@ export default class Grid extends React.Component {
 	}
 
 	render() {
-		const { gridState, puzzleHasFocus } = this.props;
-		const { answers, showDropdown } = this.state;
+		const { gridState, onNumberClick, puzzleHasFocus } = this.props;
 		return gridState && (
 			<div className="flex">
 			  <table className="grid">
@@ -205,7 +130,7 @@ export default class Grid extends React.Component {
 				  						highlighted={gridState[row][col].highlighted}
 				  						onKeyAction={this.handleKeyAction}
 				  						onLetterClick={this.handleLetterClick}
-				  						onNumberClick={this.handleNumberClick}
+				  						onNumberClick={onNumberClick}
 				  						onToggleBlank={this.handleToggleBlank}
 				  						puzzleHasFocus={puzzleHasFocus}
 			  						/>
@@ -215,15 +140,6 @@ export default class Grid extends React.Component {
 						)}
 					</tbody>
 			  </table>
-			  {showDropdown && 
-			  	<Dropdown 
-			  		className="dropdown"
-			  		menuClassName="dropdownMenu"
-			  		onChange={this.handleAnswerSelect} 
-			  		options={answers} 
-			  		placeholder="Select an answer" 
-		  		/>
-			  }
 			</div>		
 		);
 	}

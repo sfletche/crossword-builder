@@ -10,6 +10,7 @@ function Puzzle({
   inputType,
   onDirectionToggle,
   onGridUpdate,
+  onNumberClick,
   onSetAcross,
   onSetDown,
   puzzleHasFocus,
@@ -31,6 +32,7 @@ function Puzzle({
           inputType={inputType}
           onDirectionToggle={onDirectionToggle}
           onGridUpdate={onGridUpdate}
+          onNumberClick={onNumberClick}
           onSetAcross={onSetAcross}
           onSetDown={onSetDown}
           puzzleHasFocus={puzzleHasFocus}

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './Clue.css';
+
 export default function Clue(props) {
   const {
     number,
@@ -12,7 +14,7 @@ export default function Clue(props) {
   return (
     <div className="flex" key={number + direction}>
       <div 
-        className="rightJustify"
+        className="rightJustify pointer"
         onClick={(e) => onNumberClick(e, number, direction)}
       >
         {number}:

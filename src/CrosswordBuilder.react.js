@@ -1,9 +1,13 @@
 import React from 'react';
+import Dropdown from 'react-dropdown';
 import ReactToPrint from 'react-to-print';
 import {
   clearHighlights,
   enumerate,
+  fetchAnswers,
+  fetchClues,
   findFocus,
+  getGridWithAnswer,
   highlightWordAcross,
   highlightWordDown,
   initializeClues,
@@ -11,8 +15,9 @@ import {
   slugify,
   updateClueState,
   INIT_SIZE,
-} from './utils/utils';
+} from './utils';
 import Clues from './Clues.react';
+import Dropdowns from './Dropdowns.react';
 import InputButtons from './InputButtons.react';
 import PersistedCrosswordList from './PersistedCrosswordList.react';
 import Puzzle from './Puzzle.react';
@@ -29,17 +34,28 @@ export default class CrosswordBuilder extends React.Component{
 
     this.state = {
       across: true,
+      answerDirection: props.across ? 'across' : 'down',
+      answerNumber: null,
+      answers: [],
       blanks: false,
+      clues: [],
       clueState: initializeClues(gridState),
       gridSize: INIT_SIZE,
       gridState: gridState,
       puzzleHasFocus: true,
+      showAcrossCluesDropdown: false,
+      showDownCluesDropdown: false,
+      showAnswersDropdown: false,
       tempSize: INIT_SIZE,
       title: "My Crossword Puzzle",
     };
 
+    this.handleAnswerSelect = this.handleAnswerSelect.bind(this);
+    this.handleClueNumberClick = this.handleClueNumberClick.bind(this);
+    this.handleClueSelect = this.handleClueSelect.bind(this);
     this.handleClueUpdate = this.handleClueUpdate.bind(this);
     this.handleDirectionToggle = this.handleDirectionToggle.bind(this);
+    this.handleGridNumberClick = this.handleGridNumberClick.bind(this);
     this.handleGridUpdate = this.handleGridUpdate.bind(this);
     this.handleOpenCrossword = this.handleOpenCrossword.bind(this);
     this.handleSetAcross = this.handleSetAcross.bind(this);
@@ -50,6 +66,8 @@ export default class CrosswordBuilder extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
     this.saveCrossword = this.saveCrossword.bind(this);
+    this.setClue = this.setClue.bind(this);
+    this.setAnswer = this.setAnswer.bind(this);
   }
   
   handleSizeChange(event) {
@@ -108,6 +126,11 @@ export default class CrosswordBuilder extends React.Component{
     } else {
       this.setState({ gridState: grid });
     }
+    this.setState({
+      showAcrossCluesDropdown: false,
+      showDownCluesDropdown: false,
+      showAnswersDropdown: false,
+    });
   };
 
   handleTitleUpdate(title) {
@@ -159,6 +182,72 @@ export default class CrosswordBuilder extends React.Component{
     this.setState({ clueState: savedClueState || initializeClues(savedGridState) });
   };
 
+  setAnswer(answer) {
+    const { gridState, onGridUpdate } = this.props;
+    const { answerNumber, answerDirection } = this.state;
+    const gridCopy = [...gridState];
+    const gridWithAnswer = getGridWithAnswer(gridCopy, answer, answerNumber, answerDirection);
+    onGridUpdate(gridWithAnswer);
+  }
+
+  handleAnswerSelect(answer) {
+    this.setAnswer(answer.value);
+    this.setState({
+      answers: [],
+      showAnswersDropdown: false,
+      showAcrossCluesDropdown: false,
+      showDownCluesDropdown: false,
+    });
+  }
+
+  setClue(clue, direction) {
+    const { onClueUpdate } = this.props;
+    const { clueNumber } = this.state;
+    onClueUpdate(clueNumber, direction, clue);
+  }
+
+  handleClueSelect(clue, direction) {
+    this.setClue(clue.value, direction);
+    this.setState({
+      clues: [],
+      showAnswersDropdown: false,
+      showAcrossCluesDropdown: false,
+      showDownCluesDropdown: false,
+    });
+  }
+
+  async handleGridNumberClick(e, row, col) {
+    const { across, gridState } = this.state;
+    const direction = across ? 'across' : 'down';
+    e.stopPropagation();
+    const answers = await fetchAnswers(row, col, direction, gridState);
+    console.log('answers', answers);
+    // TODO: order alphabetically and de-dupe
+    this.setState({ 
+      answers, 
+      answerDirection: direction,
+      answerNumber: gridState[row][col].number,
+      showAnswersDropdown: true,
+      showAcrossCluesDropdown: false,
+      showDownCluesDropdown: false,
+    });
+  }
+
+  async handleClueNumberClick(e, number, direction) {
+    const { gridState } = this.state;
+    const showAcross = direction === 'across';
+    e.stopPropagation();
+    const clues = await fetchClues(number, direction, gridState);
+    // order alphabetically and de-dupe
+    this.setState({ 
+      clues, 
+      clueNumber: number,
+      showAnswersDropdown: false,
+      showAcrossCluesDropdown: showAcross,
+      showDownCluesDropdown: !showAcross,
+    });
+  }
+
   saveCrossword() {
     const {
       clueState,
@@ -173,14 +262,20 @@ export default class CrosswordBuilder extends React.Component{
     localStorage.setItem(slug, JSON.stringify({ title, gridState, clueState }));
   };
 
+
   render() {
     const {
       across,
+      answers,
       blanks,
+      clues,
       clueState,
       gridSize,
       gridState,
       puzzleHasFocus,
+      showAcrossCluesDropdown,
+      showDownCluesDropdown,
+      showAnswersDropdown,
       tempSize,
       title,
     } = this.state;
@@ -207,6 +302,7 @@ export default class CrosswordBuilder extends React.Component{
             inputType={blanks ? 'blanks' : 'letters'}
             onDirectionToggle={this.handleDirectionToggle}
             onGridUpdate={this.handleGridUpdate}
+            onNumberClick={this.handleGridNumberClick}
             onSetAcross={this.handleSetAcross}
             onSetDown={this.handleSetDown}
             puzzleHasFocus={puzzleHasFocus}
@@ -217,7 +313,35 @@ export default class CrosswordBuilder extends React.Component{
             clueState={clueState}
             gridState={gridState}
             onClueUpdate={this.handleClueUpdate}
+            onNumberClick={this.handleClueNumberClick}
           />
+          {showAnswersDropdown && 
+            <Dropdown 
+              className="dropdown"
+              menuClassName="dropdownMenu"
+              onChange={this.handleAnswerSelect} 
+              options={answers} 
+              placeholder="Select an answer" 
+            />
+          }
+          {showAcrossCluesDropdown && 
+            <Dropdown 
+              className="clue-dropdown"
+              menuClassName="dropdownMenu"
+              onChange={clue => this.handleClueSelect(clue, 'across')} 
+              options={clues} 
+              placeholder="Select a clue" 
+            />
+          }
+          {showDownCluesDropdown && 
+            <Dropdown 
+              className="clue-dropdown"
+              menuClassName="dropdownMenu"
+              onChange={clue => this.handleClueSelect(clue, 'down')} 
+              options={clues} 
+              placeholder="Select a clue" 
+            />
+          }
         </div>
         <div className="mt20">
           <ReactToPrint

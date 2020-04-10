@@ -246,6 +246,39 @@ export function findCellFromNumber(grid, number) {
   return {row: 0, col: 0};
 }
 
+function setAnswerAcross(row, col, grid, answer) {
+  const gridCopy = [...grid];
+  let i = 0;
+  gridCopy[row][col].value = answer[i++];
+  let nextCol = col;
+  while(!colToRightIsBlank(row, nextCol++, grid) && i < answer.length) {
+    gridCopy[row][nextCol].value = answer[i++];
+  }
+  return gridCopy;
+}
+
+function setAnswerDown(row, col, grid, answer) {
+  const gridCopy = [...grid];
+  let i = 0;
+  gridCopy[row][col].value = answer[i++];
+  let nextRow = row;
+  while(!rowBelowIsBlank(nextRow++, col, grid)) {
+    gridCopy[nextRow][col].value = answer[i++];
+  }
+  return gridCopy;
+}
+
+export function getGridWithAnswer(gridState, answer, answerNumber, answerDirection) {
+  const { row, col } = findCellFromNumber(gridState, answerNumber);
+  let gridWithAnswer;
+  if (answerDirection === 'across') {
+    gridWithAnswer = setAnswerAcross(row, col, gridState, answer);
+  } else {
+    gridWithAnswer = setAnswerDown(row, col, gridState, answer);
+  }
+  return gridWithAnswer;
+}
+
 function findStartOfAcrossWord(row, col, grid) {
   let startCol = col;
   while(!colToLeftIsBlank(row, startCol, grid)) {
