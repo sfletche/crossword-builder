@@ -38,6 +38,7 @@ export default class CrosswordBuilder extends React.Component{
       answerNumber: null,
       answers: [],
       blanks: false,
+      clueNumber: null,
       clues: [],
       clueState: initializeClues(gridState),
       gridSize: INIT_SIZE,
@@ -86,9 +87,10 @@ export default class CrosswordBuilder extends React.Component{
   };
 
   handleClueUpdate(number, direction, clue) {
-    const {
-      clueState,
-    } = this.state;
+    const { clueState } = this.state;
+    console.log('clue', clue)
+    console.log('number', number)
+    console.log('direction', direction)
     this.setState({ puzzleHasFocus: false });
     if (direction === 'across') {
       const newClues = {
@@ -98,6 +100,7 @@ export default class CrosswordBuilder extends React.Component{
           [number]: clue,
         },
       };
+      console.log('newClues', newClues)
       this.setState({ clueState: newClues });
     } else {
       const newClues = {
@@ -201,9 +204,8 @@ export default class CrosswordBuilder extends React.Component{
   }
 
   setClue(clue, direction) {
-    const { onClueUpdate } = this.props;
     const { clueNumber } = this.state;
-    onClueUpdate(clueNumber, direction, clue);
+    this.handleClueUpdate(clueNumber, direction, clue);
   }
 
   handleClueSelect(clue, direction) {

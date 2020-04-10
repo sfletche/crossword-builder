@@ -35,7 +35,7 @@ export default class AcrossClues extends React.Component {
               direction="across"
               onNumberClick={onNumberClick}
               onClueUpdate={onClueUpdate}
-              value={clueState.down[key]}
+              value={clueState.across[key]}
             />
           ))}        
         </div>
