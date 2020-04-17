@@ -7,8 +7,6 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 
 ## Next Steps
-* Add firebase 
-* Switch to yarn
 * Add linting
 * Actual css modules
 * Integrate typescript
