@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function MainMenu() {
+export default function MainMenu({ onLogout }) {
 	return (
 	  <div>
 	    <Link to="/">
@@ -10,6 +10,7 @@ export default function MainMenu() {
 	    <Link to="/grid-builder">
 	      <button>Grid Builder</button>
 	    </Link>
+	    <button onClick={onLogout}>Log out</button>
 	  </div>
 	);
 }
