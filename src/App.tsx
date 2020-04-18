@@ -3,12 +3,11 @@ import 'firebase/auth';
 
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
 import './App.css';
 import MainMenu from './MainMenu.react';
 import CrosswordBuilder from './CrosswordBuilder.react';
 import Introduction from './Introduction.react';
-import Login from './auth/Login.react';
+import Login from './auth/Login';
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -45,7 +44,7 @@ function onAuthStateChange(
   return () => unsubscribe();
 }
 
-function handleLogin(email: string, password: string) {
+function handleLogin(email: string, password: string): Promise<void> {
   return new Promise((resolve, reject) => {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
@@ -57,14 +56,14 @@ function handleLogin(email: string, password: string) {
   });
 }
 
-function handleLogout(setUser) {  
+function handleLogout(setUser: (arg0: { email: string; loggedIn: boolean | null; }) => void) {  
   firebase.auth().signOut().then(() => {
     setUser({ email: '', loggedIn: false });    
   });
 }
 
 function App() {
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<{ email: string, loggedIn: boolean | null }>({
     email: '',
     loggedIn: null,
   });

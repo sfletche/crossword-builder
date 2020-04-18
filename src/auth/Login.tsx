@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
+type Props = {
+  onLogin: (email: string, password: string) => void,
+  user: { email: string, loggedIn: boolean | null },
+}
 
-function Login({ onLogin, user }: LoginViewProps) {
+function Login({ onLogin, user }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   if (user.loggedIn === null) {
-    return 'Loading...';
+    return <div>'Loading...'</div>;
   }
   if (user.loggedIn) {
     return <Redirect to="/grid-builder" />;
