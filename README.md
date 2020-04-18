@@ -7,10 +7,9 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 
 ## Next Steps
-* Add linting
-* Actual css modules
-* Integrate typescript
+* Integrate typescript...on going...
 * Highlight clue to match highlighted word
+* Actual css modules
 * Layout improvements (e.g. where to put dropdowns)
   * Make grid larger, and put clues in single column to free up horizontal space for dropdowns
 * UI improvements (https://jaredreisinger.github.io/react-crossword/)

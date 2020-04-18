@@ -17,7 +17,6 @@ import {
   INIT_SIZE,
 } from './utils';
 import Clues from './Clues.react';
-import Dropdowns from './Dropdowns.react';
 import InputButtons from './InputButtons.react';
 import PersistedCrosswordList from './PersistedCrosswordList.react';
 import Puzzle from './Puzzle.react';
