@@ -1,6 +1,10 @@
 import { colToRightIsBlank, rowBelowIsBlank } from './utils';
 
-function getQueryAcross(row, col, grid) {
+type Direction = 'across' | 'down';
+type Grid = Array<Array<{ value: string }>>;
+type Hit = { _source: { answer: string } };
+
+function getQueryAcross(row: number, col: number, grid: Grid): string {
   let nextCol = col;
   let query = grid[row][col].value || '?';
   while(!colToRightIsBlank(row, nextCol++, grid)) {
@@ -9,7 +13,7 @@ function getQueryAcross(row, col, grid) {
   return query;
 }
 
-function getQueryDown(row, col, grid) {
+function getQueryDown(row: number, col: number, grid: Grid): string {
   let nextRow = row;
   let query = grid[row][col].value || '?';
   while(!rowBelowIsBlank(nextRow++, col, grid)) {
@@ -18,14 +22,19 @@ function getQueryDown(row, col, grid) {
   return query;
 }
 
-function getQuery(row, col, direction, grid) {
+function getQuery(row: number, col: number, direction: Direction, grid: Grid): string {
   if (direction === 'across') {
     return getQueryAcross(row, col, grid);
   }
   return getQueryDown(row, col, grid);
 }
 
-export async function fetchAnswers(row, col, direction, gridState) {
+export async function fetchAnswers(
+  row: number, 
+  col: number, 
+  direction: Direction, 
+  gridState: Grid,
+): Promise<Array<string>> {
   const query = getQuery(row, col, direction, gridState);
   const url = 'https://search-crossword-yq7gx54qazz4o5mrpmbrqhuoc4.us-east-2.es.amazonaws.com/_search';
   const queryParam = '?q=answer:' + query + `&size=50`;
@@ -34,6 +43,6 @@ export async function fetchAnswers(row, col, direction, gridState) {
   if (jsonData.error && jsonData.status >= 400) {
     return [];
   }
-  const answers = jsonData.hits.hits.map(hit => hit._source.answer);
+  const answers = jsonData.hits.hits.map((hit: Hit) => hit._source.answer);
   return answers;
 }
