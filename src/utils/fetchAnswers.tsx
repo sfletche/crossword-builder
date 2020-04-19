@@ -1,7 +1,8 @@
 import { colToRightIsBlank, rowBelowIsBlank } from './utils';
 
 type Direction = 'across' | 'down';
-type Grid = Array<Array<{ value: string }>>;
+type Row = Array<{ focused?: boolean, number: number, value: string }>;
+type Grid = Array<Row>;
 type Hit = { _source: { answer: string } };
 
 function getQueryAcross(row: number, col: number, grid: Grid): string {

@@ -1,4 +1,4 @@
 
-export * from './utils.js';
+export * from './utils';
 export * from './fetchClues';
 export * from './fetchAnswers';
