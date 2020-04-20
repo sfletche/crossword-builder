@@ -16,7 +16,7 @@ import {
   updateClueState,
   INIT_SIZE,
 } from './utils';
-import Clues from './Clues.react';
+import Clues from './Clues';
 import InputButtons from './InputButtons.react';
 import PersistedCrosswordList from './PersistedCrosswordList.react';
 import Puzzle from './Puzzle.react';
@@ -87,9 +87,6 @@ export default class CrosswordBuilder extends React.Component{
 
   handleClueUpdate(number, direction, clue) {
     const { clueState } = this.state;
-    console.log('clue', clue)
-    console.log('number', number)
-    console.log('direction', direction)
     this.setState({ puzzleHasFocus: false });
     if (direction === 'across') {
       const newClues = {

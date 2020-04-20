@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 
 import './Clue.css';
 
-export default function Clue(props) {
+type ClueObject = { [key: string]: string };
+type Clues = { across: ClueObject, down: ClueObject };
+type Direction = 'across' | 'down';
+
+type Props = {
+  number: string,
+  direction: Direction,
+  onClueUpdate: (number: string, direction: Direction, clue: string) => void,
+  onNumberClick: (event: MouseEvent<HTMLDivElement>, number: string, direction: Direction) => void,
+  value: string,
+};
+
+export default function Clue(props: Props) {
   const {
     number,
     direction,

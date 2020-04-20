@@ -1,8 +1,18 @@
-import React from 'react';
-import Clue from './Clue.react';
+import React, { Component, MouseEvent } from 'react';
+import Clue from './Clue';
 import './AcrossClues.css';
 
-export default class AcrossClues extends React.Component {
+type ClueObject = { [key: string]: string };
+type Clues = { across: ClueObject, down: ClueObject };
+type Direction = 'across' | 'down';
+
+type Props = {
+  clueState: Clues,
+  onClueUpdate: (number: string, direction: Direction, clue: string) => void,
+  onNumberClick: (event: MouseEvent<HTMLDivElement>, number: string, direction: Direction) => void,
+};
+
+export default class AcrossClues extends Component<Props> {
   render() {
     const { clueState, onClueUpdate, onNumberClick } = this.props;
   	return (
