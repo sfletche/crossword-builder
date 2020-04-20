@@ -1,29 +1,46 @@
-import React, { useEffect, useRef } from 'react';
+import React, { KeyboardEvent, MouseEvent, useEffect, useRef } from 'react';
 
 import './GridCell.css';
 
-export default function GridCell(props) {
+type Direction = 'across' | 'down';
+
+type Props = {
+  col: number,
+  focused: boolean,
+  highlighted: boolean,
+  number: number,
+  onKeyAction: (row: number, col: number, event: KeyboardEvent<HTMLDivElement>) => void,
+  onLetterClick: (row: number, col: number) => void,
+  onNumberClick: (event: MouseEvent<HTMLSpanElement>, row: number, col: number) => void,
+  onToggleBlank: (row: number, col: number) => void,
+  puzzleHasFocus: boolean,
+  row: number,
+  value: string,
+};
+
+
+export default function GridCell(props: Props) {
 	const {
-		row,
 		col,
-		value,
-		number,
 		focused,
 		highlighted,
+		number,
     onKeyAction,
 		onLetterClick,
     onNumberClick,
 		onToggleBlank,
     puzzleHasFocus,
+		row,
+		value,
 	} = props;
 
+  const componentRef = useRef<HTMLDivElement>();
   useEffect(() => {
     if (puzzleHasFocus && focused) {
     	componentRef.current.focus();
     }
   });
   
-  const componentRef = useRef();
 	let outerDivClass = value === 'BLANK' ? 'blank' : 'standard';
 	if (highlighted) {
 		outerDivClass += ' highlighted';

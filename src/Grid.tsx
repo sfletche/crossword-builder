@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, KeyboardEvent, MouseEvent } from 'react';
 import 'react-dropdown/style.css';
 import {
 	clearFocus,
@@ -7,12 +7,28 @@ import {
 	highlightWord,
 	stepFocus,
 } from './utils/utils';
-import GridCell from './GridCell.react';
+import GridCell from './GridCell';
 import './Grid.css';
 
+type Direction = 'across' | 'down';
+type Row = Array<{ focused?: boolean, highlighted?: boolean, number: number, value: string }>;
+type GridState = Array<Row>;
 
-export default class Grid extends React.Component {
-	constructor(props) {
+type Props = {
+	direction: Direction
+	gridSize: number, 
+	gridState: GridState, 
+	inputType: string, 
+	onDirectionToggle: (grid: GridState) => void,
+	onGridUpdate: (grid: GridState) => void,
+	onNumberClick: (event: MouseEvent<HTMLSpanElement>, row: number, col: number) => void,
+	onSetAcross: (grid: GridState) => void,
+	onSetDown: (grid: GridState) => void,
+	puzzleHasFocus: boolean,
+}
+
+export default class Grid extends Component<Props> {
+	constructor(props: Props) {
 		super(props);
 
 		this.handleKeyAction = this.handleKeyAction.bind(this);
@@ -21,7 +37,7 @@ export default class Grid extends React.Component {
 		this.handleToggleBlank = this.handleToggleBlank.bind(this);
 	}
 
-	handleToggleBlank(row, col) {
+	handleToggleBlank(row: number, col: number) {
 		const { gridSize, gridState, inputType, onGridUpdate } = this.props;
 		if (inputType === 'letters') {
 			return;
@@ -37,7 +53,7 @@ export default class Grid extends React.Component {
 		onGridUpdate(gridCopy);
 	}
 
-	handleLetterClick(row, col) {
+	handleLetterClick(row: number, col: number) {
 		const { 
 			direction, 
 			gridState, 
@@ -66,7 +82,7 @@ export default class Grid extends React.Component {
 		this.setState({ showDropdown: false });
 	}
 
-	handleKeyAction(row, col, event) {
+	handleKeyAction(row: number, col: number, event: KeyboardEvent<HTMLDivElement>) {
 		event.preventDefault();
 		const { gridState, onSetAcross, onSetDown } = this.props;
 		const { keyCode } = event;
@@ -88,7 +104,7 @@ export default class Grid extends React.Component {
 		this.setState({ showDropdown: false });
 	}
 
-	handleLetterChange(row, col, val) {
+	handleLetterChange(row: number, col: number, val: string) {
 		const { direction, inputType, gridState, onGridUpdate } = this.props;
 		if (inputType === 'blanks') {
 			return;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Grid from './Grid.react';
+import Grid from './Grid';
 import './Puzzle.css';
 
 function Puzzle({
