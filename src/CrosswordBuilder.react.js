@@ -17,9 +17,9 @@ import {
   INIT_SIZE,
 } from './utils';
 import Clues from './Clues';
-import InputButtons from './InputButtons.react';
-import PersistedCrosswordList from './PersistedCrosswordList.react';
-import Puzzle from './Puzzle.react';
+import InputButtons from './InputButtons';
+import PersistedCrosswordList from './PersistedCrosswordList';
+import Puzzle from './Puzzle';
 import './CrosswordBuilder.css';
 
 

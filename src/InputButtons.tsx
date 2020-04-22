@@ -1,7 +1,14 @@
 import React from 'react';
 import './InputButtons.css';
 
-export default function InputButtons({ className, inputType, onSetBlanks, onSetLetters }) {
+type Props = {
+	className: string,
+	inputType: 'blanks' | 'letters',
+	onSetBlanks: () => void,
+	onSetLetters: () => void,
+};
+
+export default function InputButtons({ className, inputType, onSetBlanks, onSetLetters }: Props) {
 	return (
 		<div className={className}>
 		  <span>Input</span>

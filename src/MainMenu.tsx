@@ -1,7 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function MainMenu({ onLogout }) {
+type Props = {
+	onLogout: () => void,
+};
+
+export default function MainMenu({ onLogout }: Props) {
 	return (
 	  <div>
 	    <Link to="/">

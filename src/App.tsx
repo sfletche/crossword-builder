@@ -4,9 +4,9 @@ import 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
-import MainMenu from './MainMenu.react';
+import MainMenu from './MainMenu';
 import CrosswordBuilder from './CrosswordBuilder.react';
-import Introduction from './Introduction.react';
+import Introduction from './Introduction';
 import Login from './auth/Login';
 
 // Initialize Firebase
