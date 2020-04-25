@@ -27,7 +27,6 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * Option for completing the puzzle
 
 
-
 ## Credits
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
