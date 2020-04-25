@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent, Component, createRef, FormEvent, MouseEvent } from 'react';
 import Dropdown from 'react-dropdown';
 import ReactToPrint from 'react-to-print';
 import {
@@ -22,18 +22,43 @@ import PersistedCrosswordList from './PersistedCrosswordList';
 import Puzzle from './Puzzle';
 import './CrosswordBuilder.css';
 
+type AcrossClues = { [key: string]: string };
+type ClueState = { across: AcrossClues, down: DownClues };
+type Direction = 'across' | 'down';
+type DownClues = { [key: number]: string };
+type RowState = Array<{ focused?: boolean, highlighted?: boolean, number: number, value: string }>;
+type GridState = Array<RowState>;
 
-export default class CrosswordBuilder extends React.Component{
-  constructor(props) {
+type Props = {};
+
+type State = {
+  across: boolean,
+  answerDirection: Direction,
+  answerNumber: number,
+  answers: Array<string>,
+  blanks: boolean,
+  clueNumber: string,
+  clues: Array<string>,
+  clueState: ClueState,
+  gridSize: number,
+  gridState: GridState,
+  puzzleHasFocus: boolean,
+  showAcrossCluesDropdown: boolean,
+  showDownCluesDropdown: boolean,
+  showAnswersDropdown: boolean,
+  tempSize: number,
+  title: string,
+};
+
+export default class CrosswordBuilder extends Component<Props,State> {
+  constructor(props: Props) {
     super(props);
 
-    this.componentRef = React.createRef();
-
-    const gridState = initializeGrid();
+    const gridState = initializeGrid(INIT_SIZE);
 
     this.state = {
       across: true,
-      answerDirection: props.across ? 'across' : 'down',
+      answerDirection: 'across',
       answerNumber: null,
       answers: [],
       blanks: false,
@@ -66,15 +91,17 @@ export default class CrosswordBuilder extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
     this.saveCrossword = this.saveCrossword.bind(this);
-    this.setClue = this.setClue.bind(this);
     this.setAnswer = this.setAnswer.bind(this);
+    this.setClue = this.setClue.bind(this);
   }
+    
+  componentRef = createRef<HTMLDivElement>();
   
-  handleSizeChange(event) {
-    this.setState({ tempSize: event.target.value });
+  handleSizeChange(event: ChangeEvent<HTMLInputElement>) {
+    this.setState({ tempSize: parseInt(event.target.value, 10) });
   };
 
-  handleSubmit(event) {
+  handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const grid = initializeGrid(this.state.tempSize);
     const clues = initializeClues(grid);
@@ -85,7 +112,7 @@ export default class CrosswordBuilder extends React.Component{
     });
   };
 
-  handleClueUpdate(number, direction, clue) {
+  handleClueUpdate(number: string, direction: Direction, clue: string) {
     const { clueState } = this.state;
     this.setState({ puzzleHasFocus: false });
     if (direction === 'across') {
@@ -110,7 +137,7 @@ export default class CrosswordBuilder extends React.Component{
     }
   }
 
-  handleGridUpdate(grid) {
+  handleGridUpdate(grid: GridState) {
     const {
       blanks,
       clueState,
@@ -132,7 +159,7 @@ export default class CrosswordBuilder extends React.Component{
     });
   };
 
-  handleTitleUpdate(title) {
+  handleTitleUpdate(title: string) {
     this.setState({ 
       puzzleHasFocus: false,
       title, 
@@ -152,7 +179,7 @@ export default class CrosswordBuilder extends React.Component{
     this.setState({ blanks: false });
   };
 
-  handleSetAcross(grid) {
+  handleSetAcross(grid: GridState) {
     this.setState({ across: true });
     const focusedCell = findFocus(grid);
     const highlightedGrid = highlightWordAcross(focusedCell.row, focusedCell.col, grid);
@@ -162,7 +189,7 @@ export default class CrosswordBuilder extends React.Component{
     this.setState({ gridState: highlightedGrid });
   };
 
-  handleSetDown(grid) {
+  handleSetDown(grid: GridState) {
     this.setState({ across: false });
     const focusedCell = findFocus(grid);
     const highlightedGrid = highlightWordDown(focusedCell.row, focusedCell.col, grid);
@@ -170,26 +197,25 @@ export default class CrosswordBuilder extends React.Component{
     this.setState({ gridState: highlightedGrid });
   };
 
-  handleDirectionToggle(grid) {
+  handleDirectionToggle(grid: GridState) {
     const { across } = this.state;
     across ? this.handleSetDown(grid) : this.handleSetAcross(grid);
   };
 
-  handleOpenCrossword(savedTitle, savedGridState, savedClueState) {
+  handleOpenCrossword(savedTitle: string, savedGridState: GridState, savedClueState: ClueState) {
     this.setState({ title: savedTitle });
     this.setState({ gridState: savedGridState });
     this.setState({ clueState: savedClueState || initializeClues(savedGridState) });
   };
 
-  setAnswer(answer) {
-    const { gridState, onGridUpdate } = this.props;
-    const { answerNumber, answerDirection } = this.state;
+  setAnswer(answer: string) {
+    const { answerDirection, answerNumber, gridState } = this.state;
     const gridCopy = [...gridState];
     const gridWithAnswer = getGridWithAnswer(gridCopy, answer, answerNumber, answerDirection);
-    onGridUpdate(gridWithAnswer);
+    this.handleGridUpdate(gridWithAnswer);
   }
 
-  handleAnswerSelect(answer) {
+  handleAnswerSelect(answer: { value: string }) {
     this.setAnswer(answer.value);
     this.setState({
       answers: [],
@@ -199,12 +225,12 @@ export default class CrosswordBuilder extends React.Component{
     });
   }
 
-  setClue(clue, direction) {
+  setClue(clue: string, direction: Direction) {
     const { clueNumber } = this.state;
     this.handleClueUpdate(clueNumber, direction, clue);
   }
 
-  handleClueSelect(clue, direction) {
+  handleClueSelect(clue: { value: string }, direction: Direction) {
     this.setClue(clue.value, direction);
     this.setState({
       clues: [],
@@ -214,7 +240,7 @@ export default class CrosswordBuilder extends React.Component{
     });
   }
 
-  async handleGridNumberClick(e, row, col) {
+  async handleGridNumberClick(e: MouseEvent<HTMLElement>, row: number, col: number) {
     const { across, gridState } = this.state;
     const direction = across ? 'across' : 'down';
     e.stopPropagation();
@@ -231,11 +257,11 @@ export default class CrosswordBuilder extends React.Component{
     });
   }
 
-  async handleClueNumberClick(e, number, direction) {
+  async handleClueNumberClick(e: MouseEvent<HTMLElement>, number: string, direction: Direction) {
     const { gridState } = this.state;
     const showAcross = direction === 'across';
     e.stopPropagation();
-    const clues = await fetchClues(number, direction, gridState);
+    const clues = await fetchClues(parseInt(number, 10), direction, gridState);
     // order alphabetically and de-dupe
     this.setState({ 
       clues, 
@@ -309,7 +335,6 @@ export default class CrosswordBuilder extends React.Component{
           />
           <Clues
             clueState={clueState}
-            gridState={gridState}
             onClueUpdate={this.handleClueUpdate}
             onNumberClick={this.handleClueNumberClick}
           />

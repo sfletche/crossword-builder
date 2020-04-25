@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import MainMenu from './MainMenu';
-import CrosswordBuilder from './CrosswordBuilder.react';
+import CrosswordBuilder from './CrosswordBuilder';
 import Introduction from './Introduction';
 import Login from './auth/Login';
 
@@ -90,7 +90,7 @@ function App() {
               <Login onLogin={handleLogin} user={user} />
             </Route>
             <Route path="/grid-builder">
-              <CrosswordBuilder user={user} />
+              <CrosswordBuilder />
             </Route>
           </Switch>
         </Router>

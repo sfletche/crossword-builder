@@ -5,11 +5,11 @@ import DownClues from './DownClues';
 import './Clues.css';
 
 type ClueObject = { [key: string]: string };
-type Clues = { across: ClueObject, down: ClueObject };
+type ClueState = { across: ClueObject, down: ClueObject };
 type Direction = 'across' | 'down';
 
 type Props = {
-  clueState: Clues,
+  clueState: ClueState,
   onClueUpdate: (number: string, direction: Direction, clue: string) => void,
   onNumberClick: (event: MouseEvent<HTMLDivElement>, number: string, direction: Direction) => void,
 };
