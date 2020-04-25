@@ -10,9 +10,10 @@ import {
 import GridCell from './GridCell';
 import './Grid.css';
 
-type Direction = 'across' | 'down';
-type Row = Array<{ focused?: boolean, highlighted?: boolean, number: number, value: string }>;
-type GridState = Array<Row>;
+import type {
+	Direction,
+	GridState,
+} from './types';
 
 type Props = {
 	direction: Direction

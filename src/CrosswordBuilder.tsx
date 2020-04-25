@@ -22,12 +22,11 @@ import PersistedCrosswordList from './PersistedCrosswordList';
 import Puzzle from './Puzzle';
 import './CrosswordBuilder.css';
 
-type AcrossClues = { [key: string]: string };
-type ClueState = { across: AcrossClues, down: DownClues };
-type Direction = 'across' | 'down';
-type DownClues = { [key: number]: string };
-type RowState = Array<{ focused?: boolean, highlighted?: boolean, number: number, value: string }>;
-type GridState = Array<RowState>;
+import type {
+  ClueState,
+  Direction,
+  GridState,
+} from './types';
 
 type Props = {};
 

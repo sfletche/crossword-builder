@@ -1,11 +1,13 @@
 import { colToRightIsBlank, rowBelowIsBlank } from './utils';
 
-type Direction = 'across' | 'down';
-type Row = Array<{ focused?: boolean, number: number, value: string }>;
-type Grid = Array<Row>;
+import type {
+  Direction,
+  GridState,
+} from '../types';
+
 type Hit = { _source: { answer: string } };
 
-function getQueryAcross(row: number, col: number, grid: Grid): string {
+function getQueryAcross(row: number, col: number, grid: GridState): string {
   let nextCol = col;
   let query = grid[row][col].value || '?';
   while(!colToRightIsBlank(row, nextCol++, grid)) {
@@ -14,7 +16,7 @@ function getQueryAcross(row: number, col: number, grid: Grid): string {
   return query;
 }
 
-function getQueryDown(row: number, col: number, grid: Grid): string {
+function getQueryDown(row: number, col: number, grid: GridState): string {
   let nextRow = row;
   let query = grid[row][col].value || '?';
   while(!rowBelowIsBlank(nextRow++, col, grid)) {
@@ -23,7 +25,7 @@ function getQueryDown(row: number, col: number, grid: Grid): string {
   return query;
 }
 
-function getQuery(row: number, col: number, direction: Direction, grid: Grid): string {
+function getQuery(row: number, col: number, direction: Direction, grid: GridState): string {
   if (direction === 'across') {
     return getQueryAcross(row, col, grid);
   }
@@ -34,7 +36,7 @@ export async function fetchAnswers(
   row: number, 
   col: number, 
   direction: Direction, 
-  gridState: Grid,
+  gridState: GridState,
 ): Promise<Array<string>> {
   const query = getQuery(row, col, direction, gridState);
   const url = 'https://search-crossword-yq7gx54qazz4o5mrpmbrqhuoc4.us-east-2.es.amazonaws.com/_search';

@@ -2,9 +2,9 @@ import React, { MouseEvent } from 'react';
 
 import './Clue.css';
 
-type ClueObject = { [key: string]: string };
-type Clues = { across: ClueObject, down: ClueObject };
-type Direction = 'across' | 'down';
+import type {
+  Direction,
+} from './types';
 
 type Props = {
   number: string,

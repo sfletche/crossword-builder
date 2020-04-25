@@ -4,11 +4,12 @@ import {
   rowBelowIsBlank,
 } from './utils';
 
-type Direction = 'across' | 'down';
-type Row = Array<{ focused?: boolean, number: number, value: string }>;
-type Grid = Array<Row>;
+import type {
+  Direction,
+  GridState,
+} from '../types';
 
-function getAnswerAcross(number: number, grid: Grid): string {
+function getAnswerAcross(number: number, grid: GridState): string {
   const { row, col } = findCellFromNumber(grid, number);
   let nextCol = col;
   let answer = grid[row][col].value;
@@ -18,7 +19,7 @@ function getAnswerAcross(number: number, grid: Grid): string {
   return answer;
 }
 
-function getAnswerDown(number: number, grid: Grid): string {
+function getAnswerDown(number: number, grid: GridState): string {
   const { row, col } = findCellFromNumber(grid, number);
   let nextRow = row;
   let answer = grid[row][col].value;
@@ -28,14 +29,14 @@ function getAnswerDown(number: number, grid: Grid): string {
   return answer;
 }
 
-function getAnswer(number: number, direction: Direction, grid: Grid): string {
+function getAnswer(number: number, direction: Direction, grid: GridState): string {
   if (direction === 'across') {
     return getAnswerAcross(number, grid);
   }
   return getAnswerDown(number, grid);
 }
 
-export async function fetchClues(number: number, direction: Direction, gridState: Grid): Promise<Array<string>> {
+export async function fetchClues(number: number, direction: Direction, gridState: GridState): Promise<Array<string>> {
   const answer = getAnswer(number, direction, gridState);
   console.log('answer', answer);
   const url = 'https://search-crossword-yq7gx54qazz4o5mrpmbrqhuoc4.us-east-2.es.amazonaws.com/_search';

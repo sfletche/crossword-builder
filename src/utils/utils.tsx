@@ -1,15 +1,17 @@
 
-type AcrossClues = { [key: string]: string };
-type DownClues = { [key: number]: string };
-type Clues = { across: AcrossClues, down: DownClues };
-type Direction = 'across' | 'down';
-type ArrowDirection = 'left' | 'right' | 'up' | 'down';
-type Row = Array<{ focused?: boolean, highlighted?: boolean, number: number, value: string }>;
-type Grid = Array<Row>;
-type SimpleGrid = Array<Array<{ value: string }>>;
-type EnumeratedGrid = Array<Array<{ number: number, value: string }>>;
-type Cell = { row: number, col: number };
-type NextCell = { nextRow: number, nextCol: number };
+import type {
+  AcrossClues,
+  DownClues,
+  ClueState,
+  Direction,
+  ArrowDirection,
+  RowState,
+  GridState,
+  SimpleGrid,
+  EnumeratedGrid,
+  Cell,
+  NextCell,
+} from '../types';
 
 export const INIT_SIZE = 9;
 
@@ -17,7 +19,7 @@ function getGrid(size: number): SimpleGrid {
   return Array.from({length: size}, e => Array.from({length: size}, e => ({ value: '' })));
 }
 
-export function initializeGrid(size: number): Grid {
+export function initializeGrid(size: number): GridState {
   const initialGrid = getGrid(size || INIT_SIZE);
   const enumeratedGrid = enumerate(initialGrid);
   const highlightedGrid = highlightWordAcross(0, 0, enumeratedGrid);
@@ -25,7 +27,7 @@ export function initializeGrid(size: number): Grid {
   return highlightedGrid;
 }
 
-function getAcrossCluesFromRow(grid: Grid, gridRow: Row, row: number, clues?: Clues): AcrossClues {
+function getAcrossCluesFromRow(grid: GridState, gridRow: RowState, row: number, clues?: ClueState): AcrossClues {
   return gridRow.reduce((acc, cell, col) => {
     if (grid[row][col].value === 'BLANK') {
       return acc;
@@ -42,7 +44,7 @@ function getAcrossCluesFromRow(grid: Grid, gridRow: Row, row: number, clues?: Cl
   }, {});
 }
 
-function getAcrossClues(grid: Grid, clues?: Clues): AcrossClues {
+function getAcrossClues(grid: GridState, clues?: ClueState): AcrossClues {
   return grid.reduce((acc, gridRow, row) => {
     return {
       ...acc,
@@ -51,7 +53,7 @@ function getAcrossClues(grid: Grid, clues?: Clues): AcrossClues {
   }, {});
 }
 
-function getDownCluesFromRow(grid: Grid, gridRow: Row, row: number, clues?: Clues): DownClues {
+function getDownCluesFromRow(grid: GridState, gridRow: RowState, row: number, clues?: ClueState): DownClues {
   return gridRow.reduce((acc, cell, col) => {
     if (grid[row][col].value === 'BLANK') {
       return acc;
@@ -68,7 +70,7 @@ function getDownCluesFromRow(grid: Grid, gridRow: Row, row: number, clues?: Clue
   }, {});
 }
 
-function getDownClues(grid: Grid, clues?: Clues): DownClues {
+function getDownClues(grid: GridState, clues?: ClueState): DownClues {
   // return grid.map((gridRow, row) => getDownCluesFromRow(grid, gridRow, row)).flat();
   return grid.reduce((acc, gridRow, row) => {
     return {
@@ -78,14 +80,14 @@ function getDownClues(grid: Grid, clues?: Clues): DownClues {
   }, {});
 }
 
-export function initializeClues(grid: Grid): Clues {
+export function initializeClues(grid: GridState): ClueState {
   return {
     across: getAcrossClues(grid),
     down: getDownClues(grid),
   };
 }
 
-export function updateClueState(grid: Grid, clues: Clues): Clues {
+export function updateClueState(grid: GridState, clues: ClueState): ClueState {
   return {
     across: getAcrossClues(grid, clues),
     down: getDownClues(grid, clues),
@@ -132,39 +134,39 @@ export function enumerate(grid: SimpleGrid): EnumeratedGrid {
 	}));
 }
 
-export function isValidCell(row: number, col: number, grid: Grid): boolean {
+export function isValidCell(row: number, col: number, grid: GridState): boolean {
 	return row < grid.length && col < grid[0].length;
 }
 
-function getLeftAdjacentCell(row: number, col: number, grid: Grid): NextCell {
+function getLeftAdjacentCell(row: number, col: number, grid: GridState): NextCell {
   if (colToLeftIsBlank(row, col, grid)) {
     return { nextRow: row, nextCol: col };
   }
   return { nextRow: row, nextCol: col-1 };
 }
 
-function getRightAdjacentCell(row: number, col: number, grid: Grid): NextCell {
+function getRightAdjacentCell(row: number, col: number, grid: GridState): NextCell {
   if (colToRightIsBlank(row, col, grid)) {
     return { nextRow: row, nextCol: col };
   }
   return { nextRow: row, nextCol: col+1 };
 }
 
-function getUpAdjacentCell(row: number, col: number, grid: Grid): NextCell {
+function getUpAdjacentCell(row: number, col: number, grid: GridState): NextCell {
   if (rowAboveIsBlank(row, col, grid)) {
     return { nextRow: row, nextCol: col };
   }
   return { nextRow: row-1, nextCol: col };
 }
 
-function getDownAdjacentCell(row: number, col: number, grid: Grid): NextCell {
+function getDownAdjacentCell(row: number, col: number, grid: GridState): NextCell {
   if (rowBelowIsBlank(row, col, grid)) {
     return { nextRow: row, nextCol: col };
   }
   return { nextRow: row+1, nextCol: col };
 }
 
-function getNextAcrossCell(row: number, col: number, grid: Grid): NextCell {
+function getNextAcrossCell(row: number, col: number, grid: GridState): NextCell {
 	if (!colToRightIsBlank(row, col, grid)) {
 		return { nextRow: row, nextCol: col+1 };
 	}
@@ -180,7 +182,7 @@ function getNextAcrossCell(row: number, col: number, grid: Grid): NextCell {
 	return { nextRow: 0, nextCol: 0 };
 }
 
-function getNextDownCell(row: number, col: number, grid: Grid): NextCell {
+function getNextDownCell(row: number, col: number, grid: GridState): NextCell {
 	if (!rowBelowIsBlank(row, col, grid)) {
 		return { nextRow: row+1, nextCol: col };
 	}
@@ -196,29 +198,29 @@ function getNextDownCell(row: number, col: number, grid: Grid): NextCell {
 	return { nextRow: 0, nextCol: 0 };
 }
 
-export function getNextCell(row: number, col: number, grid: Grid, direction: Direction): NextCell {
+export function getNextCell(row: number, col: number, grid: GridState, direction: Direction): NextCell {
 	if (direction === 'across') {
 		return getNextAcrossCell(row, col, grid);
 	}
 	return getNextDownCell(row, col, grid);
 }
 
-export function clearFocus(grid: Grid): Grid {
+export function clearFocus(grid: GridState): GridState {
 	return grid.map(gridRow => gridRow.map(cell => ({ ...cell, focused: false })));
 }
 
-export function clearHighlights(grid: Grid): Grid {
+export function clearHighlights(grid: GridState): GridState {
 	return grid.map(gridRow => gridRow.map(cell => ({ ...cell, highlighted: false})));
 }
 
-export function advanceFocus(row: number, col: number, grid: Grid, direction: Direction) {
+export function advanceFocus(row: number, col: number, grid: GridState, direction: Direction) {
 	const gridCopy = clearFocus(grid);
 	const { nextRow, nextCol } = getNextCell(row, col, gridCopy, direction);
 	gridCopy[nextRow][nextCol].focused = true;
 	return gridCopy;
 }
 
-export function stepFocus(row: number, col: number, grid: Grid, arrowDirection: ArrowDirection): Grid {
+export function stepFocus(row: number, col: number, grid: GridState, arrowDirection: ArrowDirection): GridState {
   const gridCopy = clearFocus(grid);
   if (arrowDirection === 'left') {
     const { nextRow, nextCol } = getLeftAdjacentCell(row, col, grid);
@@ -236,7 +238,7 @@ export function stepFocus(row: number, col: number, grid: Grid, arrowDirection: 
   return gridCopy;
 }
 
-export function findFocus(grid: Grid): Cell {
+export function findFocus(grid: GridState): Cell {
 	for (let row=0; row < grid.length; row++) {
 		for (let col=0; col < grid[row].length; col++) {
 			if (grid[row][col].focused) {
@@ -244,10 +246,10 @@ export function findFocus(grid: Grid): Cell {
 			}
 		}
 	}
-	return {row: 0, col: 0};
+	return { row: 0, col: 0 };
 }
 
-export function findCellFromNumber(grid: Grid, number: number): Cell {
+export function findCellFromNumber(grid: GridState, number: number): Cell {
   for (let row=0; row < grid.length; row++) {
     for (let col=0; col < grid[row].length; col++) {
       if (grid[row][col].number === parseInt(number + '')) {
@@ -255,10 +257,10 @@ export function findCellFromNumber(grid: Grid, number: number): Cell {
       }
     }
   }
-  return {row: 0, col: 0};
+  return { row: 0, col: 0 };
 }
 
-function setAnswerAcross(row: number, col: number, grid: Grid, answer: string): Grid {
+function setAnswerAcross(row: number, col: number, grid: GridState, answer: string): GridState {
   const gridCopy = [...grid];
   let i = 0;
   gridCopy[row][col].value = answer[i++];
@@ -269,7 +271,7 @@ function setAnswerAcross(row: number, col: number, grid: Grid, answer: string): 
   return gridCopy;
 }
 
-function setAnswerDown(row: number, col: number, grid: Grid, answer: string): Grid {
+function setAnswerDown(row: number, col: number, grid: GridState, answer: string): GridState {
   const gridCopy = [...grid];
   let i = 0;
   gridCopy[row][col].value = answer[i++];
@@ -280,7 +282,7 @@ function setAnswerDown(row: number, col: number, grid: Grid, answer: string): Gr
   return gridCopy;
 }
 
-export function getGridWithAnswer(gridState: Grid, answer: string, answerNumber: number, answerDirection: Direction): Grid {
+export function getGridWithAnswer(gridState: GridState, answer: string, answerNumber: number, answerDirection: Direction): GridState {
   const { row, col } = findCellFromNumber(gridState, answerNumber);
   let gridWithAnswer;
   if (answerDirection === 'across') {
@@ -291,7 +293,7 @@ export function getGridWithAnswer(gridState: Grid, answer: string, answerNumber:
   return gridWithAnswer;
 }
 
-function findStartOfAcrossWord(row: number, col: number, grid: Grid): Cell {
+function findStartOfAcrossWord(row: number, col: number, grid: GridState): Cell {
   let startCol = col;
   while(!colToLeftIsBlank(row, startCol, grid)) {
     startCol--;
@@ -299,7 +301,7 @@ function findStartOfAcrossWord(row: number, col: number, grid: Grid): Cell {
   return { row, col: startCol };
 }
 
-function findStartOfDownWord(row: number, col: number, grid: Grid): Cell {
+function findStartOfDownWord(row: number, col: number, grid: GridState): Cell {
   let startRow = row;
   while(!rowAboveIsBlank(startRow, col, grid)) {
     startRow--;
@@ -307,14 +309,14 @@ function findStartOfDownWord(row: number, col: number, grid: Grid): Cell {
   return { row: startRow, col };
 }
 
-function findStartOfWord(row: number, col: number, direction: Direction, grid: Grid): Cell {
+function findStartOfWord(row: number, col: number, direction: Direction, grid: GridState): Cell {
   if (direction === 'across') {
     return findStartOfAcrossWord(row, col, grid);
   }
   return findStartOfDownWord(row, col, grid);
 }
 
-export function highlightWordAcross(row: number, col: number, grid: Grid): Grid {
+export function highlightWordAcross(row: number, col: number, grid: GridState): GridState {
 	const gridCopy = clearHighlights(grid);
 	let { col: startCol } = findStartOfWord(row, col, 'across', gridCopy);
 	gridCopy[row][startCol].highlighted = true;
@@ -324,7 +326,7 @@ export function highlightWordAcross(row: number, col: number, grid: Grid): Grid 
 	return gridCopy;
 }
 
-export function highlightWordDown(currRow: number, currCol: number, grid: Grid): Grid {
+export function highlightWordDown(currRow: number, currCol: number, grid: GridState): GridState {
 	const gridCopy = clearHighlights(grid);
 	let { row } = findStartOfWord(currRow, currCol, 'down', gridCopy);
   gridCopy[row][currCol].highlighted = true;
@@ -334,7 +336,7 @@ export function highlightWordDown(currRow: number, currCol: number, grid: Grid):
 	return gridCopy;
 }
 
-export function highlightWord(row: number, col: number, grid: Grid, direction: Direction): Grid {
+export function highlightWord(row: number, col: number, grid: GridState, direction: Direction): GridState {
 	if (direction === 'across') {
 		return highlightWordAcross(row, col, grid);
 	}

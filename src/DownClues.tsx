@@ -1,12 +1,13 @@
 import React, { Component, MouseEvent } from 'react';
 import Clue from './Clue';
 
-type ClueObject = { [key: string]: string };
-type Clues = { across: ClueObject, down: ClueObject };
-type Direction = 'across' | 'down';
+import type {
+  ClueState,
+  Direction,
+} from './types';
 
 type Props = {
-  clueState: Clues,
+  clueState: ClueState,
   onClueUpdate: (number: string, direction: Direction, clue: string) => void,
   onNumberClick: (event: MouseEvent<HTMLDivElement>, number: string, direction: Direction) => void,
 };

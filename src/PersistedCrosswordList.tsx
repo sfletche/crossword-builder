@@ -1,10 +1,9 @@
 import React, { ReactElement } from 'react';
 
-type AcrossClues = { [key: string]: string };
-type DownClues = { [key: number]: string };
-type ClueState = { across: AcrossClues, down: DownClues };
-type RowState = Array<{ focused?: boolean, highlighted?: boolean, number: number, value: string }>;
-type GridState = Array<RowState>;
+import type {
+  ClueState,
+  GridState,
+} from './types';
 
 type OnSelect = (title: string, gridState: GridState, clueState: ClueState) => void;
 type Props = {

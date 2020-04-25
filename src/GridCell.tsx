@@ -2,8 +2,6 @@ import React, { KeyboardEvent, MouseEvent, useEffect, useRef } from 'react';
 
 import './GridCell.css';
 
-type Direction = 'across' | 'down';
-
 type Props = {
   col: number,
   focused: boolean,

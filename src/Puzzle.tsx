@@ -3,17 +3,10 @@ import React, { MouseEvent } from 'react';
 import Grid from './Grid';
 import './Puzzle.css';
 
-type AcrossClues = { [key: string]: string };
-type DownClues = { [key: number]: string };
-type ClueState = { across: AcrossClues, down: DownClues };
-type Direction = 'across' | 'down';
-type ArrowDirection = 'left' | 'right' | 'up' | 'down';
-type RowState = Array<{ focused?: boolean, highlighted?: boolean, number: number, value: string }>;
-type GridState = Array<RowState>;
-type SimpleGrid = Array<Array<{ value: string }>>;
-type EnumeratedGrid = Array<Array<{ number: number, value: string }>>;
-type CellState = { row: number, col: number };
-type NextCell = { nextRow: number, nextCol: number };
+import type {
+  Direction,
+  GridState,
+} from './types';
 
 type Props = {
   direction: Direction,

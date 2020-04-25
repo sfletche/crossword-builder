@@ -4,9 +4,10 @@ import AcrossClues from './AcrossClues';
 import DownClues from './DownClues';
 import './Clues.css';
 
-type ClueObject = { [key: string]: string };
-type ClueState = { across: ClueObject, down: ClueObject };
-type Direction = 'across' | 'down';
+import type {
+  ClueState,
+  Direction,
+} from './types';
 
 type Props = {
   clueState: ClueState,
