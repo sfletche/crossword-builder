@@ -7,7 +7,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 
 ## Next Steps
-* Integrate typescript...on going...
+* Integrate typescript...on going...complete?
 * Highlight clue to match highlighted word
 * Actual css modules
 * Layout improvements (e.g. where to put dropdowns)
