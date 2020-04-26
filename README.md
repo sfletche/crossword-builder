@@ -7,6 +7,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 
 ## Next Steps
+* ~~Highlight answer to match selected clue~~
 * Highlight clue to match highlighted word
 * Actual css modules
 * Layout improvements (e.g. where to put dropdowns)
