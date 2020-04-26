@@ -6,6 +6,7 @@ import {
   enumerate,
   fetchAnswers,
   fetchClues,
+  findCellFromNumber,
   findFocus,
   getGridWithAnswer,
   highlightWordAcross,
@@ -33,7 +34,7 @@ type Props = {};
 type State = {
   across: boolean,
   answerDirection: Direction,
-  answerNumber: number,
+  answerNumber: string,
   answers: Array<string>,
   blanks: boolean,
   clueNumber: string,
@@ -112,27 +113,30 @@ export default class CrosswordBuilder extends Component<Props,State> {
   };
 
   handleClueUpdate(number: string, direction: Direction, clue: string) {
-    const { clueState } = this.state;
+    const { clueState, gridState } = this.state;
     this.setState({ puzzleHasFocus: false });
     if (direction === 'across') {
-      const newClues = {
+      const newClueState = {
         ...clueState,
         across: {
           ...clueState.across,
           [number]: clue,
         },
       };
-      console.log('newClues', newClues)
-      this.setState({ clueState: newClues });
+      console.log('newClueState', newClueState)
+      this.setState({ clueState: newClueState });
+
+      const { row, col } = findCellFromNumber(gridState, number);
+      const highlightedGrid = highlightWordAcross(row, col, gridState);
     } else {
-      const newClues = {
+      const newClueState = {
         ...clueState,
         down: {
           ...clueState.down,
           [number]: clue,
         },
       };
-      this.setState({ clueState: newClues });
+      this.setState({ clueState: newClueState });
     }
   }
 
@@ -179,6 +183,8 @@ export default class CrosswordBuilder extends Component<Props,State> {
   };
 
   handleSetAcross(grid: GridState) {
+    const { clueState } = this.state;
+    console.log('clueState', clueState)
     this.setState({ across: true });
     const focusedCell = findFocus(grid);
     const highlightedGrid = highlightWordAcross(focusedCell.row, focusedCell.col, grid);
@@ -260,7 +266,7 @@ export default class CrosswordBuilder extends Component<Props,State> {
     const { gridState } = this.state;
     const showAcross = direction === 'across';
     e.stopPropagation();
-    const clues = await fetchClues(parseInt(number, 10), direction, gridState);
+    const clues = await fetchClues(number, direction, gridState);
     // order alphabetically and de-dupe
     this.setState({ 
       clues, 

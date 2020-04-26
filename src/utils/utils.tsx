@@ -127,7 +127,7 @@ export function enumerate(grid: SimpleGrid): EnumeratedGrid {
 	let counter = 1;
 	return grid.map((gridRow, row) => gridRow.map((cell, col) => {
 		if (shouldHaveNumber(row, col, grid)) {
-			return { ...cell, number: counter++ };
+			return { ...cell, number: '' + counter++ };
 		} else {
 			return { ...cell, number: null };
 		}
@@ -249,10 +249,10 @@ export function findFocus(grid: GridState): Cell {
 	return { row: 0, col: 0 };
 }
 
-export function findCellFromNumber(grid: GridState, number: number): Cell {
+export function findCellFromNumber(grid: GridState, number: string): Cell {
   for (let row=0; row < grid.length; row++) {
     for (let col=0; col < grid[row].length; col++) {
-      if (grid[row][col].number === parseInt(number + '')) {
+      if (grid[row][col].number === number) {
         return {row, col};
       }
     }
@@ -282,7 +282,7 @@ function setAnswerDown(row: number, col: number, grid: GridState, answer: string
   return gridCopy;
 }
 
-export function getGridWithAnswer(gridState: GridState, answer: string, answerNumber: number, answerDirection: Direction): GridState {
+export function getGridWithAnswer(gridState: GridState, answer: string, answerNumber: string, answerDirection: Direction): GridState {
   const { row, col } = findCellFromNumber(gridState, answerNumber);
   let gridWithAnswer;
   if (answerDirection === 'across') {

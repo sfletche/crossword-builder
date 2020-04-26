@@ -6,7 +6,7 @@ type Props = {
   col: number,
   focused: boolean,
   highlighted: boolean,
-  number: number,
+  number: string,
   onKeyAction: (row: number, col: number, event: KeyboardEvent<HTMLDivElement>) => void,
   onLetterClick: (row: number, col: number) => void,
   onNumberClick: (event: MouseEvent<HTMLSpanElement>, row: number, col: number) => void,
