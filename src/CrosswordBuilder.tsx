@@ -128,6 +128,7 @@ export default class CrosswordBuilder extends Component<Props,State> {
 
       const { row, col } = findCellFromNumber(gridState, number);
       const highlightedGrid = highlightWordAcross(row, col, gridState);
+      this.setState({ gridState: highlightedGrid });
     } else {
       const newClueState = {
         ...clueState,
@@ -137,7 +138,14 @@ export default class CrosswordBuilder extends Component<Props,State> {
         },
       };
       this.setState({ clueState: newClueState });
+
+      const { row, col } = findCellFromNumber(gridState, number);
+      const highlightedGrid = highlightWordDown(row, col, gridState);
+      this.setState({ gridState: highlightedGrid });
     }
+    // TODO this.setState({ clueState: to highlight clue as well });
+    // current clueState is { across: { 1: "clue1", 5: "clue5" }}
+    // may change to { across: { 1: { clue: "clue1", highlighted: false } } }
   }
 
   handleGridUpdate(grid: GridState) {

@@ -35,6 +35,7 @@ export default function Clue(props: Props) {
         className="clue"
         key={number + direction}
         onChange={(e) => onClueUpdate(number, direction, e.target.value)}
+        onFocus={(e) => onClueUpdate(number, direction, e.target.value)}
         value={value}
       />
     </div>

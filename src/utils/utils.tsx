@@ -252,7 +252,7 @@ export function findFocus(grid: GridState): Cell {
 export function findCellFromNumber(grid: GridState, number: string): Cell {
   for (let row=0; row < grid.length; row++) {
     for (let col=0; col < grid[row].length; col++) {
-      if (grid[row][col].number === number) {
+      if (grid[row][col].number == number) {
         return {row, col};
       }
     }
@@ -326,12 +326,12 @@ export function highlightWordAcross(row: number, col: number, grid: GridState): 
 	return gridCopy;
 }
 
-export function highlightWordDown(currRow: number, currCol: number, grid: GridState): GridState {
+export function highlightWordDown(row: number, col: number, grid: GridState): GridState {
 	const gridCopy = clearHighlights(grid);
-	let { row } = findStartOfWord(currRow, currCol, 'down', gridCopy);
-  gridCopy[row][currCol].highlighted = true;
-	while(!rowBelowIsBlank(row++, currCol, gridCopy)) {
-		gridCopy[row][currCol].highlighted = true;
+	let { row: startRow } = findStartOfWord(row, col, 'down', gridCopy);
+  gridCopy[startRow][col].highlighted = true;
+	while(!rowBelowIsBlank(startRow++, col, gridCopy)) {
+		gridCopy[startRow][col].highlighted = true;
 	}
 	return gridCopy;
 }
