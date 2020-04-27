@@ -94,7 +94,6 @@ export function updateCluesState(grid: GridState, clues: CluesState): CluesState
 }
 
 export function clearClueHighlights(clues: CluesState): CluesState {
-  debugger;
   const { across, down } = clues;
   const acrossClues = Object.keys(across).reduce((acc, key) => {
     return {

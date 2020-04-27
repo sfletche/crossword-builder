@@ -22,6 +22,7 @@ import {
   INIT_SIZE,
 } from './utils';
 import Clues from './Clues';
+import Dropdowns from './Dropdowns';
 import InputButtons from './InputButtons';
 import PersistedCrosswordList from './PersistedCrosswordList';
 import Puzzle from './Puzzle';
@@ -370,33 +371,15 @@ export default class CrosswordBuilder extends Component<Props,State> {
             onClueUpdate={this.handleClueUpdate}
             onNumberClick={this.handleClueNumberClick}
           />
-          {showAnswersDropdown && 
-            <Dropdown 
-              className="dropdown"
-              menuClassName="dropdownMenu"
-              onChange={this.handleAnswerSelect} 
-              options={answers} 
-              placeholder="Select an answer" 
-            />
-          }
-          {showAcrossCluesDropdown && 
-            <Dropdown 
-              className="clue-dropdown"
-              menuClassName="dropdownMenu"
-              onChange={clue => this.handleClueSelect(clue, 'across')} 
-              options={clues} 
-              placeholder="Select a clue" 
-            />
-          }
-          {showDownCluesDropdown && 
-            <Dropdown 
-              className="clue-dropdown"
-              menuClassName="dropdownMenu"
-              onChange={clue => this.handleClueSelect(clue, 'down')} 
-              options={clues} 
-              placeholder="Select a clue" 
-            />
-          }
+          <Dropdowns
+            answers={answers}
+            clues={clues}
+            onAnswerSelect={this.handleAnswerSelect}
+            onClueSelect={this.handleClueSelect}
+            showAcrossCluesDropdown={showAcrossCluesDropdown}
+            showAnswersDropdown={showAnswersDropdown}
+            showDownCluesDropdown={showDownCluesDropdown}
+          />
         </div>
         <div className="mt20">
           <ReactToPrint
