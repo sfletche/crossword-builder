@@ -208,8 +208,35 @@ export function clearFocus(grid: GridState): GridState {
 	return grid.map(gridRow => gridRow.map(cell => ({ ...cell, focused: false })));
 }
 
-export function clearHighlights(grid: GridState): GridState {
+export function setFocus(grid: GridState, row: number, col: number): GridState {
+  return grid.map((gridRow, rowNum) => gridRow.map((cell, colNum) => {
+    if (rowNum == row && colNum == col) {
+      return { ...cell, focused: true };
+    } 
+    return { ...cell, focused: false };
+  }));
+}
+
+export function clearGridHighlights(grid: GridState): GridState {
 	return grid.map(gridRow => gridRow.map(cell => ({ ...cell, highlighted: false})));
+}
+
+export function clearClueHighlights(clues: CluesState): CluesState {
+  debugger;
+  const { across, down } = clues;
+  const acrossClues = Object.keys(across).reduce((acc, key) => {
+    return {
+      ...acc,
+      [key]: { ...clues.across[key], highlighted: false },
+    };
+  }, {});
+  const downClues = Object.keys(down).reduce((acc, key) => {
+    return {
+      ...acc,
+      [key]: { ...clues.down[key], highlighted: false },
+    };
+  }, {});
+  return { across: acrossClues, down: downClues };
 }
 
 export function advanceFocus(row: number, col: number, grid: GridState, direction: Direction) {
@@ -315,8 +342,18 @@ function findStartOfWord(row: number, col: number, direction: Direction, grid: G
   return findStartOfDownWord(row, col, grid);
 }
 
+export function findAcrossClueNumber(row: number, col: number, grid: GridState): string {
+  const { row: startRow, col: startCol } = findStartOfAcrossWord(row, col, grid);
+  return grid[startRow][startCol].number;
+}
+
+export function findDownClueNumber(row: number, col: number, grid: GridState): string {
+  const { row: startRow, col: startCol } = findStartOfDownWord(row, col, grid);
+  return grid[startRow][startCol].number;
+}
+
 export function highlightWordAcross(row: number, col: number, grid: GridState): GridState {
-	const gridCopy = clearHighlights(grid);
+	const gridCopy = clearGridHighlights(grid);
 	let { col: startCol } = findStartOfWord(row, col, 'across', gridCopy);
 	gridCopy[row][startCol].highlighted = true;
 	while(!colToRightIsBlank(row, startCol++, gridCopy)) {
@@ -326,7 +363,7 @@ export function highlightWordAcross(row: number, col: number, grid: GridState): 
 }
 
 export function highlightWordDown(row: number, col: number, grid: GridState): GridState {
-	const gridCopy = clearHighlights(grid);
+	const gridCopy = clearGridHighlights(grid);
 	let { row: startRow } = findStartOfWord(row, col, 'down', gridCopy);
   gridCopy[startRow][col].highlighted = true;
 	while(!rowBelowIsBlank(startRow++, col, gridCopy)) {

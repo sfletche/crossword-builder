@@ -5,7 +5,7 @@ import type {
   GridState,
 } from './types';
 
-type OnSelect = (title: string, gridState: GridState, clueState: CluesState) => void;
+type OnSelect = (title: string, gridState: GridState, cluesState: CluesState) => void;
 type Props = {
   onSelect: OnSelect,
 };
@@ -21,11 +21,12 @@ function getCrosswords(onSelect: OnSelect): ReactElement {
     parsedKeys = JSON.parse(savedKeys);
   }
   const crosswords = parsedKeys.reduce((
-    acc: { [key: string]: { gridState: GridState, clueState: CluesState } }, 
+    acc: { [key: string]: { gridState: GridState, cluesState: CluesState } }, 
     key: string,
   ) => {
     const data = JSON.parse(localStorage.getItem(key));
-    return { ...acc, [data.title]: { gridState: data.gridState, clueState: data.clueState } };
+    console.log('data', data)
+    return { ...acc, [data.title]: { gridState: data.gridState, cluesState: data.cluesState } };
   }, {});
 
   if (!Object.keys(crosswords).length) {
@@ -38,8 +39,8 @@ function getCrosswords(onSelect: OnSelect): ReactElement {
         <li
           key={title}
           onClick={() => {
-            const { gridState, clueState } = crosswords[title];
-            onSelect(title, gridState, clueState);
+            const { gridState, cluesState } = crosswords[title];
+            onSelect(title, gridState, cluesState);
           }}
         >
           {title}

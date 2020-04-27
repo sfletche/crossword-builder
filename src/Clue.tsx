@@ -23,6 +23,7 @@ export default function Clue(props: Props) {
     onClueUpdate,
     clue,
   } = props;
+  const highlight = clue.highlighted ? 'highlight' : '';
 
   return (
     <div className="flex" key={number + direction}>
@@ -33,7 +34,7 @@ export default function Clue(props: Props) {
         {number}:
       </div>
       <textarea
-        className="clue"
+        className={`clue ${highlight}`}
         key={number + direction}
         onChange={(e) => onClueUpdate(number, direction, e.target.value)}
         onFocus={(e) => onClueUpdate(number, direction, e.target.value)}

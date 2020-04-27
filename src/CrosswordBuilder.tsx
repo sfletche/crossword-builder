@@ -2,17 +2,21 @@ import React, { ChangeEvent, Component, createRef, FormEvent, MouseEvent } from 
 import Dropdown from 'react-dropdown';
 import ReactToPrint from 'react-to-print';
 import {
-  clearHighlights,
+  clearGridHighlights,
+  clearClueHighlights,
   enumerate,
   fetchAnswers,
   fetchClues,
+  findAcrossClueNumber,
   findCellFromNumber,
+  findDownClueNumber,
   findFocus,
   getGridWithAnswer,
   highlightWordAcross,
   highlightWordDown,
   initializeClues,
   initializeGrid,
+  setFocus,
   slugify,
   updateCluesState,
   INIT_SIZE,
@@ -114,12 +118,13 @@ export default class CrosswordBuilder extends Component<Props,State> {
 
   handleClueUpdate(number: string, direction: Direction, clue: string) {
     const { cluesState, gridState } = this.state;
+    const clearedClues = clearClueHighlights(cluesState);
     this.setState({ puzzleHasFocus: false });
     if (direction === 'across') {
       const newClueState = {
-        ...cluesState,
+        ...clearedClues,
         across: {
-          ...cluesState.across,
+          ...clearedClues.across,
           [number]: { clue, highlighted: true },
         },
       };
@@ -131,9 +136,9 @@ export default class CrosswordBuilder extends Component<Props,State> {
       this.setState({ gridState: highlightedGrid });
     } else {
       const newClueState = {
-        ...cluesState,
+        ...clearedClues,
         down: {
-          ...cluesState.down,
+          ...clearedClues.down,
           [number]: { clue, highlighted: true },
         },
       };
@@ -182,7 +187,7 @@ export default class CrosswordBuilder extends Component<Props,State> {
       gridState,
     } = this.state;
     this.setState({ blanks: true });
-    const gridWithoutHighlights = clearHighlights(gridState);
+    const gridWithoutHighlights = clearGridHighlights(gridState);
     this.setState({ gridState: gridWithoutHighlights });
   };
 
@@ -191,15 +196,18 @@ export default class CrosswordBuilder extends Component<Props,State> {
   };
 
   handleSetAcross(grid: GridState) {
-    const { cluesState } = this.state;
-    console.log('cluesState', cluesState)
     this.setState({ across: true });
     const focusedCell = findFocus(grid);
     const highlightedGrid = highlightWordAcross(focusedCell.row, focusedCell.col, grid);
-    //TODO this.setState({ cluesState: to highlight clue as well });
-    // current cluesState is { across: { 1: "clue1", 5: "clue5" }}
-    // may change to { across: { 1: { clue: "clue1", highlighted: false } } }
     this.setState({ gridState: highlightedGrid });
+
+    const { cluesState } = this.state;
+    const clearedClues = clearClueHighlights(cluesState);
+    const clueNumber = findAcrossClueNumber(focusedCell.row, focusedCell.col, grid);
+    clearedClues.across[clueNumber].highlighted = true;
+    this.setState({
+      cluesState: clearedClues,
+    });
   };
 
   handleSetDown(grid: GridState) {
@@ -208,6 +216,14 @@ export default class CrosswordBuilder extends Component<Props,State> {
     const highlightedGrid = highlightWordDown(focusedCell.row, focusedCell.col, grid);
     //TODO this.setState({ cluesState: to highlight clue as well });
     this.setState({ gridState: highlightedGrid });
+
+    const { cluesState } = this.state;
+    const clearedClues = clearClueHighlights(cluesState);
+    const clueNumber = findDownClueNumber(focusedCell.row, focusedCell.col, grid);
+    clearedClues.down[clueNumber].highlighted = true;
+    this.setState({
+      cluesState: clearedClues,
+    });
   };
 
   handleDirectionToggle(grid: GridState) {
@@ -216,9 +232,12 @@ export default class CrosswordBuilder extends Component<Props,State> {
   };
 
   handleOpenCrossword(savedTitle: string, savedGrid: GridState, savedClues: CluesState) {
-    this.setState({ title: savedTitle });
-    this.setState({ gridState: savedGrid });
-    this.setState({ cluesState: savedClues || initializeClues(savedGrid) });
+    const gridWithFocus = setFocus(savedGrid, 0, 0);
+    this.setState({ 
+      title: savedTitle,
+      gridState: gridWithFocus,
+      cluesState: savedClues || initializeClues(gridWithFocus),
+    });
   };
 
   setAnswer(answer: string) {
