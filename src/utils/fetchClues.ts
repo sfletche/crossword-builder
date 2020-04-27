@@ -2,7 +2,7 @@ import {
   colToRightIsBlank, 
   findCellFromNumber,
   rowBelowIsBlank,
-} from './utils';
+} from './gridUtils';
 
 import type {
   Direction,

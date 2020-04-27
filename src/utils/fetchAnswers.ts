@@ -1,4 +1,7 @@
-import { colToRightIsBlank, rowBelowIsBlank } from './utils';
+import { 
+  colToRightIsBlank, 
+  rowBelowIsBlank, 
+} from './gridUtils';
 
 import type {
   Direction,

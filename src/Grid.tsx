@@ -6,7 +6,7 @@ import {
 	findFocus,
 	highlightWord,
 	stepFocus,
-} from './utils/utils';
+} from './utils';
 import GridCell from './GridCell';
 import './Grid.css';
 
