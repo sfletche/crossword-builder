@@ -10,8 +10,6 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * ~~Highlight answer to match selected clue~~
 * Highlight clue to match highlighted word
 * Actual css modules
-* Layout improvements (e.g. where to put dropdowns)
-  * Make grid larger, and put clues in single column to free up horizontal space for dropdowns
 * UI improvements (https://jaredreisinger.github.io/react-crossword/)
 * Clue height determined by input
 * Export to json consumable by @jaredreisinger/react-crossword
