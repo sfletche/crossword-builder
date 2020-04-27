@@ -14,7 +14,7 @@ import {
   initializeClues,
   initializeGrid,
   slugify,
-  updateClueState,
+  updateCluesState,
   INIT_SIZE,
 } from './utils';
 import Clues from './Clues';
@@ -24,7 +24,7 @@ import Puzzle from './Puzzle';
 import './CrosswordBuilder.css';
 
 import type {
-  ClueState,
+  CluesState,
   Direction,
   GridState,
 } from './types';
@@ -39,7 +39,7 @@ type State = {
   blanks: boolean,
   clueNumber: string,
   clues: Array<string>,
-  clueState: ClueState,
+  cluesState: CluesState,
   gridSize: number,
   gridState: GridState,
   puzzleHasFocus: boolean,
@@ -64,7 +64,7 @@ export default class CrosswordBuilder extends Component<Props,State> {
       blanks: false,
       clueNumber: null,
       clues: [],
-      clueState: initializeClues(gridState),
+      cluesState: initializeClues(gridState),
       gridSize: INIT_SIZE,
       gridState: gridState,
       puzzleHasFocus: true,
@@ -106,59 +106,59 @@ export default class CrosswordBuilder extends Component<Props,State> {
     const grid = initializeGrid(this.state.tempSize);
     const clues = initializeClues(grid);
     this.setState({ 
-      clueState: clues, 
+      cluesState: clues, 
       gridState: grid,
       gridSize: this.state.tempSize,
     });
   };
 
   handleClueUpdate(number: string, direction: Direction, clue: string) {
-    const { clueState, gridState } = this.state;
+    const { cluesState, gridState } = this.state;
     this.setState({ puzzleHasFocus: false });
     if (direction === 'across') {
       const newClueState = {
-        ...clueState,
+        ...cluesState,
         across: {
-          ...clueState.across,
-          [number]: clue,
+          ...cluesState.across,
+          [number]: { clue, highlighted: true },
         },
       };
       console.log('newClueState', newClueState)
-      this.setState({ clueState: newClueState });
+      this.setState({ cluesState: newClueState });
 
       const { row, col } = findCellFromNumber(gridState, number);
       const highlightedGrid = highlightWordAcross(row, col, gridState);
       this.setState({ gridState: highlightedGrid });
     } else {
       const newClueState = {
-        ...clueState,
+        ...cluesState,
         down: {
-          ...clueState.down,
-          [number]: clue,
+          ...cluesState.down,
+          [number]: { clue, highlighted: true },
         },
       };
-      this.setState({ clueState: newClueState });
+      this.setState({ cluesState: newClueState });
 
       const { row, col } = findCellFromNumber(gridState, number);
       const highlightedGrid = highlightWordDown(row, col, gridState);
       this.setState({ gridState: highlightedGrid });
     }
-    // TODO this.setState({ clueState: to highlight clue as well });
-    // current clueState is { across: { 1: "clue1", 5: "clue5" }}
+    // TODO this.setState({ cluesState: to highlight clue as well });
+    // current cluesState is { across: { 1: "clue1", 5: "clue5" }}
     // may change to { across: { 1: { clue: "clue1", highlighted: false } } }
   }
 
   handleGridUpdate(grid: GridState) {
     const {
       blanks,
-      clueState,
+      cluesState,
     } = this.state;
     this.setState({ puzzleHasFocus: true });
     if (blanks) {
       const enumeratedGrid = enumerate(grid);
       this.setState({ 
         gridState: enumeratedGrid,
-        clueState: updateClueState(enumeratedGrid, clueState),
+        cluesState: updateCluesState(enumeratedGrid, cluesState),
       });
     } else {
       this.setState({ gridState: grid });
@@ -191,13 +191,13 @@ export default class CrosswordBuilder extends Component<Props,State> {
   };
 
   handleSetAcross(grid: GridState) {
-    const { clueState } = this.state;
-    console.log('clueState', clueState)
+    const { cluesState } = this.state;
+    console.log('cluesState', cluesState)
     this.setState({ across: true });
     const focusedCell = findFocus(grid);
     const highlightedGrid = highlightWordAcross(focusedCell.row, focusedCell.col, grid);
-    //TODO this.setState({ clueState: to highlight clue as well });
-    // current clueState is { across: { 1: "clue1", 5: "clue5" }}
+    //TODO this.setState({ cluesState: to highlight clue as well });
+    // current cluesState is { across: { 1: "clue1", 5: "clue5" }}
     // may change to { across: { 1: { clue: "clue1", highlighted: false } } }
     this.setState({ gridState: highlightedGrid });
   };
@@ -206,7 +206,7 @@ export default class CrosswordBuilder extends Component<Props,State> {
     this.setState({ across: false });
     const focusedCell = findFocus(grid);
     const highlightedGrid = highlightWordDown(focusedCell.row, focusedCell.col, grid);
-    //TODO this.setState({ clueState: to highlight clue as well });
+    //TODO this.setState({ cluesState: to highlight clue as well });
     this.setState({ gridState: highlightedGrid });
   };
 
@@ -215,10 +215,10 @@ export default class CrosswordBuilder extends Component<Props,State> {
     across ? this.handleSetDown(grid) : this.handleSetAcross(grid);
   };
 
-  handleOpenCrossword(savedTitle: string, savedGridState: GridState, savedClueState: ClueState) {
+  handleOpenCrossword(savedTitle: string, savedGrid: GridState, savedClues: CluesState) {
     this.setState({ title: savedTitle });
-    this.setState({ gridState: savedGridState });
-    this.setState({ clueState: savedClueState || initializeClues(savedGridState) });
+    this.setState({ gridState: savedGrid });
+    this.setState({ cluesState: savedClues || initializeClues(savedGrid) });
   };
 
   setAnswer(answer: string) {
@@ -287,7 +287,7 @@ export default class CrosswordBuilder extends Component<Props,State> {
 
   saveCrossword() {
     const {
-      clueState,
+      cluesState,
       gridState,
       title,
     } = this.state;
@@ -296,7 +296,7 @@ export default class CrosswordBuilder extends Component<Props,State> {
     if (!currentKeys.includes(slug)) {
       localStorage.setItem('crosswordKeys', JSON.stringify([...currentKeys, slug]));
     }
-    localStorage.setItem(slug, JSON.stringify({ title, gridState, clueState }));
+    localStorage.setItem(slug, JSON.stringify({ title, gridState, cluesState }));
   };
 
 
@@ -306,7 +306,7 @@ export default class CrosswordBuilder extends Component<Props,State> {
       answers,
       blanks,
       clues,
-      clueState,
+      cluesState,
       gridSize,
       gridState,
       puzzleHasFocus,
@@ -347,7 +347,7 @@ export default class CrosswordBuilder extends Component<Props,State> {
             updateTitle={this.handleTitleUpdate}
           />
           <Clues
-            clueState={clueState}
+            cluesState={cluesState}
             onClueUpdate={this.handleClueUpdate}
             onNumberClick={this.handleClueNumberClick}
           />

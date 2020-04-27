@@ -3,6 +3,7 @@ import React, { MouseEvent } from 'react';
 import './Clue.css';
 
 import type {
+  ClueState,
   Direction,
 } from './types';
 
@@ -11,7 +12,7 @@ type Props = {
   direction: Direction,
   onClueUpdate: (number: string, direction: Direction, clue: string) => void,
   onNumberClick: (event: MouseEvent<HTMLDivElement>, number: string, direction: Direction) => void,
-  value: string,
+  clue: ClueState,
 };
 
 export default function Clue(props: Props) {
@@ -20,7 +21,7 @@ export default function Clue(props: Props) {
     direction,
     onNumberClick,
     onClueUpdate,
-    value,
+    clue,
   } = props;
 
   return (
@@ -36,7 +37,7 @@ export default function Clue(props: Props) {
         key={number + direction}
         onChange={(e) => onClueUpdate(number, direction, e.target.value)}
         onFocus={(e) => onClueUpdate(number, direction, e.target.value)}
-        value={value}
+        value={clue.clue}
       />
     </div>
   );

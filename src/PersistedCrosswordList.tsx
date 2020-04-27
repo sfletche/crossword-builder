@@ -1,11 +1,11 @@
 import React, { ReactElement } from 'react';
 
 import type {
-  ClueState,
+  CluesState,
   GridState,
 } from './types';
 
-type OnSelect = (title: string, gridState: GridState, clueState: ClueState) => void;
+type OnSelect = (title: string, gridState: GridState, clueState: CluesState) => void;
 type Props = {
   onSelect: OnSelect,
 };
@@ -21,7 +21,7 @@ function getCrosswords(onSelect: OnSelect): ReactElement {
     parsedKeys = JSON.parse(savedKeys);
   }
   const crosswords = parsedKeys.reduce((
-    acc: { [key: string]: { gridState: GridState, clueState: ClueState } }, 
+    acc: { [key: string]: { gridState: GridState, clueState: CluesState } }, 
     key: string,
   ) => {
     const data = JSON.parse(localStorage.getItem(key));
