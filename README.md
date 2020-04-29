@@ -7,7 +7,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 
 ## Next Steps
-* Add component library (maybe BaseWeb)
+* Integrating BaseWeb...ongoing...
 * Actual css modules
 * UI improvements (https://jaredreisinger.github.io/react-crossword/)
 * Clue height determined by input
