@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from 'baseui/button';
 
 type Props = {
 	onLogout: () => void,
@@ -9,12 +10,12 @@ export default function MainMenu({ onLogout }: Props) {
 	return (
 	  <div>
 	    <Link to="/">
-	      <button>Home</button>
+	      <Button>Home</Button>
 	    </Link>
 	    <Link to="/grid-builder">
-	      <button>Grid Builder</button>
+	      <Button>Grid Builder</Button>
 	    </Link>
-	    <button onClick={onLogout}>Log out</button>
+	    <Button onClick={onLogout}>Log out</Button>
 	  </div>
 	);
 }

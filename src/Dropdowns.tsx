@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import Dropdown from 'react-dropdown';
 
 import AcrossClues from './AcrossClues';

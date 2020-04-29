@@ -1,6 +1,12 @@
 import React, { ChangeEvent, Component, createRef, FormEvent, MouseEvent } from 'react';
 import Dropdown from 'react-dropdown';
 import ReactToPrint from 'react-to-print';
+import { Button } from 'baseui/button';
+import { FlexGrid } from 'baseui/flex-grid';
+import { FormControl } from 'baseui/form-control';
+import { Input } from 'baseui/input';
+import { styled } from 'baseui';
+
 import {
   clearGridHighlights,
   clearClueHighlights,
@@ -33,6 +39,10 @@ import type {
   Direction,
   GridState,
 } from './types';
+
+const ButtonContainer = styled('div', {
+  alignSelf: 'flex-end',
+});
 
 type Props = {};
 
@@ -106,7 +116,7 @@ export default class CrosswordBuilder extends Component<Props,State> {
     this.setState({ tempSize: parseInt(event.target.value, 10) });
   };
 
-  handleSubmit(event: FormEvent<HTMLFormElement>) {
+  handleSubmit(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const grid = initializeGrid(this.state.tempSize);
     const clues = initializeClues(grid);
@@ -338,13 +348,27 @@ export default class CrosswordBuilder extends Component<Props,State> {
     } = this.state;
     return (
       <div className="ml20">
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Grid Size (how many rows):
-            <input type="text" value={tempSize} onChange={this.handleSizeChange} />
-          </label>
-          <input type="submit" value="Set Size" />
-        </form>
+        <FlexGrid flexDirection="row" justifyContent="flex-start">
+          <div>
+            <FormControl
+              overrides={{
+                ControlContainer: {
+                  style: () => ({
+                    marginBottom: 0,
+                  }),
+                },
+              }}
+              label={() => "Grid Size (how many rows):"}
+            >
+              <Input type="text" value={tempSize} onChange={this.handleSizeChange} />
+            </FormControl>
+          </div>
+          <ButtonContainer>
+            <Button onClick={this.handleSubmit}>
+              Set Size
+            </Button>
+          </ButtonContainer>
+        </FlexGrid>
         <InputButtons
           className="mt20"
           inputType={blanks ? 'blanks' : 'letters'}
