@@ -2,7 +2,6 @@
 import type {
   Direction,
   ArrowDirection,
-  RowState,
   GridState,
   SimpleGrid,
   EnumeratedGrid,
@@ -140,7 +139,7 @@ export function clearFocus(grid: GridState): GridState {
 
 export function setFocus(grid: GridState, row: number, col: number): GridState {
   return grid.map((gridRow, rowNum) => gridRow.map((cell, colNum) => {
-    if (rowNum == row && colNum == col) {
+    if (rowNum === row && colNum === col) {
       return { ...cell, focused: true };
     } 
     return { ...cell, focused: false };
@@ -190,7 +189,7 @@ export function findFocus(grid: GridState): CellState {
 export function findCellFromNumber(grid: GridState, number: string): CellState {
   for (let row=0; row < grid.length; row++) {
     for (let col=0; col < grid[row].length; col++) {
-      if (grid[row][col].number == number) {
+      if (grid[row][col].number === number) {
         return {row, col};
       }
     }
