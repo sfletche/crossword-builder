@@ -10,7 +10,7 @@ import type {
 type Props = {
   cluesState: CluesState,
   onClueUpdate: (number: string, direction: Direction, clue: string) => void,
-  onNumberClick: (event: MouseEvent<HTMLDivElement>, number: string, direction: Direction) => void,
+  onNumberClick: (event: MouseEvent<HTMLSpanElement>, number: string, direction: Direction) => void,
 };
 
 export default class AcrossClues extends Component<Props> {

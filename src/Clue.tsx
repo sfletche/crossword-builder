@@ -1,4 +1,5 @@
-import React, { MouseEvent } from 'react';
+import React, { ChangeEvent, MouseEvent } from 'react';
+import { Input, SIZE } from 'baseui/input';
 
 import './Clue.css';
 
@@ -11,7 +12,7 @@ type Props = {
   number: string,
   direction: Direction,
   onClueUpdate: (number: string, direction: Direction, clue: string) => void,
-  onNumberClick: (event: MouseEvent<HTMLDivElement>, number: string, direction: Direction) => void,
+  onNumberClick: (event: MouseEvent<HTMLSpanElement>, number: string, direction: Direction) => void,
   clue: ClueState,
 };
 
@@ -26,18 +27,15 @@ export default function Clue(props: Props) {
   const highlight = clue.highlighted ? 'highlight' : '';
 
   return (
-    <div className="flex" key={number + direction}>
-      <div 
-        className="rightJustify pointer"
-        onClick={(e) => onNumberClick(e, number, direction)}
-      >
-        {number}:
-      </div>
-      <textarea
-        className={`clue ${highlight}`}
+    <div className="flex" key={number + direction}>      
+      <Input
         key={number + direction}
-        onChange={(e) => onClueUpdate(number, direction, e.target.value)}
-        onFocus={(e) => onClueUpdate(number, direction, e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>)  => onClueUpdate(number, direction, e.target.value)}
+        onFocus={e => onClueUpdate(number, direction, e.target.value)}
+        positive={clue.highlighted}
+        size={SIZE.mini}
+        startEnhancer={<span onClick={(e: MouseEvent<HTMLSpanElement>) => 
+          onNumberClick(e, number, direction)}>{number}</span>}
         value={clue.clue}
       />
     </div>
