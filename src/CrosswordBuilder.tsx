@@ -139,7 +139,6 @@ export default class CrosswordBuilder extends Component<Props,State> {
           [number]: { clue, highlighted: true },
         },
       };
-      console.log('newClueState', newClueState)
       this.setState({ cluesState: newClueState });
 
       const { row, col } = findCellFromNumber(gridState, number);
@@ -288,7 +287,6 @@ export default class CrosswordBuilder extends Component<Props,State> {
     const direction = across ? 'across' : 'down';
     e.stopPropagation();
     const answers = await fetchAnswers(row, col, direction, gridState);
-    console.log('answers', answers);
     // TODO: order alphabetically and de-dupe
     this.setState({ 
       answers, 

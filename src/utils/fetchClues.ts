@@ -38,12 +38,10 @@ function getAnswer(number: string, direction: Direction, grid: GridState): strin
 
 export async function fetchClues(number: string, direction: Direction, gridState: GridState): Promise<Array<string>> {
   const answer = getAnswer(number, direction, gridState);
-  console.log('answer', answer);
   const url = 'https://search-crossword-yq7gx54qazz4o5mrpmbrqhuoc4.us-east-2.es.amazonaws.com/_search';
   const queryParam = '?q=answer:' + answer;
   const resp = await fetch(url + queryParam);
   const jsonData = await resp.json();
-  console.log("jsonData: ", jsonData);
   if (jsonData.error && jsonData.status >= 400) {
     return [];
   }

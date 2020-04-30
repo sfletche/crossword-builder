@@ -25,7 +25,6 @@ function getCrosswords(onSelect: OnSelect): ReactElement {
     key: string,
   ) => {
     const data = JSON.parse(localStorage.getItem(key));
-    console.log('data', data)
     return { ...acc, [data.title]: { gridState: data.gridState, cluesState: data.cluesState } };
   }, {});
 
