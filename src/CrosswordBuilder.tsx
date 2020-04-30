@@ -1,8 +1,7 @@
-import React, { ChangeEvent, Component, createRef, FormEvent, MouseEvent } from 'react';
-import Dropdown from 'react-dropdown';
+import React, { ChangeEvent, Component, createRef, MouseEvent } from 'react';
 import ReactToPrint from 'react-to-print';
 import { Button } from 'baseui/button';
-import { FlexGrid } from 'baseui/flex-grid';
+import { FlexGrid, FlexGridItem } from 'baseui/flex-grid';
 import { FormControl } from 'baseui/form-control';
 import { Input } from 'baseui/input';
 import { styled } from 'baseui';
@@ -406,9 +405,9 @@ export default class CrosswordBuilder extends Component<Props,State> {
         <div className="mt20">
           <ReactToPrint
             content={() => this.componentRef.current}
-            trigger={() => <button>Print Crossword</button>}
+            trigger={() => <Button>Print Crossword</Button>}
           />
-          <button className="ml10" onClick={this.saveCrossword}>Save Crossword</button>
+          <Button onClick={this.saveCrossword}>Save Crossword</Button>
         </div>
         <div className="mt20">
           <PersistedCrosswordList onSelect={this.handleOpenCrossword} />

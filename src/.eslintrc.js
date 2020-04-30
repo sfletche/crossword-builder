@@ -9,6 +9,7 @@ module.exports = {
      "baseui/deprecated-component-api": "warn",
      "baseui/no-deep-imports": "warn",
      "comma-dangle": ["error", "always-multiline"],
+     "eqeqeq": ["error", "smart"],
      "semi": ["error", "always"],
    }
  }

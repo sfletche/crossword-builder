@@ -1,12 +1,9 @@
 import React from 'react';
 import Dropdown from 'react-dropdown';
 
-import AcrossClues from './AcrossClues';
-import DownClues from './DownClues';
 import './Clues.css';
 
 import type {
-  CluesState,
   Direction,
 } from './types';
 
