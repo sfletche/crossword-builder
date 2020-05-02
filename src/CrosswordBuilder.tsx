@@ -256,8 +256,8 @@ export default class CrosswordBuilder extends Component<Props,State> {
     this.handleGridUpdate(gridWithAnswer);
   }
 
-  handleAnswerSelect(answer: { value: string }) {
-    this.setAnswer(answer.value);
+  handleAnswerSelect(answer: string ) {
+    this.setAnswer(answer);
     this.setState({
       answers: [],
       showAnswersDropdown: false,
@@ -271,8 +271,8 @@ export default class CrosswordBuilder extends Component<Props,State> {
     this.handleClueUpdate(clueNumber, direction, clue);
   }
 
-  handleClueSelect(clue: { value: string }, direction: Direction) {
-    this.setClue(clue.value, direction);
+  handleClueSelect(clue: string , direction: Direction) {
+    this.setClue(clue, direction);
     this.setState({
       clues: [],
       showAnswersDropdown: false,

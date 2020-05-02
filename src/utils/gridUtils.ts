@@ -52,10 +52,11 @@ export function shouldHaveNumber(row: number, col: number, grid: SimpleGrid): bo
 }
 
 export function enumerate(grid: SimpleGrid): EnumeratedGrid {
-  let counter = 1;
+  let counter = 0;
   return grid.map((gridRow, row) => gridRow.map((cell, col) => {
     if (shouldHaveNumber(row, col, grid)) {
-      return { ...cell, number: '' + counter++ };
+      counter++;
+      return { ...cell, number: '' + counter };
     } else {
       return { ...cell, number: null };
     }
@@ -187,9 +188,11 @@ export function findFocus(grid: GridState): CellState {
 }
 
 export function findCellFromNumber(grid: GridState, number: string): CellState {
+  console.log('typeof number', typeof number) // string
   for (let row=0; row < grid.length; row++) {
     for (let col=0; col < grid[row].length; col++) {
-      if (grid[row][col].number === number) {
+      console.log('typeof grid[row][col].number', typeof grid[row][col].number) // number???
+      if (grid[row][col].number == number) {
         return {row, col};
       }
     }
