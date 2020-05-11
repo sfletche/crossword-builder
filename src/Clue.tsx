@@ -8,6 +8,7 @@ import type {
   Direction,
 } from './types';
 
+
 type Props = {
   number: string,
   direction: Direction,
@@ -32,6 +33,16 @@ export default function Clue(props: Props) {
         key={number + direction}
         onChange={(e: ChangeEvent<HTMLInputElement>)  => onClueUpdate(number, direction, e.target.value)}
         onFocus={e => onClueUpdate(number, direction, e.target.value)}
+        overrides={{
+          StartEnhancer: {
+            style: ({ $theme }) => ({
+               fontSize: '16px',
+               ':hover': {
+                 cursor: 'pointer',
+               },
+            })
+          }
+        }}
         positive={clue.highlighted}
         size={SIZE.mini}
         startEnhancer={<span onClick={(e: MouseEvent<HTMLSpanElement>) => 

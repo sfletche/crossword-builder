@@ -36,6 +36,7 @@ function getCrosswords(onSelect: OnSelect): ReactElement {
     <ul>
       {Object.keys(crosswords).map(title => (
         <li
+          className="hoverable"
           key={title}
           onClick={() => {
             const { gridState, cluesState } = crosswords[title];

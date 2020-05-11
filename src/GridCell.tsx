@@ -48,7 +48,7 @@ export default function GridCell(props: Props) {
 	return (
 	  <div className={outerDivClass} onClick={() => onToggleBlank(row, col)}>
 	  	<div className="number">
-	  		<span className="numberHover" onClick={(e) => onNumberClick(e, row, col)}>{number}</span>
+	  		<span className="hoverable" onClick={(e) => onNumberClick(e, row, col)}>{number}</span>
 	  		<div
 	  			contentEditable
 	  			className={innerDivClass}
