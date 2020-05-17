@@ -34,14 +34,19 @@ export default function Clue(props: Props) {
         onChange={(e: ChangeEvent<HTMLInputElement>)  => onClueUpdate(number, direction, e.target.value)}
         onFocus={e => onClueUpdate(number, direction, e.target.value)}
         overrides={{
+          Input: {
+            style: () => ({
+              fontSize: '16px',
+            }),
+          },
           StartEnhancer: {
             style: ({ $theme }) => ({
                fontSize: '16px',
                ':hover': {
                  cursor: 'pointer',
                },
-            })
-          }
+            }),
+          },
         }}
         positive={clue.highlighted}
         size={SIZE.mini}
