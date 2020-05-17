@@ -7,15 +7,19 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 
 ## Next Steps
-* Integrating BaseWeb...ongoing...
 * UI improvements (https://jaredreisinger.github.io/react-crossword/)
+* Focus remains at end of answer after last letter is entered
 * Clue height determined by input
+* How to handle clicks on grid numbers that aren't highlighted?
+  - highlight the answer on click...?
+* Handle clicks on clue numbers that aren't yet highlighted
+* What to do with clue when answer changes...?
 * Export to json consumable by @jaredreisinger/react-crossword
 * Separate view for completed crosswords that can be filled out
 * Persisting / Saving crosswords
   * New View / Route with list of saved puzzles (click to open in grid-builder)
 	* UI for loading persisted crosswords
-* Install Greenkeeper or alternative
+* Install Renovate
 * Research github.pages.io -- https://pages.github.com/ -- (not sure about privacy with this option though)
 * Publish / Deploy
 * Option to disable blank square symmetry
