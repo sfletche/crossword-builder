@@ -7,7 +7,6 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 
 
 ## Next Steps
-* UI improvements (https://jaredreisinger.github.io/react-crossword/)
 * Focus remains at end of answer after last letter is entered
 * Clue height determined by input
 * How to handle clicks on grid numbers that aren't highlighted?
@@ -15,6 +14,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * Handle clicks on clue numbers that aren't yet highlighted
 * What to do with clue when answer changes...?
 * Export to json consumable by @jaredreisinger/react-crossword
+  - https://jaredreisinger.github.io/react-crossword/
 * Separate view for completed crosswords that can be filled out
 * Persisting / Saving crosswords
   * New View / Route with list of saved puzzles (click to open in grid-builder)
