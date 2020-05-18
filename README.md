@@ -22,6 +22,7 @@ Creates empty grid of any size with symmetric blanks, and numbered squares.
 * Install Renovate
 * Research github.pages.io -- https://pages.github.com/ -- (not sure about privacy with this option though)
 * Publish / Deploy
+* see also Phil -- http://www.keiranking.com/blog/2017/phil/#
 * Option to disable blank square symmetry
 * Option to fill in a word (a word that doesn't also create non-words)
 * Option for completing the puzzle
